@@ -339,6 +339,95 @@ button *{pointer-events:none}
 @keyframes fireGlow{to{opacity:.65}}
 .spark{animation:spark var(--d) linear infinite;animation-delay:var(--dl)}
 @keyframes spark{from{transform:translateY(0);opacity:1}to{transform:translate(var(--x),-120px);opacity:0}}
+/* camera: each scene starts zoomed on the speaker, then pulls back */
+.live .cam{animation:camIn 1.7s var(--ease) both}
+@keyframes camIn{from{transform:scale(var(--cs,1.3))}}
+.dance{animation:dance .48s ease-in-out infinite alternate;animation-delay:var(--dl);transform-box:fill-box;transform-origin:50% 100%}
+@keyframes dance{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-10px) rotate(3deg)}}
+.swayMan{animation:swayMan 2.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes swayMan{25%{transform:rotate(-6deg)}75%{transform:rotate(5deg) translateX(4px)}}
+.singMouth{animation:sing .3s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes sing{to{transform:scaleY(.35)}}
+.batFly{animation:batFly var(--d) linear infinite}
+@keyframes batFly{from{transform:translateX(-120px)}to{transform:translateX(760px)}}
+.batW{animation:wing .18s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+.bulbG{animation:mg 1.8s ease-in-out infinite alternate;animation-delay:var(--dl)}
+.jackG,.jackF{animation:jack 1.3s ease-in-out infinite alternate}
+@keyframes jack{0%{opacity:.55}40%{opacity:1}70%{opacity:.7}100%{opacity:.95}}
+.neon{animation:neon 5s infinite}
+@keyframes neon{0%,18%,22%,62%,64%,100%{opacity:1}20%,63%{opacity:.35}}
+.swing{animation:swingB var(--d) ease-in-out infinite alternate}
+@keyframes swingB{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.scr{animation:mg 2.4s ease-in-out infinite alternate;animation-delay:var(--dl)}
+.sens{animation:sens 1.6s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes sens{from{transform:scale(.8);opacity:1}to{transform:scale(1.6);opacity:0}}
+.beamL{animation:beam 3.4s ease-in-out infinite alternate}.beamR{animation:beam 2.9s ease-in-out infinite alternate-reverse}
+@keyframes beam{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+.ball{animation:spin 4s linear infinite}
+.disco{animation:disco 1.2s ease-in-out infinite alternate;animation-delay:var(--dl)}
+@keyframes disco{from{opacity:.05}to{opacity:.9}}
+.eq{animation:eq .42s ease-in-out infinite alternate;animation-delay:var(--dl);transform-box:fill-box;transform-origin:50% 100%}
+@keyframes eq{from{transform:scaleY(.15)}to{transform:scaleY(1)}}
+.frond{animation:sway 4s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%;--a:2deg}
+.live .carIn{animation:carIn 2.4s cubic-bezier(.2,.8,.3,1) both}
+@keyframes carIn{from{transform:translateX(560px)}}
+.live .carIn .wheel{animation:wheel .5s linear 4}
+@keyframes wheel{to{transform:rotate(1turn)}}
+.skel{animation:skel 3s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes skel{50%{transform:rotate(-4deg)}}
+/* activities */
+.act{margin-top:calc(14px * var(--u));background:#fff;border-radius:18px;padding:calc(12px * var(--u)) calc(16px * var(--u));box-shadow:0 8px 24px #3a2a1022;border:3px solid var(--lamp);position:relative}
+.act.nudge{animation:shake .4s 2}
+.act.done{border-color:var(--ok)}
+.actQ{font-weight:800;font-size:calc(16px * var(--u));color:var(--ink)}
+.actQ i{font-style:normal;color:var(--muted);font-weight:600;font-size:.85em;margin-left:4px}
+.actQ .star{color:var(--lamp2)}
+.aRow{display:flex;align-items:center;justify-content:center;gap:calc(18px * var(--u));margin:calc(10px * var(--u)) 0 calc(4px * var(--u));min-height:calc(130px * var(--u))}
+.actOk{font-weight:800;font-size:calc(18px * var(--u));color:var(--ok);text-align:center;min-height:calc(24px * var(--u))}
+.actOk span{color:var(--muted);font-weight:600;font-size:.85em}
+.rfid{width:calc(150px * var(--u));height:calc(94px * var(--u));border-radius:12px;background:linear-gradient(135deg,#7a3ad8,#c77dff);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:10px 12px;text-align:left;
+  box-shadow:0 8px 18px #7a3ad855;transition:transform .7s var(--ease);position:relative;animation:float 2.4s ease-in-out infinite}
+.rfid b{font-family:Fredoka;letter-spacing:2px;font-size:calc(14px * var(--u))}.rfid small{font-weight:800;font-size:calc(15px * var(--u))}
+.rfid i{position:absolute;right:12px;top:12px;width:22px;height:16px;border-radius:3px;background:#ffd36a}
+.act.go .rfid{transform:translateX(calc(120px * var(--u))) rotate(-8deg) scale(.9);animation:none}
+.rfid.gift{background:linear-gradient(135deg,#d36a8a,#ffb3c8)}
+.act.go .rfid.gift{transform:translateX(calc(90px * var(--u))) translateY(-10px) rotate(10deg)}
+.giftTo{font-weight:800;color:var(--muted);font-family:Fredoka}
+.sensor{width:calc(84px * var(--u));height:calc(110px * var(--u));border-radius:14px;background:#0c0f1c;color:#5ad1b0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:Fredoka;transition:.3s}
+.sensor svg{width:60%}
+.act.done .sensor{color:#7dff9a;box-shadow:0 0 24px #7dff9a}
+.glassSvg{width:calc(80px * var(--u));height:calc(120px * var(--u));overflow:visible}
+.glassSvg .beer{transform:translateY(120px);transition:transform 2s ease-in}
+.glassSvg .foam{transform:translateY(120px);transition:transform 2s ease-in}
+.act[data-step="2"] .glassSvg .beer,.act[data-step="3"] .glassSvg .beer,.cheersRow .glassSvg .beer{transform:translateY(22px)}
+.act[data-step="2"] .glassSvg .foam,.act[data-step="3"] .glassSvg .foam,.cheersRow .glassSvg .foam{transform:translateY(8px)}
+.glassSvg .bubbles circle{animation:bub 1.4s linear infinite}
+.glassSvg .bubbles circle:nth-child(2){animation-delay:.5s}.glassSvg .bubbles circle:nth-child(3){animation-delay:.9s}
+@keyframes bub{to{transform:translateY(-70px);opacity:0}}
+.steps{display:flex;flex-direction:column;gap:8px}
+.steps button,.phone button{background:var(--word);color:#fff;font-weight:800;border-radius:12px;padding:calc(10px * var(--u)) 16px;font-size:calc(16px * var(--u));box-shadow:0 4px 0 #1d3c96;transition:.15s}
+.steps button:disabled{background:#cfc6b4;box-shadow:none;cursor:default}
+.steps button.did{background:var(--ok);box-shadow:0 4px 0 #2a7a4a}
+.steps button:not(:disabled):not(.did){animation:okPop 1s infinite}
+.bigBtn.small{font-size:calc(17px * var(--u));padding:10px 20px}
+.act.go .cheersRow .bigBtn{opacity:0;transform:scale(.6)}
+.cheersRow .gL,.cheersRow .gR{transition:transform .45s cubic-bezier(.5,0,.7,1.6)}
+.act.go .gL{transform:translateX(calc(60px * var(--u))) rotate(18deg)}.act.go .gR{transform:translateX(calc(-60px * var(--u))) rotate(-18deg)}
+.clapBtn{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:Fredoka;font-weight:600;color:var(--coral);font-size:calc(18px * var(--u))}
+.clapBtn svg{width:calc(78px * var(--u));transition:transform .1s}
+.clapBtn.hit svg{animation:clapHit .25s}
+@keyframes clapHit{40%{transform:scale(1.25) rotate(-8deg)}}
+.claps{display:flex;gap:8px}.claps i{width:18px;height:18px;border-radius:50%;background:#eadfca;transition:.3s var(--spring)}.claps i.on{background:var(--coral);transform:scale(1.2)}
+.phone{width:calc(130px * var(--u));height:calc(150px * var(--u));border-radius:18px;background:#111;padding:8px;position:relative;box-shadow:0 10px 24px #0004}
+.phone>div{position:absolute;inset:8px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;transition:opacity .4s}
+.scrA{background:#fff}.scrA b{font-size:calc(22px * var(--u))}.scrA span{color:var(--muted);font-weight:700;font-size:calc(13px * var(--u))}
+.phone button{font-size:calc(12px * var(--u));padding:8px 10px;background:#111;box-shadow:none}
+.scrB{background:#e9eef2;opacity:0;pointer-events:none}.scrB svg{width:100%;border-radius:8px}.scrB span{font-weight:800;font-size:calc(13px * var(--u));color:var(--ink)}
+.act.go .scrA{opacity:0;pointer-events:none}.act.go .scrB{opacity:1}
+.act.go .carDot{animation:carDot 2s ease-in-out forwards}
+@keyframes carDot{to{transform:translate(48px,22px)}}
+.navBtn.wait{animation:pulse 1.6s infinite}
+.tripSign{cursor:pointer}.tripSign:hover .board{filter:brightness(1.2) drop-shadow(0 0 12px #c77dff)}
 
 @media (max-width:860px){
   .panel{grid-template-columns:1fr}
@@ -438,7 +527,7 @@ button *{pointer-events:none}
   <div class="nav">
     <button class="navBtn" id="prevBtn" onclick="pf&&pf.flipPrev()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
     <div class="dots" id="dots"></div>
-    <button class="navBtn" id="nextBtn" onclick="pf&&pf.flipNext()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+    <button class="navBtn" id="nextBtn" onclick="nextPage()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
   </div>
   <div class="navHint">Tip: drag a page corner to turn it, or use ← → keys.</div>
 </section>
@@ -494,7 +583,35 @@ const V={
   amiga:{es:'mi amiga',pr:'mee ah-MEE-gah',en:'my friend (a girl)',ko:'내 친구 (여자)'},
   amigo:{es:'mi amigo',pr:'mee ah-MEE-goh',en:'my friend (a boy)',ko:'내 친구 (남자)'},
   quien:{es:'¿Quién es?',pr:'kee-EHN ehs',en:'Who is it? / Who is this?',ko:'누구야?'},
-  corazon:{es:'el corazón',pr:'ehl koh-rah-SOHN',en:'the heart',ko:'하트, 마음'}
+  corazon:{es:'el corazón',pr:'ehl koh-rah-SOHN',en:'the heart',ko:'하트, 마음'},
+  calabaza:{es:'la calabaza',pr:'lah kah-lah-BAH-sah',en:'the pumpkin',ko:'호박'},
+  mira:{es:'¡Mira!',pr:'MEE-rah',en:'Look!',ko:'봐!'},
+  quebonito:{es:'¡Qué bonito!',pr:'keh boh-NEE-toh',en:'How pretty!',ko:'정말 예쁘다!'},
+  bienvenidos:{es:'¡Bienvenidos!',pr:'byehn-beh-NEE-dohs',en:'Welcome! (to a group)',ko:'어서 오세요!'},
+  primeravez:{es:'¿Primera vez?',pr:'pree-MEH-rah BEHS',en:'First time?',ko:'처음이에요?'},
+  tarjeta:{es:'la tarjeta',pr:'lah tahr-HEH-tah',en:'the card',ko:'카드'},
+  toca:{es:'¡Toca aquí!',pr:'TOH-kah ah-KEE',en:'Touch here!',ko:'여기에 대세요!'},
+  abre:{es:'Abre',pr:'AH-breh',en:'Open (it)',ko:'열어'},
+  sirve:{es:'Sirve',pr:'SEER-beh',en:'Pour (it)',ko:'따라'},
+  cierra:{es:'Cierra',pr:'see-EH-rrah',en:'Close (it)',ko:'닫아'},
+  facil:{es:'¡Fácil!',pr:'FAH-seel',en:'Easy!',ko:'쉽지!'},
+  salud:{es:'¡Salud!',pr:'sah-LOOD',en:'Cheers!',ko:'건배!'},
+  rica:{es:'¡Qué rica!',pr:'keh RREE-kah',en:'So good! (tasty)',ko:'정말 맛있다!'},
+  dedonde:{es:'¿De dónde son?',pr:'deh DOHN-deh sohn',en:'Where are you (all) from?',ko:'어디서 왔어요?'},
+  somosde:{es:'Somos de…',pr:'SOH-mohs deh',en:'We are from…',ko:'우리는 …에서 왔어요'},
+  toma:{es:'Toma.',pr:'TOH-mah',en:'Here, take it.',ko:'자, 받아요.'},
+  quedan:{es:'Quedan…',pr:'KEH-dahn',en:'There are … left',ko:'…가 남았어요'},
+  amables:{es:'¡Qué amables!',pr:'keh ah-MAH-blehs',en:'How kind (of you)!',ko:'정말 친절하시네요!'},
+  denada:{es:'¡De nada!',pr:'deh NAH-dah',en:"You're welcome!",ko:'천만에요!'},
+  escucha:{es:'¡Escucha!',pr:'ehs-KOO-chah',en:'Listen!',ko:'들어 봐!'},
+  divertido:{es:'¡Qué divertido!',pr:'keh dee-behr-TEE-doh',en:'How fun!',ko:'정말 재밌다!'},
+  somosfamilia:{es:'Somos familia.',pr:'SOH-mohs fah-MEE-lee-ah',en:'We are family.',ko:'우리는 가족이야.'},
+  nuestro:{es:'nuestro',pr:'NWEHS-troh',en:'our',ko:'우리의'},
+  esposa:{es:'la esposa',pr:'lah ehs-POH-sah',en:'the wife',ko:'아내'},
+  vuelvan:{es:'¡Vuelvan pronto!',pr:'BWEHL-bahn PROHN-toh',en:'Come back soon!',ko:'또 오세요!'},
+  luna:{es:'la luna',pr:'lah LOO-nah',en:'the moon',ko:'달'},
+  adonde:{es:'¿A dónde vamos?',pr:'ah DOHN-deh BAH-mohs',en:'Where are we going?',ko:'어디로 갈까요?'},
+  hastaluego:{es:'¡Hasta luego!',pr:'AHS-tah LWEH-goh',en:'See you later!',ko:'또 봐요!'}
 };
 const W=(k,label)=>`<button class="w" data-w="${k}">${label}</button>`;
 
@@ -532,6 +649,8 @@ function noiseSrc(a,dur){const s=a.createBufferSource();s.buffer=noiseBuf(a,dur)
 function tone(a,f0,f1,t,dur,type,vol,dest){const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+dur*.6);
   g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.015);g.gain.exponentialRampToValueAtTime(.0008,t+dur);o.connect(g).connect(dest||sfxBus);o.start(t);o.stop(t+dur+.05)}
 const fxA=()=>soundOn&&ac();
+function nz(a,t,dur,type,freq,q,vol,dest){const s=noiseSrc(a,dur+.05),f=a.createBiquadFilter(),g=a.createGain();f.type=type;f.frequency.value=freq;f.Q.value=q;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.006);g.gain.exponentialRampToValueAtTime(.0008,t+dur);s.connect(f).connect(g).connect(dest||sfxBus);s.start(t);s.stop(t+dur+.05);return f}
 const sfx={
   flip(){const a=fxA();if(!a)return;const t=a.currentTime,s=noiseSrc(a,.5),f=a.createBiquadFilter(),g=a.createGain();
     f.type='bandpass';f.Q.value=.7;f.frequency.setValueAtTime(3600,t);f.frequency.exponentialRampToValueAtTime(420,t+.45);
@@ -557,6 +676,29 @@ const sfx={
   hoot(){const a=fxA();if(!a)return;[0,.5].forEach((d,i)=>{const t=a.currentTime+d,o=a.createOscillator(),g=a.createGain(),v=a.createOscillator(),vg=a.createGain();
     o.type='sine';o.frequency.setValueAtTime(i?400:430,t);o.frequency.linearRampToValueAtTime(i?360:390,t+.4);v.frequency.value=6;vg.gain.value=7;v.connect(vg).connect(o.frequency);
     g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.14,t+.09);g.gain.exponentialRampToValueAtTime(.001,t+.48);o.connect(g).connect(sfxBus);o.start(t);v.start(t);o.stop(t+.5);v.stop(t+.5)})},
+  beep(){const a=fxA();if(!a)return;const t=a.currentTime;tone(a,1760,1760,t,.1,'square',.03);tone(a,2350,2350,t+.13,.16,'square',.03)},
+  click(){const a=fxA();if(!a)return;const t=a.currentTime;nz(a,t,.05,'highpass',2500,1,.25);tone(a,900,500,t,.06,'triangle',.08)},
+  clack(){const a=fxA();if(!a)return;const t=a.currentTime;nz(a,t,.08,'bandpass',1400,2,.3);tone(a,220,110,t,.14,'triangle',.12)},
+  // beer from the tap: rushing liquid with a gurgle
+  pour(){const a=fxA();if(!a)return;const t=a.currentTime;
+    const s=noiseSrc(a,2.3),bp=a.createBiquadFilter(),env=a.createGain(),l=a.createOscillator(),lg=a.createGain();bp.type='bandpass';bp.Q.value=1.2;bp.frequency.setValueAtTime(700,t);bp.frequency.linearRampToValueAtTime(1500,t+2);
+    l.frequency.value=9;lg.gain.value=260;l.connect(lg).connect(bp.frequency);env.gain.setValueAtTime(0,t);env.gain.linearRampToValueAtTime(.22,t+.15);env.gain.setValueAtTime(.22,t+1.8);env.gain.linearRampToValueAtTime(0,t+2.2);
+    s.connect(bp).connect(env).connect(sfxBus);s.start(t);l.start(t);s.stop(t+2.3);l.stop(t+2.3)},
+  clink(){const a=fxA();if(!a)return;const t=a.currentTime;[2630,3950,5270,6610].forEach((f,i)=>tone(a,f,f*1.001,t,1.4-i*.25,'sine',.06/(i+1)));nz(a,t,.03,'highpass',5000,1,.15)},
+  coin(){const a=fxA();if(!a)return;const t=a.currentTime;tone(a,988,988,t,.12,'square',.04);tone(a,1319,1319,t+.08,.5,'square',.04)},
+  clap(){const a=fxA();if(!a)return;const t=a.currentTime;[0,.008,.018].forEach(d=>nz(a,t+d,.12,'bandpass',1300+Math.random()*400,1.5,.35))},
+  cheer(){const a=fxA();if(!a)return;const t=a.currentTime,s=noiseSrc(a,2.2),f=a.createBiquadFilter(),g=a.createGain();f.type='bandpass';f.Q.value=2;
+    f.frequency.setValueAtTime(700,t);f.frequency.linearRampToValueAtTime(1400,t+.6);f.frequency.linearRampToValueAtTime(900,t+2);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.2,t+.3);g.gain.linearRampToValueAtTime(0,t+2.1);s.connect(f).connect(g).connect(sfxBus);s.start(t);s.stop(t+2.2);
+    for(let i=0;i<16;i++){const d=Math.random()*1.6;[0,.008].forEach(e=>nz(a,t+d+e,.1,'bandpass',1200+Math.random()*600,1.5,.12))}
+    [0,.25,.6].forEach(d=>{const f0=500+Math.random()*300;tone(a,f0,f0*1.8,t+d,.5,'sawtooth',.012)})},
+  honk(){const a=fxA();if(!a)return;const t=a.currentTime;[0,.28].forEach(d=>{tone(a,392,392,t+d,.2,'square',.04);tone(a,494,494,t+d,.2,'square',.035)})},
+  hic(){const a=fxA();if(!a)return;const t=a.currentTime;tone(a,420,980,t,.09,'sine',.12);nz(a,t,.05,'bandpass',900,3,.12)},
+  drive(){const a=fxA();if(!a)return;const t=a.currentTime,o=a.createOscillator(),f=a.createBiquadFilter(),g=a.createGain();o.type='sawtooth';
+    o.frequency.setValueAtTime(70,t);o.frequency.linearRampToValueAtTime(52,t+2.4);f.type='lowpass';f.frequency.value=320;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.12,t+.5);g.gain.linearRampToValueAtTime(0,t+2.6);o.connect(f).connect(g).connect(sfxBus);o.start(t);o.stop(t+2.7);
+    const s=noiseSrc(a,2.6),nf=a.createBiquadFilter(),ng=a.createGain();nf.type='lowpass';nf.frequency.value=700;ng.gain.setValueAtTime(.0,t);ng.gain.linearRampToValueAtTime(.08,t+.4);ng.gain.linearRampToValueAtTime(0,t+2.5);
+    s.connect(nf).connect(ng).connect(sfxBus);s.start(t);s.stop(t+2.6)},
   meow(){const a=fxA();if(!a)return;const t=a.currentTime,o=a.createOscillator(),f=a.createBiquadFilter(),g=a.createGain();o.type='sawtooth';
     o.frequency.setValueAtTime(480,t);o.frequency.linearRampToValueAtTime(820,t+.18);o.frequency.linearRampToValueAtTime(520,t+.62);
     f.type='bandpass';f.Q.value=3;f.frequency.setValueAtTime(900,t);f.frequency.linearRampToValueAtTime(1700,t+.2);f.frequency.linearRampToValueAtTime(1000,t+.6);
@@ -570,7 +712,9 @@ const MOODS={
   intro:{bpm:64,prog:[[57,60,64],[53,57,60],[48,52,55],[55,59,62]],scale:[69,72,74,76,79,81,84],dens:.3},
   home:{bpm:78,prog:[[48,52,55],[57,60,64],[53,57,60],[55,59,62]],scale:[72,74,76,79,81,84,86],dens:.45},
   story:{bpm:72,prog:[[53,57,60],[48,52,55],[50,53,57],[46,50,53]],scale:[72,74,77,79,81,84,86],dens:.4},
-  quiz:{bpm:92,prog:[[48,52,55],[55,59,62],[57,60,64],[53,57,60]],scale:[72,74,76,79,81,84,88],dens:.55}
+  quiz:{bpm:92,prog:[[48,52,55],[55,59,62],[57,60,64],[53,57,60]],scale:[72,74,76,79,81,84,88],dens:.55},
+  pub:{bpm:100,prog:[[50,53,57,60],[55,59,62,65],[48,52,55,59],[45,48,52,55]],scale:[69,72,74,76,77,79,81],dens:.4,walk:1,brush:1},
+  karaoke:{bpm:118,prog:[[53,57,60],[55,58,62],[57,60,64],[55,58,62]],scale:[72,74,76,77,79,81,84],dens:.5,disco:1}
 };
 let mood='intro',nextMood='intro',bar=0,step=0,nextT=0,schedId=null;
 const mtof=m=>440*Math.pow(2,(m-69)/12);
@@ -584,7 +728,10 @@ function schedule(){const a=AC;if(!a||document.hidden)return;
   while(nextT<a.currentTime+.2){
     if(step%8===0&&nextMood!==mood){mood=nextMood;bar=0}
     const M=MOODS[mood],ch=M.prog[bar%4],e8=60/M.bpm/2;
-    if(step%8===0){pad(ch,nextT,e8*8);bass(ch[0]-12,nextT,e8*8)}
+    if(step%8===0){pad(ch,nextT,e8*8);if(!M.disco&&!M.walk)bass(ch[0]-12,nextT,e8*8)}
+    if(M.walk&&step%2===0)pluck(mtof(ch[(step/2)%ch.length]-12),nextT,e8*2,.09);
+    if(M.brush){if(step%2===1)drum('hat',nextT,.02);if(step%4===2)drum('snare',nextT,.04)}
+    if(M.disco){pluck(mtof(ch[0]-12+(step%2?12:0)),nextT,e8,.1);if(step%2===0)drum('kick',nextT,.5);drum('hat',nextT,step%2?.05:.02);if(step%4===2)drum('clap',nextT,.18)}
     const arp=[0,1,2,1,0,1,2,1];box(mtof(ch[arp[step%8]]+12),nextT,step%2?.05:.07);
     // the melody repeats every 8 bars, so it sounds like a tune rather than random notes
     const k=(bar%8)*8+step%8;
@@ -593,6 +740,13 @@ function schedule(){const a=AC;if(!a||document.hidden)return;
   }}
 function box(f,t,v){const a=AC;[[1,1],[2,.22],[3.01,.07]].forEach(([m,gn])=>{const o=a.createOscillator(),e=a.createGain();o.type='sine';o.frequency.value=f*m;
   e.gain.setValueAtTime(0,t);e.gain.linearRampToValueAtTime(v*gn,t+.004);e.gain.exponentialRampToValueAtTime(.0001,t+1.6/m);o.connect(e).connect(musicBus);o.start(t);o.stop(t+1.7)})}
+function pluck(f,t,dur,v){const a=AC,o=a.createOscillator(),fl=a.createBiquadFilter(),g=a.createGain();o.type='sawtooth';o.frequency.value=f;fl.type='lowpass';fl.frequency.setValueAtTime(900,t);fl.frequency.exponentialRampToValueAtTime(200,t+dur);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.01);g.gain.exponentialRampToValueAtTime(.001,t+dur*.95);o.connect(fl).connect(g).connect(musicBus);o.start(t);o.stop(t+dur)}
+function drum(k,t,v){const a=AC;
+  if(k==='kick'){const o=a.createOscillator(),g=a.createGain();o.frequency.setValueAtTime(140,t);o.frequency.exponentialRampToValueAtTime(42,t+.12);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g).connect(musicBus);o.start(t);o.stop(t+.32)}
+  else if(k==='hat')nz(a,t,.05,'highpass',7000,1,v,musicBus);
+  else if(k==='snare')nz(a,t,.16,'bandpass',2200,.8,v,musicBus);
+  else if(k==='clap')[0,.01,.02].forEach(d=>nz(a,t+d,.1,'bandpass',1400,1.2,v,musicBus))}
 function pad(ch,t,dur){const a=AC,f=a.createBiquadFilter(),g=a.createGain();f.type='lowpass';f.frequency.value=650;
   g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.045,t+dur*.4);g.gain.linearRampToValueAtTime(0,t+dur*1.05);f.connect(g).connect(musicBus);
   ch.forEach(m=>{const o=a.createOscillator();o.type='triangle';o.frequency.value=mtof(m);o.detune.value=(Math.random()-.5)*10;o.connect(f);o.start(t);o.stop(t+dur*1.1)})}
@@ -604,7 +758,16 @@ function startAmbience(){const a=AC,s=a.createBufferSource();s.buffer=noiseBuf(a
   const l1=a.createOscillator(),l1g=a.createGain();l1.frequency.value=.07;l1g.gain.value=260;l1.connect(l1g).connect(f.frequency);
   const l2=a.createOscillator(),l2g=a.createGain();l2.frequency.value=.11;l2g.gain.value=.025;l2.connect(l2g).connect(g.gain);
   s.connect(f).connect(g).connect(ambBus);s.start();l1.start();l2.start();cricket()}
-function cricket(){setTimeout(cricket,700+Math.random()*2600);if(!AC||document.hidden||!musicOn)return;
+let ambKind='night',murG=null;
+function setAmb(k){ambKind=k;if(!AC||!ambBus)return;
+  if(!murG){const a=AC;murG=a.createGain();murG.gain.value=0;murG.connect(ambBus);
+    [380,620,950].forEach((fr,i)=>{const s=a.createBufferSource();s.buffer=noiseBuf(a,3);s.loop=true;const f=a.createBiquadFilter();f.type='bandpass';f.frequency.value=fr;f.Q.value=1.6;
+      const g=a.createGain();g.gain.value=.05;const l=a.createOscillator(),lg=a.createGain();l.frequency.value=2.1+i*1.3;lg.gain.value=.035;l.connect(lg).connect(g.gain);
+      s.connect(f).connect(g).connect(murG);s.start();l.start()});pubClink()}
+  murG.gain.setTargetAtTime(k==='pub'?1:0,AC.currentTime,.8)}
+function pubClink(){setTimeout(pubClink,2500+Math.random()*5000);if(!AC||ambKind!=='pub'||!musicOn||document.hidden)return;
+  const a=AC,t=a.currentTime,f=2400+Math.random()*1500;tone(a,f,f,t,.6,'sine',.012,ambBus);if(Math.random()<.5)tone(a,f*1.3,f*1.3,t+.07,.5,'sine',.008,ambBus)}
+function cricket(){setTimeout(cricket,700+Math.random()*2600);if(!AC||document.hidden||!musicOn||ambKind==='pub')return;
   const a=AC,t=a.currentTime,fr=4300+Math.random()*900,p=a.createStereoPanner?a.createStereoPanner():null,out=p||ambBus;
   if(p){p.pan.value=Math.random()*1.6-.8;p.connect(ambBus)}
   const n=2+(Math.random()*3|0);for(let i=0;i<n;i++){const o=a.createOscillator(),g=a.createGain(),tt=t+i*.075;o.frequency.value=fr;
@@ -638,11 +801,16 @@ function avatarMarkup(a,wave){
          :`<g transform="rotate(-12 86 110)"><rect x="80" y="106" width="13" height="42" rx="6.5" fill="${sh}"/><circle cx="86.5" cy="150" r="7" fill="${s}"/></g>`;
   o+=`<circle cx="60" cy="62" r="30" fill="${s}"/><circle cx="31" cy="64" r="6" fill="${s}"/><circle cx="89" cy="64" r="6" fill="${s}"/>`;
   if(st==='curly'){for(let i=0;i<6;i++)o+=`<circle cx="${36+i*9.6}" cy="${36+Math.abs(i-2.5)*2.4}" r="10" fill="${h}"/>`}
+  else if(a.buzz)o+=`<path d="M31 56 Q30 30 60 30 Q90 30 89 56 Q82 40 60 39 Q38 40 31 56Z" fill="${h}"/>`;
   else o+=`<path d="M29 62 Q27 28 60 28 Q93 28 91 62 Q84 46 68 44 Q64 52 50 50 Q38 50 29 62Z" fill="${h}"/>`;
   o+=`<g class="blink"><ellipse cx="49" cy="65" rx="3.4" ry="4.4" fill="#2a1f1a"/><ellipse cx="71" cy="65" rx="3.4" ry="4.4" fill="#2a1f1a"/>
   <circle cx="50.2" cy="63.4" r="1.2" fill="#fff"/><circle cx="72.2" cy="63.4" r="1.2" fill="#fff"/></g>
   <circle cx="42" cy="74" r="4.5" fill="#ff8f80" opacity=".5"/><circle cx="78" cy="74" r="4.5" fill="#ff8f80" opacity=".5"/>
   <path d="M52 75 Q60 83 68 75" fill="none" stroke="#7a3328" stroke-width="2.6" stroke-linecap="round"/>`;
+  if(a.apron)o+=`<path d="M44 112 H76 V158 H44Z" fill="#e9e3d6"/><path d="M48 112 Q60 96 72 112" fill="none" stroke="#e9e3d6" stroke-width="3"/>`;
+  if(a.flush)o+=`<circle cx="42" cy="74" r="7" fill="#ff5a4a" opacity=".55"/><circle cx="78" cy="74" r="7" fill="#ff5a4a" opacity=".55"/><ellipse cx="60" cy="70" rx="4" ry="3" fill="#ff6a5a" opacity=".6"/>`;
+  if(a.sing)o+=`<ellipse class="singMouth" cx="60" cy="78" rx="6" ry="6" fill="#5a1d1a"/>`;
+  if(a.hat)o+=`<ellipse cx="60" cy="38" rx="46" ry="9" fill="#8a5a2a"/><path d="M38 38 Q36 10 50 10 Q60 16 70 10 Q84 10 82 38Z" fill="#a8703a"/><path d="M38 32 H82" stroke="#5a3a1a" stroke-width="4"/>`;
   if(a.stache)o+=`<path d="M47 74 Q54 68 60 72 Q66 68 73 74 Q66 76 60 74 Q54 76 47 74Z" fill="${h}"/>`;
   if(a.glasses)o+=`<g fill="#fff3" stroke="#5a3b2a" stroke-width="2.2"><circle cx="49" cy="65" r="8"/><circle cx="71" cy="65" r="8"/><path d="M57 64 H63" fill="none"/></g>`;
   return o+'</g>'}
@@ -671,7 +839,12 @@ function stickerHeart(id='hg'){return `<defs><radialGradient id="${id}" cx="40%"
   <circle cx="50" cy="50" r="46" fill="#fff"/><circle cx="50" cy="50" r="40" fill="#ffe2dc"/>
   <path d="M50 78 C20 58 18 36 34 30 C42 27 48 32 50 38 C52 32 58 27 66 30 C82 36 80 58 50 78Z" fill="url(#${id})" stroke="#b33a30" stroke-width="1.4" stroke-opacity=".5"/>
   <ellipse cx="38" cy="40" rx="6" ry="4" fill="#fff" opacity=".55" transform="rotate(-30 38 40)"/>`}
-function stickerFor(room,id){return room==='sala'?stickerHeart(id):stickerKey(id)}
+function stickerMoon(id='mg'){return `<defs><radialGradient id="${id}" cx="40%" cy="35%"><stop offset="0" stop-color="#fff8d6"/><stop offset="1" stop-color="#f0c84a"/></radialGradient></defs>
+  <circle cx="50" cy="50" r="46" fill="#fff"/><circle cx="50" cy="50" r="40" fill="#2a2f6b"/><circle cx="30" cy="30" r="1.6" fill="#fff"/><circle cx="72" cy="26" r="1.2" fill="#fff"/><circle cx="76" cy="60" r="1.4" fill="#fff"/>
+  <path d="M58 22 A26 26 0 1 0 74 64 A20 20 0 1 1 58 22Z" fill="url(#${id})"/>
+  <g transform="translate(66 74) scale(.42)"><ellipse cx="-12" cy="0" rx="17" ry="22" fill="#e8742a"/><ellipse cx="12" cy="0" rx="17" ry="22" fill="#e8742a"/><ellipse cx="0" cy="0" rx="18" ry="23" fill="#f08a34"/><path d="M-12 -6 l5 -7 l5 7z M2 -6 l5 -7 l5 7z M-13 6 q13 11 26 0z" fill="#ffd36a"/></g>`}
+function stickerFor(room,id){return room==='sala'?stickerHeart(id):room==='kiss'?stickerMoon(id):stickerKey(id)}
+function moonIcon(){return `<path d="M70 14 A40 40 0 1 0 104 72 A32 32 0 1 1 70 14Z" fill="#ffcf7a"/><circle cx="30" cy="22" r="3" fill="#ffcf7a"/><circle cx="100" cy="30" r="2" fill="#ffcf7a"/>`}
 function sofaIcon(){return `<rect x="20" y="40" width="80" height="36" rx="12" fill="#ffcf7a22" stroke="#ffcf7a" stroke-width="5"/>
   <rect x="10" y="56" width="22" height="34" rx="8" fill="#ffcf7a"/><rect x="88" y="56" width="22" height="34" rx="8" fill="#ffcf7a"/>
   <rect x="26" y="70" width="68" height="18" rx="5" fill="#ffcf7a"/><path d="M60 22 C50 12 40 20 48 28 L60 38 L72 28 C80 20 70 12 60 22Z" fill="#ff7a6b"/>`}
@@ -730,12 +903,17 @@ function paintMap(){
         :`<g transform="translate(${r.x+r.w-40} ${r.y+16})"><rect x="0" y="10" width="24" height="18" rx="4" fill="#6b6fa0"/><path d="M5 10 V6 a7 7 0 0 1 14 0 V10" fill="none" stroke="#6b6fa0" stroke-width="3"/></g>`}
       ${done?`<g transform="translate(${r.x+r.w-58} ${r.y+8}) scale(.5)">${stickerFor(r.id,'kgm'+r.id)}</g>`:''}
     </g>`});
+  s+=`<g class="tripSign" onclick="openTrip(event)"><rect x="944" y="200" width="8" height="300" fill="#4a3a2a"/>
+      <g class="board"><path d="M902 176 H992 L1010 200 L992 224 H902Z" fill="#3a1c45" stroke="#c77dff" stroke-width="3"/>
+      <text x="950" y="197" text-anchor="middle" font-family="Fredoka" font-size="15" fill="#f3d6ff">Kissimmee</text><text x="950" y="216" text-anchor="middle" font-family="Fredoka" font-size="11" fill="#ffcf7a">★ especial</text></g>
+      ${stickers.includes('kiss')?`<g transform="translate(985 150) scale(.42)">${stickerMoon('mgm')}</g>`:`<g class="beacon"><circle cx="1000" cy="174" r="12" fill="#c77dff"/><text x="1000" y="179" text-anchor="middle" font-size="14" fill="#fff">!</text></g>`}</g>`;
   s+=`<g id="mapAv" style="transform:translate(915px,375px)"><g transform="scale(.62)">${avatarMarkup(av,true)}</g>
       <text x="37" y="-10" text-anchor="middle" font-family="Fredoka" font-size="18" fill="#ffcf7a">${esc(av.name||'')}</text></g>`;
   $('houseSvg').innerHTML=s;
   $('houseSvg').querySelectorAll('.room').forEach(g=>{g.onclick=e=>openRoom(g.dataset.id,e);g.onmouseenter=()=>sfx.tick()});
-  $('slots').innerHTML=ROOMS.map(r=>`<div class="slot ${stickers.includes(r.id)?'got':''} ${newSticker===r.id?'new':''}" title="${r.es}">${stickers.includes(r.id)?`<svg viewBox="0 0 100 100">${stickerFor(r.id,'kgs'+r.id)}</svg>`:''}</div>`).join('');
-  if(newSticker){setTimeout(()=>{const sl=$('slots').children[ROOMS.findIndex(r=>r.id===newSticker)];if(sl){const b=sl.getBoundingClientRect();burst(b.left+26,b.top+26,30);sfx.chime()}newSticker=null},1300)}
+  const SL=[...ROOMS.map(r=>[r.id,r.es]),['kiss','Noche en Kissimmee']];
+  $('slots').innerHTML=SL.map(([id,es])=>`<div class="slot ${stickers.includes(id)?'got':''} ${newSticker===id?'new':''}" title="${es}">${stickers.includes(id)?`<svg viewBox="0 0 100 100">${stickerFor(id,'kgs'+id)}</svg>`:''}</div>`).join('');
+  if(newSticker){setTimeout(()=>{const sl=$('slots').children[SL.findIndex(r=>r[0]===newSticker)];if(sl){const b=sl.getBoundingClientRect();burst(b.left+26,b.top+26,30);sfx.chime()}newSticker=null},1300)}
 }
 function roomProps(r,lit){
   const c=lit?'#b5653a':'#2f376a', c2=lit?'#8a4426':'#2a3160', X=r.x, Y=r.y;
@@ -762,6 +940,8 @@ async function openRoom(id,e){const r=ROOMS.find(x=>x.id===id);
   await wait(700);
   const hs=$('houseSvg');hs.style.transformOrigin=`${(r.x+r.w/2)/10}% ${(r.y+r.h/2)/5.6}%`;hs.style.transform='scale(2.6)';
   await wait(450);go('story',{iris:1,e,then:()=>startChapter(id)})}
+async function openTrip(e){sfx.pop();$('mapAv').style.transform='translate(905px,330px)';sfx.steps(4,.8);await wait(650);
+  const hs=$('houseSvg');hs.style.transformOrigin='95% 40%';hs.style.transform='scale(2.4)';await wait(450);go('story',{iris:1,e,then:()=>startChapter('kiss')})}
 function toast(h){const t=$('toast');t.innerHTML=h;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2600)}
 
 /* ================= chapter 1 content ================= */
@@ -858,12 +1038,254 @@ const QUIZ2=[
 ];
 const QSC2={av:0,cast:[['mateo',95],['sofia',160],['mama',240],['papa',335],['cat',440]],b:[['cat','¿Listo? Ready?']]};
 
+/* ================= special chapter: Noche en Kissimmee ================= */
+// a true story: a brewery night in downtown Kissimmee, Florida (Halloween week)
+Object.assign(FAM,{
+  sam:{name:'Sam',s:.72,skinC:'#efc9a0',hairC:'#16110f',style:0,shirtC:'#4f9a5f',pants:'#2c3550',glasses:1},
+  bar:{name:'Bartender',s:.82,skinC:'#6b4128',hairC:'#16110f',style:0,buzz:1,shirtC:'#2a2438',pants:'#1f1c28',apron:1},
+  senor:{name:'Señor',s:.76,skinC:'#f3d2b8',hairC:'#e9e6ef',style:0,shirtC:'#5a7fa8',pants:'#4a4a5a',glasses:1,stache:1},
+  senora:{name:'Señora',s:.72,skinC:'#efcaa4',hairC:'#d6d2de',style:0,bun:1,shirtC:'#d36a8a',pants:'#4a3a5a'},
+  cowboy:{name:'Cowboy',s:.66,skinC:'#f0c49c',hairC:'#8a5a2a',style:0,shirtC:'#b5452f',pants:'#3a4f7a',hat:1,flush:1,sway:1}
+});
+// eight friends in their twenties singing on the little stage
+[['#f8d9bd','#2b1d16',1,'#ff7a6b'],['#8a573a','#16110f',2,'#ffc845'],['#eab78f','#e0aa48',1,'#7d8cff'],['#c98a5c','#2b1d16',0,'#4fc3b0'],
+ ['#efc9a0','#16110f',1,'#b77dd8'],['#f8d9bd','#c9472f',0,'#ffc845'],['#6b4128','#16110f',2,'#ff7aa8'],['#eab78f','#6b3e1f',0,'#5ad1b0']]
+ .forEach(([sk,h,st,sh],i)=>FAM['g'+i]={name:'',s:.5,skinC:sk,hairC:h,style:st,shirtC:sh,pants:'#2a2c48',sing:1,dance:1,dl:i*.13});
+
+function kissSVG(sc,n){
+  let seed=71+n;const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
+  const bg={yard:yardBG,bar:barBG,taps:tapsBG,karaoke:karaBG,street:streetBG}[sc.place](n,rnd);
+  const people=(sc.cast||[]).map(([w,x,y])=>castMarkup(w,x,y)).join('');
+  const me=sc.av==null?'':`<g class="${sc.walk?'avWalk':''}" style="--from:${sc.from||'-260px'}"><g class="bob"><g transform="translate(${sc.av} ${(sc.avY||FLOOR)-194*(sc.avS||.72)}) scale(${sc.avS||.72})">${avatarMarkup(av,!sc.noWave)}</g></g></g>`;
+  const table=sc.table?`<g><rect x="${sc.table[0]}" y="${sc.table[1]}" width="${sc.table[2]}" height="16" rx="5" fill="#6b4330"/><rect x="${sc.table[0]}" y="${sc.table[1]+12}" width="${sc.table[2]}" height="200" fill="#4a2e22"/>
+    <path d="M${sc.table[0]} ${sc.table[1]+40} h${sc.table[2]} M${sc.table[0]} ${sc.table[1]+76} h${sc.table[2]}" stroke="#3a2219" stroke-width="3"/>${sc.mugs?mugsOn(sc.table):''}</g>`:'';
+  const [cs,cx,cy]=sc.cam||[1,300,340];
+  return `<svg viewBox="0 0 600 680" preserveAspectRatio="xMidYMid slice"><defs>
+    <radialGradient id="kGlow${n}"><stop offset="0" stop-color="#ffd889" stop-opacity=".8"/><stop offset="1" stop-color="#ffd889" stop-opacity="0"/></radialGradient>
+    <radialGradient id="kMoon${n}"><stop offset="0" stop-color="#fff3c4" stop-opacity=".55"/><stop offset="1" stop-color="#fff3c4" stop-opacity="0"/></radialGradient>
+    <radialGradient id="kVig${n}" cx="50%" cy="45%" r="75%"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
+    <filter id="kBlur${n}" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="kNeon${n}" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <g class="cam" style="--cs:${cs};transform-origin:${cx}px ${cy}px">${bg}${people}${me}${table}</g>
+    <rect width="600" height="680" fill="url(#kVig${n})"/></svg>`}
+function mugsOn([x,y,w]){return `<g transform="translate(${x+w*.3} ${y-34})">${mug()}</g><g transform="translate(${x+w*.62} ${y-34})">${mug()}</g>`}
+function mug(){return `<rect x="0" y="0" width="26" height="36" rx="4" fill="#f0a83a" opacity=".92"/><rect x="0" y="-6" width="26" height="9" rx="4" fill="#fff6e0"/><path d="M26 8 q10 0 10 10 q0 10 -10 10" fill="none" stroke="#e6d9c0" stroke-width="4"/><rect x="0" y="0" width="26" height="36" rx="4" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>`}
+function skyStars(rnd,n,h){let s='';for(let i=0;i<n;i++)s+=`<circle cx="${(rnd()*600).toFixed(0)}" cy="${(rnd()*h).toFixed(0)}" r="${(rnd()*1.5+.4).toFixed(1)}" fill="#fff" opacity="${(rnd()*.6+.3).toFixed(2)}"><animate attributeName="opacity" values="1;.15;1" dur="${(2+rnd()*3).toFixed(1)}s" begin="${(rnd()*3).toFixed(1)}s" repeatCount="indefinite"/></circle>`;return s}
+function bigMoon(n,x,y,r){return `<circle cx="${x}" cy="${y}" r="${r*3}" fill="url(#kMoon${n})"/><circle cx="${x}" cy="${y}" r="${r}" fill="#fff3c4"/><circle cx="${x-r*.3}" cy="${y-r*.2}" r="${r*.18}" fill="#f0e2a8"/><circle cx="${x+r*.35}" cy="${y+r*.3}" r="${r*.12}" fill="#f0e2a8"/><circle cx="${x+r*.1}" cy="${y-r*.45}" r="${r*.08}" fill="#f0e2a8"/>`}
+function stringLights(y0,sag,n,rnd){let p=`<path d="M-10 ${y0} Q300 ${y0+sag*2} 610 ${y0}" fill="none" stroke="#1a1420" stroke-width="2"/>`;
+  for(let i=1;i<n;i++){const t=i/n,x=-10+620*t,y=(1-t)*(1-t)*y0+2*t*(1-t)*(y0+sag*2)+t*t*y0,c=['#ffcf7a','#ff9a5a','#b77dd8','#ffe9a8'][i%4];
+    p+=`<circle cx="${x.toFixed(0)}" cy="${(y+7).toFixed(0)}" r="11" fill="${c}" opacity=".25" class="bulbG" style="--dl:${(rnd()*2).toFixed(1)}s"/><circle cx="${x.toFixed(0)}" cy="${(y+7).toFixed(0)}" r="4.5" fill="${c}"/>`}return p}
+function pumpkin(x,y,s){return `<g transform="translate(${x} ${y}) scale(${s})"><circle cx="0" cy="-6" r="40" fill="#ff9a3a" opacity=".22" class="jackG"/>
+  <ellipse cx="-12" cy="0" rx="17" ry="22" fill="#e8742a"/><ellipse cx="12" cy="0" rx="17" ry="22" fill="#e8742a"/><ellipse cx="0" cy="0" rx="18" ry="23" fill="#f08a34"/>
+  <path d="M-2 -22 q2 -10 8 -12" stroke="#3f6b2e" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <g class="jackF" fill="#ffd36a"><path d="M-12 -6 l5 -7 l5 7z M2 -6 l5 -7 l5 7z"/><path d="M-13 6 q13 11 26 0 l-4 0 l-2 3 l-3 -3 l-4 0 l-2 3 l-3 -3z"/></g></g>`}
+function bat(x,y,d){return `<g class="batFly" style="--d:${d}s"><g transform="translate(${x} ${y})"><path class="batW" d="M0 0 q-8 -8 -18 -4 q4 2 4 6 q4 -4 8 0 q2 -4 6 -2z M0 0 q8 -8 18 -4 q-4 2 -4 6 q-4 -4 -8 0 q-2 -4 -6 -2z" fill="#140f1e"/><circle cx="0" cy="0" r="3.5" fill="#140f1e"/></g></g>`}
+function yardBG(n,rnd){return `<rect width="600" height="680" fill="#0a0e2c"/><rect width="600" height="400" fill="#141a4a" opacity=".7"/>${skyStars(rnd,60,240)}${bigMoon(n,480,90,34)}
+  ${bat(80,90,9)}${bat(260,60,12)}${bat(360,130,10)}
+  <rect x="40" y="200" width="520" height="380" fill="#6e3330"/>
+  <g stroke="#552521" stroke-width="2" opacity=".7">${Array.from({length:14},(_,i)=>`<path d="M40 ${222+i*26} H560"/>`).join('')}${Array.from({length:70},(_,i)=>`<path d="M${40+(i%10)*52+(Math.floor(i/10)%2?26:0)} ${200+Math.floor(i/10)*26} v26"/>`).join('')}</g>
+  <rect x="30" y="190" width="540" height="16" fill="#3a1c24"/>
+  <g filter="url(#kNeon${n})" class="neon"><rect x="160" y="228" width="280" height="54" rx="27" fill="none" stroke="#c77dff" stroke-width="4"/>
+    <text x="300" y="266" text-anchor="middle" font-family="Fredoka" font-size="30" font-weight="600" fill="#f3d6ff" letter-spacing="4">BREWERY</text></g>
+  <rect x="180" y="310" width="240" height="250" rx="4" fill="#2a1a18"/>
+  <g class="garage">${Array.from({length:12},(_,i)=>`<rect x="${188+(i%4)*58}" y="${318+Math.floor(i/4)*80}" width="52" height="72" rx="2" fill="#ffcf7a" opacity="${.75+(i%3)*.08}"/>`).join('')}</g>
+  <circle cx="300" cy="430" r="150" fill="url(#kGlow${n})" opacity=".5"/>
+  <rect x="70" y="330" width="80" height="70" rx="3" fill="#ffcf7a" opacity=".8" stroke="#3a1c24" stroke-width="6"/><rect x="450" y="330" width="80" height="70" rx="3" fill="#ffcf7a" opacity=".8" stroke="#3a1c24" stroke-width="6"/>
+  <path d="M40 200 L40 270 M40 200 L110 200 M40 220 Q60 220 70 200 M40 240 Q78 236 90 200 M40 262 Q96 252 110 200" stroke="#e8e4f0" stroke-width="1.4" fill="none" opacity=".55"/>
+  ${stringLights(150,30,13,rnd)}
+  <rect y="560" width="600" height="120" fill="#16261f"/><path d="M0 560 H600" stroke="#24382e" stroke-width="4"/>
+  <g fill="#3a2a22"><rect x="20" y="520" width="6" height="60"/><rect x="574" y="520" width="6" height="60"/></g>
+  <g transform="translate(40 470)"><rect x="0" y="40" width="54" height="8" fill="#5a3a2a"/><rect x="4" y="48" width="5" height="40" fill="#5a3a2a"/><rect x="45" y="48" width="5" height="40" fill="#5a3a2a"/><rect x="44" y="0" width="6" height="48" fill="#5a3a2a"/>
+    <g class="skel" fill="none" stroke="#f4f0e6" stroke-width="5" stroke-linecap="round"><circle cx="24" cy="-6" r="11" fill="#f4f0e6" stroke="none"/><path d="M24 6 V34 M14 14 H34 M14 22 H34 M24 34 L44 40 L44 70 M24 34 L40 44 L36 72 M24 12 L8 30 L14 44"/></g>
+    <g fill="#1a1420"><circle cx="20" cy="-7" r="3"/><circle cx="29" cy="-7" r="3"/><path d="M19 -1 h10" stroke="#1a1420" stroke-width="2"/></g></g>
+  <rect x="470" y="560" width="90" height="40" rx="8" fill="#c9a24a"/><path d="M470 572 h90 M470 586 h90" stroke="#a8842e" stroke-width="2"/>
+  ${pumpkin(120,606,1)}${pumpkin(520,548,.85)}${pumpkin(560,600,1.1)}${pumpkin(470,618,.7)}
+  <path d="M300 650 l-10 -24 h20z" fill="none"/>`}
+function edison(x,len,rnd){return `<g class="swing" style="--d:${(3+rnd()*2).toFixed(1)}s;transform-origin:${x}px 0px"><path d="M${x} 0 V${len}" stroke="#1a1214" stroke-width="2"/><circle cx="${x}" cy="${len+12}" r="30" fill="#ffcf7a" opacity=".22"/><ellipse cx="${x}" cy="${len+12}" rx="7" ry="10" fill="#ffd889"/><rect x="${x-4}" y="${len-2}" width="8" height="6" fill="#6b5a4a"/></g>`}
+function barBG(n,rnd){return `<rect width="600" height="680" fill="#2e1d1a"/>${Array.from({length:12},(_,i)=>`<rect x="${i*50}" y="0" width="48" height="560" fill="${i%2?'#3a2520':'#35221d'}"/>`).join('')}
+  <rect x="420" y="0" width="180" height="560" fill="#5a2c26"/><g stroke="#46201c" stroke-width="2">${Array.from({length:21},(_,i)=>`<path d="M420 ${i*26+13} H600"/>`).join('')}</g>
+  <rect x="60" y="90" width="200" height="140" rx="6" fill="#20262a" stroke="#6b4330" stroke-width="8"/>
+  <g font-family="Fredoka" fill="#f0ead8"><text x="160" y="130" text-anchor="middle" font-size="24">CERVEZA</text><text x="160" y="162" text-anchor="middle" font-size="16" opacity=".8">IPA · LAGER · STOUT</text><text x="160" y="198" text-anchor="middle" font-size="18" fill="#ffcf7a">★ VINO ★</text></g>
+  <rect x="290" y="110" width="110" height="90" rx="4" fill="#0e1236" stroke="#6b4330" stroke-width="7"/>${bigMoon(n,345,150,14)}
+  <rect x="440" y="140" width="140" height="10" fill="#6b4330"/>${Array.from({length:6},(_,i)=>`<rect x="${448+i*22}" y="${102+(i%2)*6}" width="14" height="${38-(i%2)*6}" rx="3" fill="${['#3f8a5a','#8a3a3a','#c9a24a'][i%3]}"/>`).join('')}
+  ${edison(110,40,rnd)}${edison(230,60,rnd)}${edison(350,30,rnd)}${edison(480,55,rnd)}
+  <rect x="0" y="430" width="600" height="20" fill="#6b4330"/><rect x="0" y="448" width="600" height="112" fill="#4a2e22"/>
+  <rect y="560" width="600" height="120" fill="#24160f"/><path d="M0 590 H600 M0 625 H600" stroke="#1a0f0a" stroke-width="2"/>
+  <ellipse cx="300" cy="300" rx="320" ry="200" fill="url(#kGlow${n})" opacity=".25"/>`}
+function tapsBG(n,rnd){const cols=['#ffc845','#f0a83a','#7a3a2a','#ffe08a','#d96a3a','#3a1a14','#ffd36a','#b8722a'],names=['LAGER','IPA','STOUT','WHEAT','RED','PORTER','PILS','AMBER'];
+  let taps='';for(let i=0;i<8;i++){const x=88+i*60;taps+=`<rect x="${x-22}" y="190" width="44" height="34" rx="4" fill="#0c0f1c" stroke="#3a3f5a"/><rect x="${x-18}" y="194" width="36" height="26" rx="2" fill="${cols[i]}" opacity=".85" class="scr" style="--dl:${(i*.2).toFixed(1)}s"/>
+    <text x="${x}" y="212" text-anchor="middle" font-family="Fredoka" font-size="9" fill="#1a1420">${names[i]}</text>
+    <rect x="${x-6}" y="250" width="12" height="54" rx="5" fill="${cols[i]}"/><rect x="${x-9}" y="300" width="18" height="12" rx="3" fill="#c9ccd8"/><rect x="${x-3}" y="312" width="6" height="18" fill="#a9acb8"/>`}
+  return `<rect width="600" height="680" fill="#1c1a26"/>${Array.from({length:12},(_,i)=>`<rect x="${i*50}" y="0" width="48" height="560" fill="${i%2?'#24212f':'#201e2b'}"/>`).join('')}
+  <rect x="40" y="150" width="520" height="250" rx="12" fill="#2e3346" stroke="#c77dff" stroke-width="3" filter="url(#kNeon${n})" opacity=".9"/>
+  <rect x="44" y="154" width="512" height="242" rx="10" fill="#353b52"/>
+  <text x="300" y="130" text-anchor="middle" font-family="Fredoka" font-size="26" fill="#f3d6ff" filter="url(#kNeon${n})" letter-spacing="3" class="neon">SELF-POUR</text>
+  ${taps}<rect x="50" y="340" width="500" height="22" rx="6" fill="#8a8fa6"/><path d="M60 351 H540" stroke="#6a6f86" stroke-width="2" stroke-dasharray="4 4"/>
+  <g transform="translate(470 420)"><rect x="0" y="0" width="70" height="90" rx="10" fill="#0c0f1c" stroke="#5ad1b0" stroke-width="3"/><circle cx="35" cy="34" r="16" fill="none" stroke="#5ad1b0" stroke-width="3" class="sens"/><circle cx="35" cy="34" r="6" fill="#5ad1b0"/>
+    <text x="35" y="76" text-anchor="middle" font-family="Fredoka" font-size="12" fill="#5ad1b0">TAP</text></g>
+  <rect y="560" width="600" height="120" fill="#141220"/><path d="M0 590 H600 M0 625 H600" stroke="#0c0b14" stroke-width="2"/>
+  <ellipse cx="300" cy="280" rx="300" ry="160" fill="url(#kGlow${n})" opacity=".18"/>`}
+function karaBG(n,rnd){let dots='';for(let i=0;i<26;i++){const a=rnd()*6.28,r=60+rnd()*240;dots+=`<circle cx="${(300+Math.cos(a)*r).toFixed(0)}" cy="${(160+Math.sin(a)*r*.6).toFixed(0)}" r="${(1.5+rnd()*2).toFixed(1)}" fill="#fff" class="disco" style="--dl:${(rnd()*2).toFixed(2)}s"/>`}
+  const eq=Array.from({length:14},(_,i)=>`<rect x="${196+i*15}" y="150" width="10" height="40" rx="2" fill="${['#ff7aa8','#ffc845','#5ad1b0','#7d8cff'][i%4]}" class="eq" style="--dl:-${(rnd()).toFixed(2)}s"/>`).join('');
+  return `<rect width="600" height="680" fill="#1a0f2e"/><rect width="600" height="560" fill="#2a1446" opacity=".6"/>
+  <g class="beamL" style="transform-origin:90px 0px"><path d="M90 0 L20 520 L180 520Z" fill="#ff7aa8" opacity=".14"/></g>
+  <g class="beamR" style="transform-origin:510px 0px"><path d="M510 0 L420 520 L580 520Z" fill="#7d8cff" opacity=".16"/></g>
+  <rect x="180" y="60" width="240" height="140" rx="8" fill="#0c0820" stroke="#5a3a7a" stroke-width="6"/>
+  <text x="300" y="104" text-anchor="middle" font-family="Fredoka" font-size="22" fill="#ffe08a">♪ We Are Family ♪</text>
+  <text x="300" y="130" text-anchor="middle" font-family="Fredoka" font-size="13" fill="#d6c8f0" opacity=".8">KARAOKE NIGHT</text>${eq}
+  <path d="M300 0 V22" stroke="#bbb" stroke-width="2"/><g class="ball" style="transform-origin:300px 40px"><circle cx="300" cy="40" r="18" fill="#c9ccd8"/><path d="M282 40 H318 M300 22 V58 M287 28 Q300 40 287 52 M313 28 Q300 40 313 52" stroke="#8a8fa6" stroke-width="1.5" fill="none"/><circle cx="294" cy="34" r="4" fill="#fff"/></g>${dots}
+  <rect x="110" y="500" width="500" height="22" fill="#4a2a5e"/><rect x="110" y="520" width="500" height="40" fill="#311c40"/>
+  <rect x="110" y="440" width="500" height="64" fill="#3a2250" opacity=".7"/><rect x="110" y="440" width="500" height="6" fill="#6a4a8a"/>
+  <g transform="translate(560 380)"><rect x="-3" y="0" width="6" height="140" fill="#888"/><rect x="-9" y="-16" width="18" height="24" rx="6" fill="#333"/></g>
+  <rect y="560" width="600" height="120" fill="#140a22"/><ellipse cx="350" cy="520" rx="260" ry="60" fill="#ff7aa8" opacity=".08"/>`}
+function palm(x,y,s){return `<g transform="translate(${x} ${y}) scale(${s})" fill="#0a0d24"><path d="M-4 0 Q-10 -90 6 -170 L12 -168 Q0 -90 6 0Z"/>
+  <path class="frond" d="M8 -170 Q-40 -190 -80 -150 Q-40 -170 8 -160Z M8 -170 Q50 -200 96 -160 Q50 -176 8 -160Z M8 -172 Q-10 -220 -50 -226 Q-14 -200 6 -164Z M8 -172 Q30 -224 70 -224 Q30 -200 10 -164Z"/></g>`}
+function car(x,y){return `<g transform="translate(${x} ${y})"><ellipse cx="90" cy="64" rx="96" ry="10" fill="#000" opacity=".35"/>
+  <path d="M0 50 Q0 26 24 24 L50 22 Q70 0 104 0 L132 0 Q156 2 170 24 Q190 28 190 50 L190 58 L0 58Z" fill="#1d2030"/>
+  <path d="M58 24 Q74 6 102 6 L102 24Z M110 24 V6 L130 6 Q148 8 160 24Z" fill="#8fb4d8" opacity=".85"/>
+  <rect x="96" y="-10" width="30" height="12" rx="3" fill="#fff"/><text x="111" y="-1" text-anchor="middle" font-family="Fredoka" font-size="8" fill="#111">UBER</text>
+  <circle cx="186" cy="40" r="6" fill="#fff3c4"/><path d="M190 36 L260 22 L260 60 L190 46Z" fill="#fff3c4" opacity=".18"/><rect x="0" y="38" width="8" height="8" rx="2" fill="#ff5a4a"/>
+  <g class="wheel" style="transform-origin:42px 58px"><circle cx="42" cy="58" r="15" fill="#111"/><circle cx="42" cy="58" r="6" fill="#888"/><path d="M42 46 V70 M30 58 H54" stroke="#555" stroke-width="2"/></g>
+  <g class="wheel" style="transform-origin:150px 58px"><circle cx="150" cy="58" r="15" fill="#111"/><circle cx="150" cy="58" r="6" fill="#888"/><path d="M150 46 V70 M138 58 H162" stroke="#555" stroke-width="2"/></g></g>`}
+function streetBG(n,rnd){return `<rect width="600" height="680" fill="#070a24"/><rect width="600" height="460" fill="#1a1f5a" opacity=".55"/>${skyStars(rnd,80,300)}${bigMoon(n,300,140,60)}
+  <g fill="#141838">${[[0,300,90,240],[96,330,110,210],[212,280,80,260],[300,320,120,220],[430,290,90,250],[526,340,80,200]].map(([x,y,w,h])=>`<rect x="${x}" y="${y}" width="${w}" height="${h}"/>`).join('')}</g>
+  <g fill="#ffcf7a">${Array.from({length:22},()=>`<rect x="${(rnd()*580).toFixed(0)}" y="${(340+rnd()*160).toFixed(0)}" width="10" height="12" opacity="${(.4+rnd()*.5).toFixed(2)}"/>`).join('')}</g>
+  ${palm(60,560,1)}${palm(540,560,.9)}${palm(470,560,.65)}
+  <g><rect x="130" y="380" width="6" height="180" fill="#1a1d36"/><path d="M133 380 q0 -14 20 -14 h8" stroke="#1a1d36" stroke-width="5" fill="none"/><circle cx="162" cy="372" r="34" fill="url(#kGlow${n})"/><ellipse cx="162" cy="370" rx="9" ry="5" fill="#ffe9a8"/></g>
+  <rect y="540" width="600" height="30" fill="#2a2d44"/><rect y="570" width="600" height="110" fill="#16182a"/><path d="M0 622 H600" stroke="#ffcf7a" stroke-width="4" stroke-dasharray="30 24" opacity=".6"/>`}
+// someone in the cast: a FAM person, the cat, or the car (feet at y)
+function castMarkup(who,x,y=FLOOR){
+  if(who==='cat')return `<g transform="translate(${x} ${y-100*.66}) scale(.66)">${catMarkup()}</g>`;
+  if(who==='car')return `<g class="carIn">${car(x,y-64)}</g>`;
+  const f=FAM[who],inner=avatarMarkup(f,false),cls=f.dance?'dance':f.sway?'swayMan':'';
+  return `<g transform="translate(${x} ${y-194*f.s}) scale(${f.s})"><g class="${cls}" style="--dl:${f.dl||0}s">${inner}</g></g>`}
+function castPos(who,x,y=FLOOR){
+  if(who==='cat')return [(x+50*.66)/6,(680-(y-100*.66+6*.66)+12)/6.8];
+  if(who==='car')return [(x+110)/6,(680-(y-80)+12)/6.8];
+  const s=who==='av'?.72:FAM[who].s,f=FAM[who]||{},top=y-194*s+(f.hat?6:f.bun?10:28)*s;return [(x+60*s)/6,(680-top+12)/6.8]}
+
+const P_KISS=[
+ {k:'Noche en Kissimmee', t:'A pumpkin yard', sc:{place:'yard',av:40,walk:1,cast:[['sam',150,650]],avY:650,cam:[1.35,300,300],amb:'night',b:[['sam','¡Mira! ¡Calabazas!'],['av','¡Qué bonito!']]},
+  body:()=>`<div class="story"><p>A warm October night in downtown Kissimmee, Florida. You and your friend Sam find a little brewery in an old garage.</p>
+    <p>The yard is ready for Halloween: ${W('calabaza','calabazas')}, bats, and a funny skeleton!</p></div>
+    ${line('Sam',W('mira','¡Mira!')+' ¡Calabazas!','¡Mira! ¡Calabazas!')}${line(av.name,W('quebonito','¡Qué bonito!'),'¡Qué bonito!')}`,
+  tip:`<b>¡Mira!</b> = Look! &nbsp;<b>¡Qué bonito!</b> = How pretty! You can say it about almost anything.`},
+ {k:'Saludos · Hello', t:'Welcome in!', sc:{place:'bar',av:30,walk:1,from:'-200px',cast:[['sam',130],['bar',380]],cam:[1.4,430,420],amb:'pub',mood:'pub',b:[['bar','¡Hola! ¡Bienvenidos!'],['av','¡Hola! Buenas noches.']]},
+  body:()=>`<div class="story"><p>Inside it is warm and loud. A tall bartender smiles at you.</p></div>
+    ${line('Bartender','¡Hola! '+W('bienvenidos','¡Bienvenidos!'),'¡Hola! ¡Bienvenidos!')}${line(av.name,'¡Hola! '+W('buenasnoches','Buenas noches.'),'¡Hola! Buenas noches.')}
+    ${line('Bartender',W('primeravez','¿Primera vez?'),'¿Primera vez?')}${line(av.name,'Sí, primera vez.','Sí, primera vez.')}`,
+  tip:`<b>Bienvenidos</b> = Welcome (to more than one person). <b>¿Primera vez?</b> = (Is it your) first time?`},
+ {k:'La tarjeta · The card', t:'Pour it yourself!', act:'card', sc:{place:'taps',av:40,cast:[['bar',330]],cam:[1.5,500,470],amb:'pub',mood:'pub',b:[['bar','Esta es tu tarjeta. ¡Toca aquí!']]},
+  body:()=>`<div class="story"><p>Here you pour your own beer! First you put money on a card. Then you touch the card to the sensor and pour. You pay only for what you pour.</p></div>
+    ${line('Bartender','Esta es tu '+W('tarjeta','tarjeta')+'. '+W('toca','¡Toca aquí!'),'Esta es tu tarjeta. ¡Toca aquí!')}`,
+  tip:''},
+ {k:'Tú sirves · You pour', t:'Open, pour, close', act:'pour', sc:{place:'taps',av:150,cast:[['bar',380]],cam:[1.6,300,300],amb:'pub',mood:'pub',b:[['bar','Abre, sirve y cierra. ¡Fácil!']]},
+  body:()=>`${line('Bartender',W('abre','Abre')+', '+W('sirve','sirve')+' y '+W('cierra','cierra')+'. '+W('facil','¡Fácil!'),'Abre, sirve y cierra. ¡Fácil!')}`,
+  tip:''},
+ {k:'¡Salud! · Cheers!', t:'So good!', act:'cheers', sc:{place:'bar',av:120,cast:[['sam',300]],table:[60,600,480],mugs:1,cam:[1.45,280,480],amb:'pub',mood:'pub',b:[['sam','¡Salud!'],['av','¡Qué rica!']]},
+  body:()=>`<div class="story"><p>You sit down with Sam. Time to cheer!</p></div>
+    ${line('Sam',W('salud','¡Salud!'),'¡Salud!')}${line(av.name,'¡Mmm! '+W('rica','¡Qué rica!'),'¡Mmm! ¡Qué rica!')}${line('Sam','¡Sí, muy rica!','¡Sí, muy rica!')}`,
+  tip:`<b>¡Salud!</b> = Cheers! (it means “health”). <b>¡Qué rica!</b> = So good! (for food and drinks)`},
+ {k:'Nuevos amigos · New friends', t:'The kind couple', sc:{place:'bar',av:20,cast:[['sam',120],['senora',330],['senor',440]],table:[300,600,300],cam:[1.4,420,440],amb:'pub',mood:'pub',b:[['senora','¡Hola! ¿De dónde son?'],['av','Somos de Corea.']]},
+  body:()=>`<div class="story"><p>An older couple sits at the next table. They are very friendly.</p></div>
+    ${line('Señora','¡Hola! '+W('dedonde','¿De dónde son?'),'¡Hola! ¿De dónde son?')}${line(av.name,W('somosde','Somos de')+' Corea.','Somos de Corea.')}${line('Señor','¡Qué bien! ¡Bienvenidos!','¡Qué bien! ¡Bienvenidos!')}`,
+  tip:`<b>¿De dónde son?</b> = Where are you (all) from? &nbsp;<b>Somos de…</b> = We are from…`},
+ {k:'Un regalo · A gift', t:'Two dollars left', act:'gift', sc:{place:'bar',av:60,cast:[['senora',300],['senor',410]],cam:[1.5,320,420],amb:'pub',mood:'pub',b:[['senora','Toma. Quedan dos dólares.'],['av','¡Muchas gracias!']]},
+  body:()=>`<div class="story"><p>The couple is going home. The señora gives you her card. There is still money on it!</p></div>
+    ${line('Señora',W('toma','Toma')+'. '+W('quedan','Quedan')+' dos dólares.','Toma. Quedan dos dólares.')}${line(av.name,'¡Muchas gracias! '+W('amables','¡Qué amables!'),'¡Muchas gracias! ¡Qué amables!')}${line('Señor',W('denada','¡De nada!'),'¡De nada!')}`,
+  tip:''},
+ {k:'Karaoke', t:'A song next door', sc:{place:'karaoke',av:-30,avY:690,avS:.86,noWave:1,cast:[['sam',60,690],['g0',180,500],['g1',255,500],['g2',330,500],['g3',405,500],['g4',215,560],['g5',290,560],['g6',365,560],['g7',440,560],['cowboy',515,650]],table:[-20,662,230],mugs:1,cam:[1.3,330,360],amb:'pub',mood:'karaoke',b:[['g2','♪ We are family! ♪'],['cowboy','¡Hip!']]},
+  body:()=>`<div class="story"><p>Music in the next room! Eight young friends sing <i>“We Are Family”</i>. They stand in two rows, like a wedding photo.</p>
+    <p>A cowboy stands alone at the side. He is a little bit drunk. You and Sam sit and watch.</p></div>
+    ${line('Sam',W('escucha','¡Escucha!')+' ¡Karaoke!','¡Escucha! ¡Karaoke!')}${line(av.name,W('divertido','¡Qué divertido!'),'¡Qué divertido!')}`,
+  tip:`<b>¡Escucha!</b> = Listen! &nbsp;<b>¡Qué divertido!</b> = How fun!`},
+ {k:'Karaoke', t:'We are family!', act:'clap', sc:{place:'karaoke',av:-30,avY:690,avS:.86,noWave:1,cast:[['sam',60,690],['g0',180,500],['g1',255,500],['g2',330,500],['g3',405,500],['g4',215,560],['g5',290,560],['g6',365,560],['g7',440,560],['cowboy',515,650]],table:[-20,662,230],mugs:1,cam:[1.5,520,520],amb:'pub',mood:'karaoke',b:[['g5','¡Somos familia!'],['cowboy','¡Yiii-ja!']]},
+  body:()=>`${line('Sam','“We are family” es… '+W('somosfamilia','¡Somos familia!'),'Somos familia')}${line('Cowboy','¡Yiii-ja!','¡Yiii-ja!')}`,
+  tip:''},
+ {k:'¡Adiós! · Goodbye!', t:'A happy surprise', sc:{place:'bar',av:20,cast:[['sam',120],['senora',300],['senor',410]],cam:[1.4,420,430],amb:'pub',mood:'pub',b:[['senor','¡Es nuestro bar!'],['senora','¡Vuelvan pronto!']]},
+  body:()=>`<div class="story"><p>At the door, the kind couple waves goodbye. Surprise: they are the owners!</p></div>
+    ${line('Señor','¡Adiós, amigos! ¡Es '+W('nuestro','nuestro')+' bar!','¡Adiós, amigos! ¡Es nuestro bar!')}${line('Señor','Mi '+W('esposa','esposa')+' es coreana.','Mi esposa es coreana.')}
+    ${line(av.name,'¡Qué sorpresa! ¡Gracias por todo!','¡Qué sorpresa! ¡Gracias por todo!')}${line('Señora',W('vuelvan','¡Vuelvan pronto!'),'¡Vuelvan pronto!')}`,
+  tip:`<b>¡Vuelvan pronto!</b> = Come back soon! &nbsp;<b>Gracias por todo</b> = Thanks for everything.`},
+ {k:'La luna · The moon', t:'Calling a ride', act:'phone', sc:{place:'street',av:150,avY:560,cast:[['sam',260,560]],cam:[1.3,300,160],amb:'night',mood:'intro',b:[['av','¡Qué luna!']]},
+  body:()=>`<div class="story"><p>Outside, a big round ${W('luna','luna')} is shining. It is late. You call an Uber on your phone.</p></div>
+    ${line(av.name,'¡Qué luna! Un Uber, '+W('porfavor','por favor')+'.','¡Qué luna! Un Uber, por favor.')}`,
+  tip:''},
+ {k:'¡Buenas noches!', t:'Good night, Kissimmee', sc:{place:'street',cast:[['car',200,610]],cam:[1.25,300,500],amb:'night',mood:'intro',b:[['car','A Simpson, por favor.']]},
+  body:()=>`<div class="story"><p>The car comes. You and Sam get in.</p></div>
+    ${line('Driver',W('adonde','¿A dónde vamos?'),'¿A dónde vamos?')}${line(av.name,'A Simpson, por favor.','A Simpson, por favor.')}
+    ${line('Sam','¡Buenas noches, Kissimmee! '+W('hastaluego','¡Hasta luego!'),'¡Buenas noches, Kissimmee! ¡Hasta luego!')}`,
+  tip:`<b>¿A dónde?</b> = Where to? &nbsp;Answer with <b>a</b> + the place: <i>A Simpson, por favor.</i>`},
+ {k:'Repaso · Review', t:'Words you learned', sc:{place:'street',av:150,avY:560,cast:[['sam',260,560]],amb:'night',b:[['sam','¡Muy bien!']]},
+  body:()=>`<p style="color:var(--muted);margin-bottom:8px;font-size:calc(16px * var(--u))">Click a card to hear it again. Then turn the page for a little quiz!</p>
+    <div class="recap">${['bienvenidos','tarjeta','abre','sirve','cierra','salud','rica','dedonde','toma','vuelvan'].map(k=>`<button data-say="${V[k].es}"><b>${V[k].es}</b>${V[k].en}</button>`).join('')}</div>`,
+  tip:''}
+];
+const QUIZ_KISS=[
+ {q:'The bartender says <b>¡Bienvenidos!</b> What does it mean?',say:'¡Bienvenidos!',a:'Welcome!',o:['Goodbye!','Cheers!']},
+ {q:'At the tap wall, what is the right order?',a:'Abre → Sirve → Cierra',o:['Cierra → Abre → Sirve','Sirve → Cierra → Abre']},
+ {q:'Your beer is very good. What do you say?',a:'¡Qué rica!',o:['¿De dónde son?','¡Toca aquí!']},
+ {q:'The señora asks <b>¿De dónde son?</b> You answer…',say:'¿De dónde son?',a:'Somos de Corea.',o:['Quedan dos dólares.','¡Salud!']},
+ {q:'The driver asks <b>¿A dónde vamos?</b> You answer…',say:'¿A dónde vamos?',a:'A Simpson, por favor.',o:['¡Vuelvan pronto!','¡Mira! ¡Calabazas!']}
+];
+const QSC_KISS={place:'bar',av:40,cast:[['sam',150],['bar',400]],amb:'pub',b:[['bar','¿Listos? Ready?']]};
+
+/* ================= hands-on activities (you must finish them to turn the page) ================= */
+let actDone=new Set();
+const glassSVG=id=>`<svg class="glassSvg" viewBox="0 0 80 120"><defs><clipPath id="${id}"><path d="M8 6 L72 6 L64 112 L16 112Z"/></clipPath></defs>
+  <g clip-path="url(#${id})"><rect class="beer" x="0" y="0" width="80" height="120" fill="#f0a83a"/><rect class="foam" x="0" y="0" width="80" height="16" fill="#fff6e0"/>
+  <g class="bubbles" fill="#fff6" ><circle cx="30" cy="100" r="2"/><circle cx="48" cy="90" r="1.6"/><circle cx="40" cy="105" r="1.3"/></g></g>
+  <path d="M8 6 L72 6 L64 112 L16 112Z" fill="#ffffff22" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M18 14 L22 100" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/></svg>`;
+const ACTS={
+  card:{prompt:'Tap the card on the sensor',ko:'카드를 센서에 대 보세요',
+    html:()=>`<div class="aRow"><button class="rfid" data-act="card"><b>BREWERY</b><small>$ 20.00</small><i></i></button>
+      <div class="sensor"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="30" cy="30" r="9" fill="currentColor"/></svg><span>TAP</span></div></div>`,
+    run(b,el,e){sfx.beep();el.classList.add('go');setTimeout(()=>actComplete(el,e,'¡Listo!','= Ready! The tap is on.'),700)}},
+  pour:{prompt:'Do the 3 steps in order',ko:'순서대로 3단계를 해 보세요',
+    html:()=>`<div class="aRow">${glassSVG('gc1')}<div class="steps"><button data-act="pour" data-i="0">1 · Abre</button><button data-act="pour" data-i="1" disabled>2 · Sirve</button><button data-act="pour" data-i="2" disabled>3 · Cierra</button></div></div>`,
+    run(b,el,e){const i=+b.dataset.i;b.disabled=true;b.classList.add('did');el.dataset.step=i+1;speak(['Abre','Sirve','Cierra'][i]);
+      if(i===0){sfx.click()}
+      if(i===1){sfx.pour()}
+      const nx=el.querySelector(`[data-i="${i+1}"]`);if(nx)setTimeout(()=>nx.disabled=false,i===1?2000:300);
+      if(i===2){sfx.clack();setTimeout(()=>actComplete(el,e,'¡Perfecto!','= Perfect! A full glass.'),400)}}},
+  cheers:{prompt:'Clink the glasses!',ko:'잔을 부딪쳐 보세요',
+    html:()=>`<div class="aRow cheersRow"><div class="gL">${glassSVG('gc2')}</div><button class="bigBtn small" data-act="cheers">¡Salud!</button><div class="gR">${glassSVG('gc3')}</div></div>`,
+    run(b,el,e){el.classList.add('go');speak('¡Salud!');setTimeout(()=>{sfx.clink();const r=el.querySelector('.cheersRow').getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height*.3,26)},420);
+      setTimeout(()=>actComplete(el,e,'¡Salud!','= Cheers!'),1000)}},
+  gift:{prompt:'Take the card from the señora',ko:'카드를 받아 보세요',
+    html:()=>`<div class="aRow"><button class="rfid gift" data-act="gift"><b>BREWERY</b><small>$ 2.00</small><i></i></button><div class="giftTo">→ ${esc(av.name)}</div></div>`,
+    run(b,el,e){el.classList.add('go');sfx.coin();speak('¡Muchas gracias!');setTimeout(()=>actComplete(el,e,'+ $2','= Two dollars for you!'),800)}},
+  clap:{prompt:'Clap along 4 times!',ko:'박수를 4번 쳐 보세요',
+    html:()=>`<div class="aRow"><button class="clapBtn" data-act="clap"><svg viewBox="0 0 64 64"><path d="M20 50 Q8 40 14 26 L22 12 Q25 8 28 12 L30 22 L38 8 Q41 4 44 8 L40 24 L48 14 Q51 11 53 15 L44 34 Q50 30 52 34 L42 50 Q32 60 20 50Z" fill="#ffd9a8" stroke="#3a2310" stroke-width="2.5" stroke-linejoin="round"/></svg>¡Aplaude!</button>
+      <div class="claps"><i></i><i></i><i></i><i></i></div></div>`,
+    run(b,el,e){const n=(+el.dataset.n||0)+1;el.dataset.n=n;sfx.clap();b.classList.remove('hit');void b.offsetWidth;b.classList.add('hit');
+      el.querySelectorAll('.claps i').forEach((d,i)=>d.classList.toggle('on',i<n));burst(e.clientX,e.clientY,8);
+      if(n>=4){sfx.cheer();setTimeout(()=>actComplete(el,e,'¡Bravo!','= Great! Everybody cheers.'),500)}}},
+  phone:{prompt:'Call a ride on your phone',ko:'휴대폰으로 차를 불러 보세요',
+    html:()=>`<div class="aRow"><div class="phone"><div class="scrA"><b>Uber</b><span>¿A dónde?</span><button data-act="phone">Pedir viaje · Request</button></div>
+      <div class="scrB"><svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#e9eef2"/><path d="M0 40 H120 M0 84 H120 M36 0 V120 M82 0 V120" stroke="#fff" stroke-width="9"/><circle cx="60" cy="62" r="6" fill="#2f5bd3"/><rect class="carDot" x="0" y="34" width="14" height="10" rx="3" fill="#111"/></svg><span>Llega en 3 min</span></div></div></div>`,
+    run(b,el,e){el.classList.add('go');sfx.pop();speak('Un Uber, por favor.');setTimeout(()=>{sfx.honk();actComplete(el,e,'¡Ya viene!','= It is coming!')},2200)}}
+};
+function actHTML(type){const A=ACTS[type];return `<div class="act" data-type="${type}"><div class="actQ"><span class="star">★</span> Your turn: ${A.prompt} <i>${A.ko}</i></div>${A.html()}<div class="actOk"></div></div>`}
+function actComplete(el,e,es,en){if(actDone.has(el.dataset.type))return;actDone.add(el.dataset.type);el.classList.add('done');
+  el.querySelector('.actOk').innerHTML=`<b>${es}</b> <span>${en}</span>`;sfx.chime();burst(e.clientX||innerWidth/2,e.clientY||innerHeight/2,24);updateNav()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled)return;const el=b.closest('.act');
+  if(!el||actDone.has(el.dataset.type))return;ACTS[b.dataset.act].run(b,el,e)});
+// first spread whose activity is not finished yet (Infinity = nothing blocks)
+function blockAt(){const P=ch.pages;for(let i=0;i<P.length;i++)if(P[i].act&&!actDone.has(P[i].act))return i+1;return Infinity}
+function updateNav(){const total=ch.pages.length+2;$('nextBtn').disabled=spread>=total-1||spread>=blockAt();$('nextBtn').classList.toggle('wait',spread===blockAt())}
+function nextPage(){if(!pf)return;if(spread>=blockAt()){nudgeAct();return}pf.flipNext()}
+function nudgeAct(){const a=document.querySelectorAll('.flipbook .page')[spread*2]?.querySelector('.act');if(a){a.classList.remove('nudge');void a.offsetWidth;a.classList.add('nudge')}
+  toast(`Finish the activity first! <span style="color:#7a6f5d">· 활동을 먼저 해 보세요</span>`);sfx.wrong()}
+
 /* ================= chapters ================= */
 const CHAPTERS={
   entrada:{n:1,es:'La entrada',en:'The Front Door',pages:PAGES,quiz:QUIZ,qsc:QSC,svg:houseSVG,icon:houseIcon,prize:'la llave (the key)',
     reward:()=>`You finished Chapter 1, ${esc(av.name)}! Luna gives you ${W('llave','la llave')} (the key).<br>It will open the next room: <b>La sala</b> — where you meet the family.`},
   sala:{n:2,es:'La sala',en:'The Living Room',pages:PAGES2,quiz:QUIZ2,qsc:QSC2,svg:salaSVG,icon:sofaIcon,prize:'el corazón (the heart)',
-    reward:()=>`You finished Chapter 2, ${esc(av.name)}! The family gives you ${W('corazon','el corazón')} (a heart).<br>Next is <b>La cocina</b>, where you will order food. ¡Pronto! (Soon!)`}
+    reward:()=>`You finished Chapter 2, ${esc(av.name)}! The family gives you ${W('corazon','el corazón')} (a heart).<br>Next is <b>La cocina</b>, where you will order food. ¡Pronto! (Soon!)`},
+  kiss:{n:'★',label:'Capítulo especial',es:'Noche en Kissimmee',en:'A Night in Kissimmee',pages:P_KISS,quiz:QUIZ_KISS,qsc:QSC_KISS,svg:kissSVG,icon:moonIcon,prize:'la luna (the moon)',
+    reward:()=>`What a night, ${esc(av.name)}! You greeted, poured, cheered and made new friends.<br>Here is ${W('luna','la luna')}, to remember Kissimmee. ¡Buenas noches!`}
 };
 Object.keys(CHAPTERS).forEach(k=>CHAPTERS[k].id=k);
 let ch=CHAPTERS.entrada;
@@ -908,12 +1330,6 @@ function houseSVG(sc,n){
     </g>${ff}<rect width="600" height="680" fill="url(#vig${n})"/></svg>`}
 // inside: everyone stands on the rug with their feet at y=FLOOR
 const FLOOR=642;
-function castMarkup(who,x){
-  if(who==='cat')return `<g transform="translate(${x} ${FLOOR-100*.66}) scale(.66)">${catMarkup()}</g>`;
-  const f=FAM[who];return `<g transform="translate(${x} ${FLOOR-194*f.s}) scale(${f.s})">${avatarMarkup(f,false)}</g>`}
-function castPos(who,x){
-  if(who==='cat')return [(x+50*.66)/6,(680-(FLOOR-100*.66+6*.66)+12)/6.8];
-  const s=who==='av'?.72:FAM[who].s,top=FLOOR-194*s+(FAM[who]&&FAM[who].bun?10:28)*s;return [(x+60*s)/6,(680-top+12)/6.8]}
 function salaSVG(sc,n){
   let seed=31+n;const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;let st='',sp='',strp='';
   for(let i=0;i<16;i++)st+=`<circle cx="${(66+rnd()*128).toFixed(0)}" cy="${(104+rnd()*170).toFixed(0)}" r="${(rnd()*1.3+.4).toFixed(1)}" fill="#fff"><animate attributeName="opacity" values="1;.2;1" dur="${(2+rnd()*3).toFixed(1)}s" repeatCount="indefinite"/></circle>`;
@@ -964,10 +1380,11 @@ function salaSVG(sc,n){
     ${people}
     <g class="${sc.walk?'avWalk':''}" style="--from:${sc.from||'-260px'}"><g class="bob"><g transform="translate(${sc.av} ${FLOOR-194*.72}) scale(.72)">${avatarMarkup(av,true)}</g></g></g>
     <rect width="600" height="680" fill="url(#vig${n})"/></svg>`}
+const bubbleAt=sc=>sc.walk?1.5:sc.cam?1.3:.5;
 function bubblesHTML(sc){
   const pos={cat:[63.5,28.8],owl:[38.7,62],av:[(sc.av+43)/6,39.9]};
-  if(sc.cast){pos.av=castPos('av',sc.av);sc.cast.forEach(([w,x])=>pos[w]=castPos(w,x))}
-  return (sc.b||[]).map(([id,txt],i)=>`<div class="bubble" data-b="${id}" style="left:${pos[id][0]}%;bottom:${pos[id][1]}%;--dl:${(sc.walk?1.5:.5)+i*.9}s">${esc(txt.replace('{name}',av.name))}</div>`).join('')}
+  if(sc.cast){const s=sc.avS||.72,y=sc.avY||FLOOR;pos.av=[(sc.av+60*s)/6,(680-(y-194*s+28*s)+12)/6.8];sc.cast.forEach(([w,x,y])=>pos[w]=castPos(w,x,y))}
+  return (sc.b||[]).map(([id,txt],i)=>`<div class="bubble" data-b="${id}" style="left:${pos[id][0]}%;bottom:${pos[id][1]}%;--dl:${bubbleAt(sc)+i*.9}s">${esc(txt.replace('{name}',av.name))}</div>`).join('')}
 function scenePage(sc,n){return `<div class="page pL" data-density="soft"><div class="scenePg ${sc.door==='anim'?'doorAnim':''}">${sceneSVG(sc,n)}${bubblesHTML(sc)}</div><div class="pgIn"></div></div>`}
 
 /* ================= the flip book ================= */
@@ -977,9 +1394,9 @@ function buildBook(){
   const holder=$('bookHolder');holder.innerHTML='';
   const root=document.createElement('div');root.className='flipbook';holder.appendChild(root);
   const PAGES=ch.pages;
-  let h=`<div class="page hard" data-density="hard"><div class="hardIn"><div class="ch">Capítulo ${ch.n}</div><svg viewBox="0 0 120 110">${ch.icon()}</svg>
+  let h=`<div class="page hard" data-density="hard"><div class="hardIn"><div class="ch">${ch.label||'Capítulo '+ch.n}</div><svg viewBox="0 0 120 110">${ch.icon()}</svg>
     <h2 class="fred">${ch.es}</h2><p>${ch.en}</p><p style="opacity:.75">A story for <b style="color:#fff">${esc(av.name)}</b></p><div class="tap">Click → or drag the corner to open</div></div></div>`;
-  PAGES.forEach((p,i)=>{h+=scenePage(p.sc,i)+`<div class="page pR" data-density="soft"><div class="pgIn" data-n="${i+1}"><div class="kicker">${p.k}</div><h3>${p.t}</h3>${p.body()}<div class="cardBox"></div>${p.tip?`<div class="tip" style="margin-top:18px">${p.tip}</div>`:''}</div></div>`});
+  PAGES.forEach((p,i)=>{h+=scenePage(p.sc,i)+`<div class="page pR" data-density="soft"><div class="pgIn" data-n="${i+1}"><div class="kicker">${p.k}</div><h3>${p.t}</h3>${p.body()}${p.act?actHTML(p.act):''}<div class="cardBox"></div>${p.tip?`<div class="tip" style="margin-top:18px">${p.tip}</div>`:''}</div></div>`});
   h+=scenePage(ch.qsc,PAGES.length+1)+`<div class="page pR" data-density="soft"><div class="pgIn" id="quizPg" data-n="${PAGES.length+1}"></div></div>`;
   h+=`<div class="page hard" data-density="hard"><div class="hardIn"><div class="ch">Fin · The End</div><svg viewBox="0 0 100 100" style="width:calc(120px * var(--u))">${stickerFor(ch.id,'kgb')}</svg><p>Finish the quiz to win <b style="color:var(--lamp)">${ch.prize}</b>.</p></div></div>`;
   root.innerHTML=h;
@@ -1001,10 +1418,11 @@ function onSpread(idx){
   document.querySelectorAll('.scenePg').forEach(s=>s.classList.remove('live'));
   const pages=document.querySelectorAll('.flipbook .page');
   const left=pages[spread*2-1];if(left){const s=left.querySelector('.scenePg');if(s){void s.offsetWidth;s.classList.add('live')}}
-  setMood(spread===total-1?'quiz':'story');
   const sc=spread>=1&&spread<=PAGES.length?PAGES[spread-1].sc:spread===total-1?ch.qsc:null;if(sc)sceneSounds(sc);
+  setMood(spread===total-1?'quiz':(sc&&sc.mood)||'story');setAmb(sc&&sc.amb||'night');
+  if(spread>blockAt()){setTimeout(()=>{pf.flip(blockAt()*2-1);nudgeAct()},350)}
   $('dots').innerHTML=Array.from({length:total},(_,i)=>`<span class="dot ${i===total-1?'q':''} ${i===spread?'on':''}"></span>`).join('');
-  $('prevBtn').disabled=spread===0;$('nextBtn').disabled=spread>=total-1;
+  $('prevBtn').disabled=spread===0;updateNav();
 }
 let sceneTimers=[];
 function sceneSounds(sc){sceneTimers.forEach(clearTimeout);sceneTimers=[];const at=(ms,fn)=>sceneTimers.push(setTimeout(fn,ms));
@@ -1012,12 +1430,14 @@ function sceneSounds(sc){sceneTimers.forEach(clearTimeout);sceneTimers=[];const 
   if(sc.catIn)at(450,sfx.meow);
   if(sc.owlIn)at(1500,sfx.hoot);
   if(sc.door==='anim')at(900,sfx.creak);
-  (sc.b||[]).forEach((_,i)=>at(((sc.walk?1.5:.5)+i*.9)*1000,sfx.bop))}
-function startChapter(id){ch=CHAPTERS[id]||CHAPTERS.entrada;qi=0;quizDone=false;buildBook()}
+  if(sc.place==='karaoke')at(1200,sfx.hic);
+  if(sc.cast&&sc.cast.some(c=>c[0]==='car'))sfx.drive();
+  (sc.b||[]).forEach((_,i)=>at((bubbleAt(sc)+i*.9)*1000,sfx.bop))}
+function startChapter(id){ch=CHAPTERS[id]||CHAPTERS.entrada;qi=0;quizDone=false;actDone=new Set();buildBook()}
 function renderQuiz(){const pg=$('quizPg'),QUIZ=ch.quiz;if(!pg)return;
   const bar=`<div class="qBar">${QUIZ.map((_,i)=>`<i class="${i<qi?'done':i===qi?'on':''}"></i>`).join('')}</div>`;
   if(qi>=QUIZ.length){pg.innerHTML=`<div class="kicker">Mini quiz</div><h3>¡Terminado! <span style="font-size:.5em;color:var(--muted);font-weight:400">· All done!</span></h3>${bar}
-    <div class="qIn story"><p>You answered everything, <b>${esc(av.name)}</b>. ${ch.n===1?'Luna has':'The family has'} a present for you…</p></div>
+    <div class="qIn story"><p>You answered everything, <b>${esc(av.name)}</b>. ${ch.n===1?'Luna has':ch.id==='kiss'?'Kissimmee has':'The family has'} a present for you…</p></div>
     <div style="margin-top:auto;display:flex;justify-content:center"><button class="bigBtn" id="getStk">Get your sticker ✦</button></div>`;
     $('getStk').onclick=e=>finishChapter(e);return}
   const q=QUIZ[qi],opts=[q.a,...q.o].sort(()=>Math.random()-.5);
@@ -1032,7 +1452,7 @@ function renderQuiz(){const pg=$('quizPg'),QUIZ=ch.quiz;if(!pg)return;
     else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx.wrong();fb.className='fb no';fb.innerHTML='¡Casi! <span style="font-weight:600;color:var(--muted)">= Almost! Try again.</span>';catSays('¡Casi!')}});
 }
 function catSays(t){const pages=document.querySelectorAll('.flipbook .page'),s=pages[pages.length-3]&&pages[pages.length-3].querySelector('.scenePg');if(!s)return;
-  const b=s.querySelector('.bubble[data-b="cat"]');if(!b)return;b.textContent=t;s.classList.remove('live');void s.offsetWidth;b.style.setProperty('--dl','0s');s.classList.add('live');sfx.bop()}
+  const b=s.querySelector('.bubble');if(!b)return;b.textContent=t;s.classList.remove('live');void s.offsetWidth;b.style.setProperty('--dl','0s');s.classList.add('live');sfx.bop()}
 function finishChapter(e){
   if(!stickers.includes(ch.id)){stickers.push(ch.id);store.set('stickers',stickers);newSticker=ch.id}
   $('rewardStk').innerHTML=stickerFor(ch.id,'kgr');
@@ -1066,7 +1486,7 @@ async function go(id,o={}){
   ir.classList.add('cover');await wait(900);
   show(id);if(o.then)o.then();await wait(250);
   ir.style.setProperty('--x','50%');ir.style.setProperty('--y','50%');ir.classList.remove('cover')}
-document.addEventListener('keydown',e=>{if(cur!=='story'||!pf)return;if(e.key==='ArrowRight')pf.flipNext();if(e.key==='ArrowLeft')pf.flipPrev()});
+document.addEventListener('keydown',e=>{if(cur!=='story'||!pf)return;if(e.key==='ArrowRight')nextPage();if(e.key==='ArrowLeft')pf.flipPrev()});
 
 /* ================= intro book ================= */
 const bw=$('bookWrap');
