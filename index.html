@@ -467,6 +467,11 @@ button *{pointer-events:none}
   box-shadow:0 8px 18px #7a3ad855;transition:transform .7s var(--ease);position:relative;animation:float 2.4s ease-in-out infinite}
 .rfid b{font-family:Fredoka;letter-spacing:2px;font-size:calc(14px * var(--u))}.rfid small{font-weight:800;font-size:calc(15px * var(--u))}
 .rfid i{position:absolute;right:12px;top:12px;width:22px;height:16px;border-radius:3px;background:#ffd36a}
+.rfid,.gL,[data-drag]{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+[data-drag].dragging{animation:none!important;transition:none!important;cursor:grabbing;z-index:5;position:relative;filter:drop-shadow(0 14px 18px #0005)}
+.sensor.hot,.giftTo.hot,.gR.hot{transform:scale(1.12);filter:drop-shadow(0 0 14px #7dff9a)}
+.sensor,.giftTo,.gR{transition:transform .25s var(--spring),filter .25s}
+.giftTo{padding:14px 16px;border:3px dashed #e3d5b6;border-radius:14px}
 .act.go .rfid{transform:translateX(calc(120px * var(--u))) rotate(-8deg) scale(.9);animation:none}
 .rfid.gift{background:linear-gradient(135deg,#d36a8a,#ffb3c8)}
 .act.go .rfid.gift{transform:translateX(calc(90px * var(--u))) translateY(-10px) rotate(10deg)}
@@ -646,7 +651,7 @@ button *{pointer-events:none}
   <p class="lead">Every room is a chapter. Click the glowing room to start.</p>
   <svg id="houseSvg" viewBox="0 0 1000 560"></svg>
   <div class="shelf"><span>Stickers</span><div id="slots" style="display:flex;gap:10px"></div></div>
-  <p class="ver">v9.2 · 2.5D</p>
+  <p class="ver">v9.3 · 2.5D</p>
 </section>
 
 <!-- STORY -->
@@ -1415,8 +1420,8 @@ const glassSVG=id=>`<svg class="glassSvg" viewBox="0 0 80 120"><defs><clipPath i
   <g class="bubbles" fill="#fff6" ><circle cx="30" cy="100" r="2"/><circle cx="48" cy="90" r="1.6"/><circle cx="40" cy="105" r="1.3"/></g></g>
   <path d="M8 6 L72 6 L64 112 L16 112Z" fill="#ffffff22" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M18 14 L22 100" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/></svg>`;
 const ACTS={
-  card:{prompt:'Tap the card on the sensor',ko:'카드를 센서에 대 보세요',
-    html:()=>`<div class="aRow"><button class="rfid" data-act="card"><b>BREWERY</b><small>$ 20.00</small><i></i></button>
+  card:{prompt:'Drag the card to the sensor (or tap it)',ko:'카드를 센서로 끌어다 놓거나 눌러 보세요',
+    html:()=>`<div class="aRow"><button class="rfid" data-act="card" data-drag=".sensor"><b>BREWERY</b><small>$ 20.00</small><i></i></button>
       <div class="sensor"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="30" cy="30" r="9" fill="currentColor"/></svg><span>TAP</span></div></div>`,
     run(b,el,e){sfx.beep();el.classList.add('go');setTimeout(()=>actComplete(el,e,'¡Listo!','= Ready! The tap is on.'),700)}},
   pour:{prompt:'Do the 3 steps in order',ko:'순서대로 3단계를 해 보세요',
@@ -1426,12 +1431,12 @@ const ACTS={
       if(i===1){sfx.pour()}
       const nx=el.querySelector(`[data-i="${i+1}"]`);if(nx)setTimeout(()=>nx.disabled=false,i===1?2000:300);
       if(i===2){sfx.clack();setTimeout(()=>actComplete(el,e,'¡Perfecto!','= Perfect! A full glass.'),400)}}},
-  cheers:{prompt:'Clink the glasses!',ko:'잔을 부딪쳐 보세요',
-    html:()=>`<div class="aRow cheersRow"><div class="gL">${glassSVG('gc2')}</div><button class="bigBtn small" data-act="cheers">¡Salud!</button><div class="gR">${glassSVG('gc3')}</div></div>`,
+  cheers:{prompt:'Drag your glass to Sam’s glass (or tap ¡Salud!)',ko:'내 잔을 Sam의 잔으로 끌어 부딪쳐 보세요',
+    html:()=>`<div class="aRow cheersRow"><div class="gL" data-act="cheers" data-drag=".gR">${glassSVG('gc2')}</div><button class="bigBtn small" data-act="cheers">¡Salud!</button><div class="gR">${glassSVG('gc3')}</div></div>`,
     run(b,el,e){el.classList.add('go');speak('¡Salud!');setTimeout(()=>{sfx.clink();const r=el.querySelector('.cheersRow').getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height*.3,26)},420);
       setTimeout(()=>actComplete(el,e,'¡Salud!','= Cheers!'),1000)}},
-  gift:{prompt:'Take the card from the señora',ko:'카드를 받아 보세요',
-    html:()=>`<div class="aRow"><button class="rfid gift" data-act="gift"><b>BREWERY</b><small>$ 2.00</small><i></i></button><div class="giftTo">→ ${esc(av.name)}</div></div>`,
+  gift:{prompt:'Drag the card to you (or tap it)',ko:'카드를 나에게 끌어오거나 눌러 보세요',
+    html:()=>`<div class="aRow"><button class="rfid gift" data-act="gift" data-drag=".giftTo"><b>BREWERY</b><small>$ 2.00</small><i></i></button><div class="giftTo">→ ${esc(av.name)}</div></div>`,
     run(b,el,e){el.classList.add('go');sfx.coin();speak('¡Muchas gracias!');setTimeout(()=>actComplete(el,e,'+ $2','= Two dollars for you!'),800)}},
   clap:{prompt:'Clap along 4 times!',ko:'박수를 4번 쳐 보세요',
     html:()=>`<div class="aRow"><button class="clapBtn" data-act="clap"><svg viewBox="0 0 64 64"><path d="M20 50 Q8 40 14 26 L22 12 Q25 8 28 12 L30 22 L38 8 Q41 4 44 8 L40 24 L48 14 Q51 11 53 15 L44 34 Q50 30 52 34 L42 50 Q32 60 20 50Z" fill="#ffd9a8" stroke="#3a2310" stroke-width="2.5" stroke-linejoin="round"/></svg>¡Aplaude!</button>
@@ -1469,10 +1474,20 @@ Object.assign(ACTS,{
 });
 ACTS.name=buildAct('name',()=>['Me','llamo',av.name+'.'],'순서대로 눌러 문장을 만들어요',()=>'My name is '+av.name+'.');
 ACTS.familia=buildAct('familia',()=>['Esta','es','mi','familia.'],'순서대로 눌러 문장을 만들어요','This is my family.');
+const hit=(a,b)=>{const r=a.getBoundingClientRect(),q=b.getBoundingClientRect();return r.left<q.right&&r.right>q.left&&r.top<q.bottom&&r.bottom>q.top};
+function initDrags(root){root.querySelectorAll('[data-drag]').forEach(d=>{const tgt=d.closest('.act').querySelector(d.dataset.drag);let sx=0,sy=0,on=false,moved=false;
+  const reset=()=>{d.classList.remove('dragging');d.style.transition='transform .45s var(--spring)';d.style.transform='';setTimeout(()=>d.style.transition='',450);tgt&&tgt.classList.remove('hot')};
+  d.addEventListener('pointerdown',e=>{if(actDone.has(d.closest('.act').dataset.type))return;on=true;moved=false;sx=e.clientX;sy=e.clientY;try{d.setPointerCapture(e.pointerId)}catch(_){}});
+  d.addEventListener('pointermove',e=>{if(!on)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(!moved&&Math.hypot(dx,dy)<7)return;
+    if(!moved){moved=true;d.classList.add('dragging');sfx.tick()}d.style.transform=`translate(${dx}px,${dy}px) rotate(${dx/18}deg) scale(1.06)`;
+    if(tgt){const h=hit(d,tgt);if(h&&!tgt.classList.contains('hot'))sfx.tick();tgt.classList.toggle('hot',h)}});
+  d.addEventListener('pointerup',e=>{if(!on)return;on=false;if(!moved)return;d._noClick=true;setTimeout(()=>d._noClick=false,80);
+    const el=d.closest('.act');if(tgt&&hit(d,tgt)){d.classList.remove('dragging');tgt.classList.remove('hot');d.style.transform='';ACTS[d.dataset.act].run(d,el,e)}else{reset();sfx.wrong()}});
+  d.addEventListener('pointercancel',()=>{if(on){on=false;reset()}})})}
 function actHTML(type){const A=ACTS[type];return `<div class="act" data-type="${type}"><div class="actQ"><span class="star">★</span> Your turn: ${A.prompt} <i>${A.ko}</i></div>${A.html()}<div class="actOk"></div></div>`}
 function actComplete(el,e,es,en){if(actDone.has(el.dataset.type))return;actDone.add(el.dataset.type);el.classList.add('done');
   el.querySelector('.actOk').innerHTML=`<b>${es}</b> <span>${en}</span>`;sfx.chime();burst(e.clientX||innerWidth/2,e.clientY||innerHeight/2,24);updateNav()}
-document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled)return;const el=b.closest('.act');
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled||b._noClick)return;const el=b.closest('.act');
   if(!el||actDone.has(el.dataset.type))return;ACTS[b.dataset.act].run(b,el,e)});
 
 /* ================= chapters ================= */
@@ -1651,7 +1666,7 @@ function paintTitle(){const t=ch.es;$('titleCard').innerHTML=`<div class="tcIn">
   <p class="tcFor">A story for <b>${esc(av.name)}</b></p><button class="bigBtn" onclick="nextPage()">Empezar · Start ▸</button></div>`}
 // the paper page on the right turns like a real page
 function turnLeaf(dir){const lf=$('leafIn');turning=true;lf.classList.remove('tIn','tInB');lf.classList.add(dir<0?'tOutB':'tOut');if(idx>0)sfx.flip();
-  setTimeout(()=>{lf.innerHTML=leafHTML(idx);if(idx===lastIdx())renderQuiz();lf.classList.remove('tOut','tOutB');void lf.offsetWidth;lf.classList.add(dir<0?'tInB':'tIn');
+  setTimeout(()=>{lf.innerHTML=leafHTML(idx);initDrags(lf);if(idx===lastIdx())renderQuiz();lf.classList.remove('tOut','tOutB');void lf.offsetWidth;lf.classList.add(dir<0?'tInB':'tIn');
     $('leaf').scrollTop=0;turning=false;fitShots();if(idx>0&&idx<lastIdx())playLines(1500+(ch.pages[idx-1].sc.walk?600:0))},idx===0&&!lf.innerHTML?0:280)}
 function leafHTML(i){
   if(i===0)return `<div class="coverCard"><div class="ch">${ch.label||'Capítulo '+ch.n}</div><svg viewBox="0 0 120 110">${ch.icon()}</svg><h2>${ch.es}</h2><p>${ch.en}</p>
