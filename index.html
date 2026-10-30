@@ -390,6 +390,7 @@ button *{pointer-events:none}
 .tail{animation:tail 2.4s ease-in-out infinite;transform-origin:78px 80px}
 @keyframes tail{50%{transform:rotate(-14deg)}}
 .waveArm{animation:wave 1.4s ease-in-out infinite;transform-origin:86px 110px}
+.pumpArm{animation:pump .48s ease-in-out infinite alternate;transform-origin:86px 110px}@keyframes pump{to{transform:rotate(-16deg)}}
 @keyframes wave{50%{transform:rotate(-18deg)}}
 .breathe{animation:breathe 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
 @keyframes breathe{50%{transform:scale(1.015,.985)}}
@@ -447,6 +448,7 @@ button *{pointer-events:none}
 .beamL{animation:beam 3.4s ease-in-out infinite alternate}.beamR{animation:beam 2.9s ease-in-out infinite alternate-reverse}
 @keyframes beam{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
 .ball{animation:spin 4s linear infinite}
+.ring{animation:mg .45s ease-in-out infinite alternate}
 .disco{animation:disco 1.2s ease-in-out infinite alternate;animation-delay:var(--dl)}
 @keyframes disco{from{opacity:.05}to{opacity:.9}}
 .eq{animation:eq .42s ease-in-out infinite alternate;animation-delay:var(--dl);transform-box:fill-box;transform-origin:50% 100%}
@@ -686,7 +688,7 @@ button *{pointer-events:none}
   <p class="lead">Every room is a chapter. Click the glowing room to start.</p>
   <svg id="houseSvg" viewBox="0 0 1000 560"></svg>
   <div class="shelf"><span>Stickers</span><div id="slots" style="display:flex;gap:10px"></div></div>
-  <p class="ver">v10 · 2.5D</p>
+  <p class="ver">v10.1 · 2.5D</p>
 </section>
 
 <!-- STORY -->
@@ -988,20 +990,28 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 
 /* ================= characters ================= */
 const SKINS=['#f8d9bd','#eab78f','#c98a5c','#8a573a'], HAIRS=['#2b1d16','#6b3e1f','#e0aa48','#c9472f'],
-      STYLES=['short','long','curly'], SHIRTS=['#ff7a6b','#4fc3b0','#7d8cff','#ffc845','#b77dd8'];
+      STYLES=['short','long','curly','bob'], SHIRTS=['#ff7a6b','#4fc3b0','#7d8cff','#ffc845','#b77dd8'];
 let av=store.get('avatar',{name:'',skin:1,hair:0,style:0,shirt:0});
 function avatarMarkup(a,wave){
   const s=a.skinC||SKINS[a.skin],h=a.hairC||HAIRS[a.hair],sh=a.shirtC||SHIRTS[a.shirt],st=STYLES[a.style];let o='<ellipse cx="60" cy="193" rx="36" ry="7" fill="#000" opacity=".32"/><g class="breathe">';
   if(a.bun)o+=`<circle cx="60" cy="24" r="14" fill="${h}"/>`;
   if(st==='long')o+=`<path d="M28 58 Q24 118 38 132 L82 132 Q96 118 92 58 Z" fill="${h}"/>`;
+  if(st==='bob')o+=`<path d="M27 60 Q24 92 34 98 L86 98 Q96 92 93 60 Z" fill="${h}"/>`;
   if(st==='curly')for(let i=0;i<7;i++){const a2=Math.PI*(.95+i*.18);o+=`<circle cx="${60+34*Math.cos(a2)}" cy="${66+34*Math.sin(a2)*.95}" r="12" fill="${h}"/>`}
-  o+=`<rect x="44" y="150" width="13" height="38" rx="6" fill="${a.pants||'#33406b'}"/><rect x="63" y="150" width="13" height="38" rx="6" fill="${a.pants||'#33406b'}"/>
+  const leg=a.shorts||a.dress?s:(a.pants||'#33406b');
+  o+=`<rect x="44" y="150" width="13" height="38" rx="6" fill="${leg}"/><rect x="63" y="150" width="13" height="38" rx="6" fill="${leg}"/>
+  ${a.shorts?`<rect x="42" y="148" width="17" height="20" rx="4" fill="${a.shorts}"/><rect x="61" y="148" width="17" height="20" rx="4" fill="${a.shorts}"/>`:''}
   <ellipse cx="49" cy="190" rx="10" ry="6" fill="#2a2235"/><ellipse cx="71" cy="190" rx="10" ry="6" fill="#2a2235"/>
   <rect x="54" y="86" width="12" height="18" rx="4" fill="${s}"/>
+  ${a.dress?`<path d="M36 150 L28 176 Q60 184 92 176 L84 150Z" fill="${sh}"/>`:''}
   <path d="M33 160 Q30 106 60 100 Q90 106 87 160 Z" fill="${sh}"/>
+  ${a.pattern==='hawaii'?`<g fill="#ffffff8a">${[[44,116],[66,112],[54,130],[76,134],[42,146],[64,150]].map(([x,y])=>`<path d="M${x} ${y} q5 -7 10 0 q-5 7 -10 0z"/><circle cx="${x+12}" cy="${y+6}" r="2"/>`).join('')}</g>`:''}
+  ${a.pattern==='tie'?`<g fill="none" stroke-width="5" opacity=".55"><path d="M36 120 Q60 140 84 118" stroke="#9fe0e8"/><path d="M34 140 Q60 158 86 138" stroke="#1d3f5a"/><path d="M30 166 Q60 182 90 166" stroke="#9fe0e8"/></g>`:''}
+  ${a.pattern==='one'?`<path d="M33 160 Q30 106 52 100 L86 120 Q90 140 87 160Z" fill="${sh}"/><circle cx="76" cy="106" r="7" fill="${s}"/>`:''}
   <path d="M60 100 Q90 106 87 160 L66 160 Q72 120 60 100Z" fill="#000" opacity=".08"/>
   <g transform="rotate(12 34 110)"><rect x="26" y="106" width="13" height="42" rx="6.5" fill="${sh}"/><circle cx="32.5" cy="150" r="7" fill="${s}"/></g>`;
-  o+=wave?`<g class="waveArm"><g transform="rotate(-150 86 110)"><rect x="80" y="106" width="13" height="42" rx="6.5" fill="${sh}"/><circle cx="86.5" cy="150" r="7" fill="${s}"/></g></g>`
+  o+=a.fist?`<g class="pumpArm"><g transform="rotate(-128 86 110)"><rect x="80" y="106" width="13" height="42" rx="6.5" fill="${a.pattern==='one'?s:sh}"/><circle cx="86.5" cy="150" r="8" fill="${s}"/></g></g>`
+     :wave?`<g class="waveArm"><g transform="rotate(-150 86 110)"><rect x="80" y="106" width="13" height="42" rx="6.5" fill="${sh}"/><circle cx="86.5" cy="150" r="7" fill="${s}"/></g></g>`
          :`<g transform="rotate(-12 86 110)"><rect x="80" y="106" width="13" height="42" rx="6.5" fill="${sh}"/><circle cx="86.5" cy="150" r="7" fill="${s}"/></g>`;
   o+=`<circle cx="60" cy="62" r="30" fill="${s}"/><circle cx="31" cy="64" r="6" fill="${s}"/><circle cx="89" cy="64" r="6" fill="${s}"/>`;
   if(st==='curly'){for(let i=0;i<6;i++)o+=`<circle cx="${36+i*9.6}" cy="${36+Math.abs(i-2.5)*2.4}" r="10" fill="${h}"/>`}
@@ -1015,6 +1025,10 @@ function avatarMarkup(a,wave){
   if(a.flush)o+=`<circle cx="42" cy="74" r="7" fill="#ff5a4a" opacity=".55"/><circle cx="78" cy="74" r="7" fill="#ff5a4a" opacity=".55"/><ellipse cx="60" cy="70" rx="4" ry="3" fill="#ff6a5a" opacity=".6"/>`;
   if(a.sing)o+=`<ellipse class="singMouth" cx="60" cy="78" rx="6" ry="6" fill="#5a1d1a"/>`;
   if(a.hat)o+=`<ellipse cx="60" cy="38" rx="46" ry="9" fill="#8a5a2a"/><path d="M38 38 Q36 10 50 10 Q60 16 70 10 Q84 10 82 38Z" fill="#a8703a"/><path d="M38 32 H82" stroke="#5a3a1a" stroke-width="4"/>`;
+  if(a.beard)o+=`<path d="M31 64 Q32 92 60 95 Q88 92 89 64 Q84 84 70 82 Q60 88 50 82 Q36 84 31 64Z" fill="${h}" opacity=".95"/>`;
+  if(a.shades)o+=`<g fill="#111"><rect x="40" y="58" width="17" height="12" rx="5"/><rect x="63" y="58" width="17" height="12" rx="5"/><path d="M57 62 H63" stroke="#111" stroke-width="2.5"/></g><path d="M43 61 l5 0" stroke="#fff6" stroke-width="2"/>`;
+  if(a.lei)o+=`<g>${Array.from({length:9},(_,i)=>{const t=i/8,x=42+36*t,y=104+Math.sin(t*Math.PI)*16;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${i%2?'#7ad84a':'#4fae3a'}"/>`}).join('')}</g>`;
+  if(a.mic)o+=`<g transform="rotate(-25 32 146)"><rect x="28" y="128" width="8" height="22" rx="3" fill="#1a1a1a"/><circle cx="32" cy="128" r="5.5" fill="#444"/></g>`;
   if(a.stache)o+=`<path d="M47 74 Q54 68 60 72 Q66 68 73 74 Q66 76 60 74 Q54 76 47 74Z" fill="${h}"/>`;
   if(a.glasses)o+=`<g fill="#fff3" stroke="#5a3b2a" stroke-width="2.2"><circle cx="49" cy="65" r="8"/><circle cx="71" cy="65" r="8"/><path d="M57 64 H63" fill="none"/></g>`;
   return o+'</g>'}
@@ -1275,10 +1289,17 @@ Object.assign(FAM,{
   senora:{name:'Señora',s:.72,skinC:'#efcaa4',hairC:'#d6d2de',style:0,bun:1,shirtC:'#d36a8a',pants:'#4a3a5a'},
   cowboy:{name:'Cowboy',s:.66,skinC:'#f0c49c',hairC:'#8a5a2a',style:0,shirtC:'#b5452f',pants:'#3a4f7a',hat:1,flush:1,sway:1}
 });
-// eight friends in their twenties singing on the little stage
-[['#f8d9bd','#2b1d16',1,'#ff7a6b'],['#8a573a','#16110f',2,'#ffc845'],['#eab78f','#e0aa48',1,'#7d8cff'],['#c98a5c','#2b1d16',0,'#4fc3b0'],
- ['#efc9a0','#16110f',1,'#b77dd8'],['#f8d9bd','#c9472f',0,'#ffc845'],['#6b4128','#16110f',2,'#ff7aa8'],['#eab78f','#6b3e1f',0,'#5ad1b0']]
- .forEach(([sk,h,st,sh],i)=>FAM['g'+i]={name:'',s:.5,skinC:sk,hairC:h,style:st,shirtC:sh,pants:'#2a2c48',sing:1,dance:1,dl:i*.13});
+// the karaoke group from that night (from Kay's photos): 3 on the step behind, 5 in front
+Object.assign(FAM,{
+  g0:{name:'',s:.48,skinC:'#f2c9a8',hairC:'#3b2418',style:1,shirtC:'#2a2438',pants:'#22242e',sing:1,fist:1,dance:1,dl:0},
+  g1:{name:'',s:.48,skinC:'#e2ac82',hairC:'#d9b26a',style:1,shirtC:'#2f5a4a',dress:1,pattern:'hawaii',mic:1,sing:1,dance:1,dl:.15},
+  g2:{name:'',s:.5,skinC:'#f2c9a8',hairC:'#8a5a3a',style:3,shirtC:'#cfe6f2',pattern:'one',pants:'#3a4060',sing:1,dance:1,dl:.3},
+  g3:{name:'',s:.53,skinC:'#e2ac82',hairC:'#2b1d16',style:0,shirtC:'#1f2840',shorts:'#d9d2c0',beard:1,dance:1,dl:.1},
+  g4:{name:'',s:.54,skinC:'#f3d0b5',hairC:'#5a3a22',style:0,buzz:1,shirtC:'#a8c8e0',pattern:'hawaii',shorts:'#f0ece0',mic:1,sing:1,dance:1,dl:.25},
+  g5:{name:'',s:.52,skinC:'#f3d0b5',hairC:'#e0c27a',style:3,shirtC:'#2a6a78',dress:1,pattern:'tie',lei:1,fist:1,sing:1,dance:1,dl:.05},
+  g6:{name:'',s:.5,skinC:'#f0caa6',hairC:'#16110f',style:0,bun:1,shirtC:'#16141c',pants:'#2a3048',shades:1,dance:1,dl:.35},
+  g7:{name:'',s:.53,skinC:'#f3d0b5',hairC:'#5a3a22',style:2,shirtC:'#e0b040',pants:'#2a2c48',mic:1,sing:1,dance:1,dl:.2}
+});
 
 function kissSVG(sc,n){
   let seed=71+n;const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
@@ -1286,7 +1307,7 @@ function kissSVG(sc,n){
   const people=(sc.cast||[]).map(([w,x,y])=>castMarkup(w,x,y)).join('');
   const me=sc.av==null?'':`<g data-who="av" class="${sc.walk?'avWalk':''}" style="--from:${sc.from||'-260px'}"><g class="bob"><g transform="translate(${sc.av} ${(sc.avY||FLOOR)-194*(sc.avS||.72)}) scale(${sc.avS||.72})">${avatarMarkup(av,!sc.noWave)}</g></g></g>`;
   const table=sc.table?`<g><rect x="${sc.table[0]}" y="${sc.table[1]}" width="${sc.table[2]}" height="16" rx="5" fill="#6b4330"/><rect x="${sc.table[0]}" y="${sc.table[1]+12}" width="${sc.table[2]}" height="200" fill="#4a2e22"/>
-    <path d="M${sc.table[0]} ${sc.table[1]+40} h${sc.table[2]} M${sc.table[0]} ${sc.table[1]+76} h${sc.table[2]}" stroke="#3a2219" stroke-width="3"/>${sc.mugs?mugsOn(sc.table):''}</g>`:'';
+    <path d="M${sc.table[0]} ${sc.table[1]+40} h${sc.table[2]} M${sc.table[0]} ${sc.table[1]+76} h${sc.table[2]}" stroke="#3a2219" stroke-width="3"/>${sc.mugs?mugsOn(sc.table):''}${sc.wine?wineOn(sc.table):''}</g>`:'';
   return `<svg viewBox="0 0 600 680" preserveAspectRatio="xMidYMid slice"><defs>
     <radialGradient id="kGlow${n}"><stop offset="0" stop-color="#ffd889" stop-opacity=".8"/><stop offset="1" stop-color="#ffd889" stop-opacity="0"/></radialGradient>
     <radialGradient id="kMoon${n}"><stop offset="0" stop-color="#fff3c4" stop-opacity=".55"/><stop offset="1" stop-color="#fff3c4" stop-opacity="0"/></radialGradient>
@@ -1296,6 +1317,8 @@ function kissSVG(sc,n){
     <g class="z" style="--d:.3">${bg}</g><g class="z" style="--d:.75">${people}${me}</g><g class="z" style="--d:1.1">${table}</g>${fgDeco(['yard','street'].includes(sc.place)?'out':sc.place==='karaoke'?'crowd':'in',n)}
     <rect width="600" height="680" fill="url(#kVig${n})"/></svg>`}
 function mugsOn([x,y,w]){return `<g transform="translate(${x+w*.3} ${y-34})">${mug()}</g><g transform="translate(${x+w*.62} ${y-34})">${mug()}</g>`}
+function wineOn([x,y,w]){return `<g transform="translate(${x+w*.8} ${y})"><rect x="0" y="-62" width="16" height="50" rx="5" fill="#2f4a2a"/><rect x="5" y="-80" width="6" height="22" rx="2" fill="#2f4a2a"/><rect x="2" y="-46" width="12" height="16" fill="#e8dcc0"/>
+  <path d="M30 -40 q10 0 10 14 q0 10 -8 12 v12 h8 v3 h-20 v-3 h8 v-12 q-8 -2 -8 -12 q0 -14 10 -14z" fill="#ffffff55" stroke="#fff" stroke-width="1.4"/><path d="M23 -28 q9 3 18 0 q0 9 -9 11 q-9 -2 -9 -11z" fill="#f3e3a0" opacity=".85"/></g>`}
 function mug(){return `<rect x="0" y="0" width="26" height="36" rx="4" fill="#f0a83a" opacity=".92"/><rect x="0" y="-6" width="26" height="9" rx="4" fill="#fff6e0"/><path d="M26 8 q10 0 10 10 q0 10 -10 10" fill="none" stroke="#e6d9c0" stroke-width="4"/><rect x="0" y="0" width="26" height="36" rx="4" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>`}
 function skyStars(rnd,n,h){let s='';for(let i=0;i<n;i++)s+=`<circle cx="${(rnd()*600).toFixed(0)}" cy="${(rnd()*h).toFixed(0)}" r="${(rnd()*1.5+.4).toFixed(1)}" fill="#fff" opacity="${(rnd()*.6+.3).toFixed(2)}"><animate attributeName="opacity" values="1;.15;1" dur="${(2+rnd()*3).toFixed(1)}s" begin="${(rnd()*3).toFixed(1)}s" repeatCount="indefinite"/></circle>`;return s}
 function bigMoon(n,x,y,r){return `<circle cx="${x}" cy="${y}" r="${r*3}" fill="url(#kMoon${n})"/><circle cx="${x}" cy="${y}" r="${r}" fill="#fff3c4"/><circle cx="${x-r*.3}" cy="${y-r*.2}" r="${r*.18}" fill="#f0e2a8"/><circle cx="${x+r*.35}" cy="${y+r*.3}" r="${r*.12}" fill="#f0e2a8"/><circle cx="${x+r*.1}" cy="${y-r*.45}" r="${r*.08}" fill="#f0e2a8"/>`}
@@ -1357,6 +1380,12 @@ function karaBG(n,rnd){let dots='';for(let i=0;i<26;i++){const a=rnd()*6.28,r=60
   return `<rect width="600" height="680" fill="#1a0f2e"/><rect width="600" height="560" fill="#2a1446" opacity=".6"/>
   <g class="beamL" style="transform-origin:90px 0px"><path d="M90 0 L20 520 L180 520Z" fill="#ff7aa8" opacity=".14"/></g>
   <g class="beamR" style="transform-origin:510px 0px"><path d="M510 0 L420 520 L580 520Z" fill="#7d8cff" opacity=".16"/></g>
+  <g opacity=".85"><rect x="40" y="250" width="230" height="200" rx="6" fill="#5a4a48"/><g stroke="#7a6a66" stroke-width="2" opacity=".6">${Array.from({length:7},(_,i)=>`<path d="M40 ${270+i*26} H270"/>`).join('')}</g>
+    <g fill="none" stroke="#2a2020" stroke-width="7"><circle cx="90" cy="380" r="32"/><circle cx="220" cy="380" r="32"/></g><g fill="none" stroke="#a89890" stroke-width="2"><circle cx="90" cy="380" r="20"/><circle cx="220" cy="380" r="20"/></g>
+    <path d="M90 380 L128 340 H190 L220 380 M190 340 L176 300 l-12 -6" fill="none" stroke="#2a2020" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M120 338 Q132 316 168 318 Q182 322 182 340Z" fill="#8a3a3a"/><path d="M98 336 Q104 326 124 330 L120 340Z" fill="#2a2020"/><rect x="132" y="350" width="44" height="26" rx="6" fill="#4a4040"/><path d="M134 376 L118 392 M150 376 h30" stroke="#a89890" stroke-width="4"/></g>
+  <rect x="470" y="0" width="22" height="500" fill="#e8e4ee" opacity=".85"/><rect x="466" y="0" width="30" height="10" fill="#cfcad8"/>
+  <g transform="translate(118 452)"><rect width="46" height="60" rx="8" fill="#14121c"/><circle cx="23" cy="30" r="15" fill="none" stroke="#3ad0ff" stroke-width="4" class="ring"/><circle cx="23" cy="30" r="22" fill="#3ad0ff" opacity=".15" class="ring"/><text x="23" y="10" text-anchor="middle" font-size="6" fill="#ccc" font-family="Fredoka">JBL</text></g>
   <rect x="180" y="60" width="240" height="140" rx="8" fill="#0c0820" stroke="#5a3a7a" stroke-width="6"/>
   <text x="300" y="104" text-anchor="middle" font-family="Fredoka" font-size="22" fill="#ffe08a">♪ We Are Family ♪</text>
   <text x="300" y="130" text-anchor="middle" font-family="Fredoka" font-size="13" fill="#d6c8f0" opacity=".8">KARAOKE NIGHT</text>${eq}
@@ -1421,13 +1450,13 @@ const P_KISS=[
   body:()=>`<div class="story"><p>The couple is going home. The señora gives you her card. There is still money on it!</p></div>
     ${line('Señora',W('toma','Toma')+'. '+W('quedan','Quedan')+' dos dólares.','Toma. Quedan dos dólares.')}${line(av.name,'¡Muchas gracias! '+W('amables','¡Qué amables!'),'¡Muchas gracias! ¡Qué amables!')}${line('Señor',W('denada','¡De nada!'),'¡De nada!')}`,
   tip:''},
- {k:'Karaoke', t:'A song next door', sc:{place:'karaoke',av:-30,avY:690,avS:.86,noWave:1,cast:[['sam',60,690],['g0',180,500],['g1',255,500],['g2',330,500],['g3',405,500],['g4',215,560],['g5',290,560],['g6',365,560],['g7',440,560],['cowboy',515,650]],table:[-20,662,230],mugs:1,cam:[1.3,330,360],amb:'pub',mood:'karaoke',b:[['g2','♪ We are family! ♪'],['cowboy','¡Hip!']]},
+ {k:'Karaoke', t:'A song next door', sc:{place:'karaoke',av:-30,avY:690,avS:.86,noWave:1,cast:[['sam',60,690],['g0',190,505],['g1',265,505],['g2',395,505],['g3',118,575],['g4',190,575],['g5',268,575],['g6',348,575],['g7',428,575],['cowboy',515,650]],table:[-20,662,230],wine:1,cam:[1.3,330,360],amb:'pub',mood:'karaoke',b:[['g2','♪ We are family! ♪'],['cowboy','¡Hip!']]},
   body:()=>`<div class="story"><p>Music in the next room! Eight young friends sing <i>“We Are Family”</i>. They stand in two rows, like a wedding photo.</p>
-    <p>A cowboy stands alone at the side. He is a little bit drunk. You and Jun sit and watch.</p></div>
+    <p>One woman sings into the mic, her friend in a green lei pumps her fist, a guy in a Hawaiian shirt sways along. A cowboy stands alone at the side, a little bit drunk. You and Jun sit with a bottle of wine and watch.</p></div>
     <div class="songBox"><button class="realSong" onclick="playRealSong(this)"><span>♪</span> Listen to the real song <i>진짜 노래 듣기</i></button></div>
     ${line('Jun',W('escucha','¡Escucha!')+' ¡Karaoke!','¡Escucha! ¡Karaoke!')}${line(av.name,W('divertido','¡Qué divertido!'),'¡Qué divertido!')}`,
   tip:`<b>¡Escucha!</b> = Listen! &nbsp;<b>¡Qué divertido!</b> = How fun!`},
- {k:'Karaoke', t:'We are family!', act:'clap', sc:{place:'karaoke',av:-30,avY:690,avS:.86,noWave:1,cast:[['sam',60,690],['g0',180,500],['g1',255,500],['g2',330,500],['g3',405,500],['g4',215,560],['g5',290,560],['g6',365,560],['g7',440,560],['cowboy',515,650]],table:[-20,662,230],mugs:1,cam:[1.5,520,520],amb:'pub',mood:'karaoke',b:[['g5','¡Somos familia!'],['cowboy','¡Yiii-ja!']]},
+ {k:'Karaoke', t:'We are family!', act:'clap', sc:{place:'karaoke',av:-30,avY:690,avS:.86,noWave:1,cast:[['sam',60,690],['g0',190,505],['g1',265,505],['g2',395,505],['g3',118,575],['g4',190,575],['g5',268,575],['g6',348,575],['g7',428,575],['cowboy',515,650]],table:[-20,662,230],wine:1,cam:[1.5,520,520],amb:'pub',mood:'karaoke',b:[['g5','¡Somos familia!'],['cowboy','¡Yiii-ja!']]},
   body:()=>`${line('Jun','“We are family” es… '+W('somosfamilia','¡Somos familia!'),'Somos familia')}${line('Cowboy','¡Yiii-ja!','¡Yiii-ja!')}`,
   tip:''},
  {k:'¡Adiós! · Goodbye!', t:'A happy surprise', sc:{place:'bar',av:20,cast:[['sam',120],['senora',300],['senor',410]],cam:[1.4,420,430],amb:'pub',mood:'pub',b:[['senor','¡Es nuestro bar!'],['senora','¡Vuelvan pronto!']]},
