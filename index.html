@@ -646,7 +646,7 @@ button *{pointer-events:none}
   <p class="lead">Every room is a chapter. Click the glowing room to start.</p>
   <svg id="houseSvg" viewBox="0 0 1000 560"></svg>
   <div class="shelf"><span>Stickers</span><div id="slots" style="display:flex;gap:10px"></div></div>
-  <p class="ver">v9 · 2.5D</p>
+  <p class="ver">v9.1 · 2.5D</p>
 </section>
 
 <!-- STORY -->
@@ -788,7 +788,12 @@ function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext
     sfxBus=AC.createGain();sfxBus.gain.value=1;sfxBus.connect(master);
     const sSend=AC.createGain();sSend.gain.value=.2;sfxBus.connect(sSend);sSend.connect(revIn)}
   if(AC.state==='suspended')AC.resume();return AC}
-function unlockAudio(){try{if(window.DeviceOrientationEvent&&DeviceOrientationEvent.requestPermission)DeviceOrientationEvent.requestPermission().catch(()=>{})}catch(e){}
+// iPhone: sound plays even when the silent switch is on (a silent <audio> puts the page in "playback" mode)
+function iosPlayback(){try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
+  try{const n=8000,b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,t)=>[...t].forEach((c,i)=>v.setUint8(o+i,c.charCodeAt(0)));
+    w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,16000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
+    const a=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'})));a.loop=true;a.setAttribute('playsinline','');a.volume=.01;a.play().catch(()=>{})}catch(e){}}
+function unlockAudio(){iosPlayback();try{if(window.DeviceOrientationEvent&&DeviceOrientationEvent.requestPermission)DeviceOrientationEvent.requestPermission().catch(()=>{})}catch(e){}
 if('speechSynthesis' in window){try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}if(!ac())return;startMusic()}
 addEventListener('pointerdown',unlockAudio,{once:true});
 addEventListener('keydown',unlockAudio,{once:true});
