@@ -284,9 +284,9 @@ button *{pointer-events:none}
 
 
 .turnSheet{position:absolute;inset:0;z-index:6;pointer-events:none;transform:translateX(110%);
-  background:linear-gradient(90deg,#00000038,#0000 26px),linear-gradient(270deg,#0000002a,#0000 60px),var(--paper);box-shadow:-24px 0 40px #0000003a,24px 0 40px #0000002a}
-.paper.turnF .turnSheet{animation:sheetF .66s cubic-bezier(.55,0,.35,1) forwards}
-.paper.turnB .turnSheet{animation:sheetB .66s cubic-bezier(.55,0,.35,1) forwards}
+  background:linear-gradient(90deg,#fff8 0,#fff0 10px,#0000004d 12px,#0000 60px),linear-gradient(270deg,#00000040,#0000 90px),var(--paper);box-shadow:-40px 0 60px #00000055,30px 0 50px #00000030;border-radius:0 30px 30px 0/0 50% 50% 0}
+.paper.turnF .turnSheet{animation:sheetF .95s cubic-bezier(.55,0,.35,1) forwards}
+.paper.turnB .turnSheet{animation:sheetB .95s cubic-bezier(.55,0,.35,1) forwards}
 @keyframes sheetF{0%{transform:translateX(110%) skewX(-8deg)}46%{transform:translateX(0) skewX(0)}100%{transform:translateX(-110%) skewX(8deg)}}
 @keyframes sheetB{0%{transform:translateX(-110%) skewX(8deg)}46%{transform:translateX(0) skewX(0)}100%{transform:translateX(110%) skewX(-8deg)}}
 .paper .pgIn{display:flex;flex-direction:column;min-height:100%;padding:calc(46px * var(--u)) calc(48px * var(--u)) calc(40px * var(--u));position:relative}
@@ -470,8 +470,10 @@ button *{pointer-events:none}
 .actOk span{color:var(--muted);font-weight:600;font-size:.85em}
 .rfid{width:calc(170px * var(--u));height:calc(106px * var(--u));border-radius:12px;background:linear-gradient(135deg,#7a3ad8,#c77dff);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:10px 12px;text-align:left;
   box-shadow:0 8px 18px #7a3ad855;transition:transform .7s var(--ease);position:relative;animation:dragHint 2.4s ease-in-out infinite}
-@keyframes dragHint{0%,55%,100%{transform:none}25%{transform:translateX(22px) rotate(3deg)}}
+@keyframes dragHint{0%,60%,100%{transform:none}30%{transform:translateY(-8px) scale(1.04)}}
 .act:not(.done) .aRow{cursor:pointer}
+.act:not(.done) .rfid::before{content:"👆";position:absolute;left:50%;bottom:-30px;font-size:26px;animation:tapMe 1.2s ease-in-out infinite;pointer-events:none}
+@keyframes tapMe{50%{transform:translateY(-8px)}}
 .rfid b{font-family:Fredoka;letter-spacing:2px;font-size:calc(14px * var(--u))}.rfid small{font-weight:800;font-size:calc(15px * var(--u))}
 .rfid i{position:absolute;right:12px;top:12px;width:22px;height:16px;border-radius:3px;background:#ffd36a}
 .rfid,.gL,[data-drag]{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
@@ -531,6 +533,30 @@ button *{pointer-events:none}
 .pick .pb{display:flex;gap:6px}.pick .pb button{background:#fff;border:2px solid #e3d5b6;border-radius:10px;padding:6px 10px;font-weight:800;font-size:calc(14px * var(--u));color:var(--ink)}
 .pick .pb button.ok{background:var(--ok);border-color:var(--ok);color:#fff}.pick .pb button.no{animation:shake .4s;border-color:var(--bad)}
 .pick.right{border-color:var(--ok);background:#e4f6ea}
+.fc{perspective:700px;background:none;padding:0;height:calc(78px * var(--u));animation:fcIn .5s var(--spring) both;animation-delay:calc(var(--i) * .05s)}
+@keyframes fcIn{from{opacity:0;transform:translateY(16px) scale(.8)}}
+.fcIn{position:relative;display:block;width:100%;height:100%;transition:transform .55s var(--spring);transform-style:preserve-3d}
+.fc.on .fcIn{transform:rotateY(180deg)}
+.fcF,.fcB{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 8px;text-align:center;box-shadow:0 5px 0 #0002}
+.fcF{background:linear-gradient(135deg,#7a3558,#3a1c45);color:#fff}.fcF b{font-family:Fraunces,serif;font-size:calc(19px * var(--u));color:var(--lamp)}.fcF small{opacity:.6;font-weight:800}
+.fcB{background:#fff;transform:rotateY(180deg);border:2px solid var(--ok)}.fcB b{font-size:calc(15px * var(--u));color:var(--ink)}.fcB small{font-size:calc(13px * var(--u));color:var(--muted);font-weight:700}
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.rgHint{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:800;color:var(--ink);font-size:calc(16px * var(--u))}.rgHint i{font-style:normal;color:var(--muted);font-weight:600;font-size:.85em}
+.rgCount{margin-left:auto;background:var(--lamp);border-radius:999px;padding:3px 12px;color:#3a2310}.rgCount.bump{animation:okPop .4s var(--spring)}
+.yay{animation:yay .55s var(--spring) var(--rd,0s) 2}@keyframes yay{40%{transform:translateY(-34px) rotate(-4deg)}}
+.nope{animation:nope .45s ease var(--rd,0s)}@keyframes nope{25%{transform:translateX(-8px) rotate(-3deg)}75%{transform:translateX(8px) rotate(3deg)}}
+.scenePg.flash::after,.scenePg.flashNo::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4;animation:flash .7s ease-out forwards}
+.scenePg.flash::after{background:radial-gradient(circle at 50% 60%,#fff6c8aa,#ffcf7a33 40%,transparent 70%)}
+.scenePg.flashNo::after{background:radial-gradient(circle at 50% 60%,#ff6a5a55,transparent 70%)}
+@keyframes flash{from{opacity:1}to{opacity:0}}
+.qBar i.pop{animation:okPop .5s var(--spring)}
+.songBox{margin:4px 0 10px}
+.realSong{display:flex;align-items:center;gap:10px;width:100%;justify-content:center;background:linear-gradient(135deg,#ff7aa8,#7d8cff);color:#fff;font-weight:800;font-size:calc(17px * var(--u));
+  padding:calc(12px * var(--u)) 16px;border-radius:14px;box-shadow:0 5px 0 #4a3a8a,0 10px 24px #7d8cff55;animation:okPop 1.6s ease-in-out infinite}
+.realSong span{font-size:1.4em}.realSong i{font-style:normal;opacity:.85;font-weight:700;font-size:.85em}
+.yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;box-shadow:0 10px 26px #0005;background:#000}
+.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ytLink{display:block;margin-top:6px;font-size:13px;font-weight:700;color:var(--word)}.ytLink i{font-style:normal;color:var(--muted)}
 .navBtn.wait{animation:pulse 1.6s infinite}
 .tripSign{cursor:pointer}.tripSign:hover .board{filter:brightness(1.2) drop-shadow(0 0 12px #c77dff)}
 
@@ -660,7 +686,7 @@ button *{pointer-events:none}
   <p class="lead">Every room is a chapter. Click the glowing room to start.</p>
   <svg id="houseSvg" viewBox="0 0 1000 560"></svg>
   <div class="shelf"><span>Stickers</span><div id="slots" style="display:flex;gap:10px"></div></div>
-  <p class="ver">v9.4 · 2.5D</p>
+  <p class="ver">v10 · 2.5D</p>
 </section>
 
 <!-- STORY -->
@@ -767,8 +793,9 @@ let esF=null,esM=null;
 function pickVoice(){const vs=speechSynthesis.getVoices(),es=vs.filter(v=>/^es/i.test(v.lang)),la=es.filter(v=>/es[-_](MX|US|419)/i.test(v.lang));
   esVoice=la[0]||es[0]||null;
   // a woman's and a man's voice when the device has them (iPhone: Paulina / Juan, Mac: Mónica / Jorge …)
-  const F=/paulina|m[oó]nica|sabina|helena|laura|luc[ií]a|elvira|marisol|angelica|francisca|google espa/i,M=/juan|jorge|diego|carlos|pablo|[aá]lvaro|ra[uú]l|enrique|eddy|reed|rocko|grandpa/i;
-  esF=la.find(v=>F.test(v.name))||es.find(v=>F.test(v.name))||esVoice;esM=la.find(v=>M.test(v.name))||es.find(v=>M.test(v.name))||esVoice}
+  const F=/paulina|m[oó]nica|sabina|helena|laura|luc[ií]a|elvira|marisol|angelica|francisca|dalia|elena|paloma|ximena|google espa/i,M=/juan|jorge|diego|carlos|pablo|[aá]lvaro|ra[uú]l|enrique|eddy|reed|rocko|grandpa|jorge|alonso|gerardo|tom[aá]s/i;
+  const Q=v=>(/premium|enhanced|mejorad|natural|neural|online/i.test(v.name)?4:0)+(/google|siri/i.test(v.name)?2:0)+(/es[-_](MX|US|419)/i.test(v.lang)?1:0),best=a=>a.sort((x,y)=>Q(y)-Q(x))[0];
+  esVoice=best([...es])||null;esF=best(es.filter(v=>F.test(v.name)))||esVoice;esM=best(es.filter(v=>M.test(v.name)))||esVoice}
 // how each character sounds: woman/man voice, pitch, speed
 const VOICES={av:['f',1.05,.86],cat:['f',1.7,.92],owl:['m',.6,.72],sofia:['f',1.45,.95],mateo:['m',1.75,1],papa:['m',.8,.84],mama:['f',1.1,.86],abuela:['f',.95,.76],
   sam:['m',1,.9],bar:['m',.78,.86],senor:['m',.72,.78],senora:['f',1.08,.8],cowboy:['m',.7,.72],car:['m',.85,.86],g0:['f',1.3,.95],g2:['f',1.25,.95],g5:['f',1.2,.95]};
@@ -844,6 +871,14 @@ const sfx={
   hoot(){const a=fxA();if(!a)return;[0,.5].forEach((d,i)=>{const t=a.currentTime+d,o=a.createOscillator(),g=a.createGain(),v=a.createOscillator(),vg=a.createGain();
     o.type='sine';o.frequency.setValueAtTime(i?400:430,t);o.frequency.linearRampToValueAtTime(i?360:390,t+.4);v.frequency.value=6;vg.gain.value=7;v.connect(vg).connect(o.frequency);
     g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.14,t+.09);g.gain.exponentialRampToValueAtTime(.001,t+.48);o.connect(g).connect(sfxBus);o.start(t);v.start(t);o.stop(t+.5);v.stop(t+.5)})},
+  // disco hits for the clapping game: a chord that climbs with every clap
+  stab(i){const a=fxA();if(!a)return;const t=a.currentTime,ch=[[53,57,60,65],[55,58,62,67],[57,60,64,69],[60,64,67,72]][i%4];
+    ch.forEach(m=>{const o=a.createOscillator(),f=a.createBiquadFilter(),g=a.createGain();o.type='sawtooth';o.frequency.value=mtof(m);f.type='lowpass';f.frequency.setValueAtTime(3200,t);f.frequency.exponentialRampToValueAtTime(500,t+.35);
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.045,t+.01);g.gain.exponentialRampToValueAtTime(.001,t+.45);o.connect(f).connect(g).connect(sfxBus);o.start(t);o.stop(t+.5)});
+    const k=a.createOscillator(),kg=a.createGain();k.frequency.setValueAtTime(150,t);k.frequency.exponentialRampToValueAtTime(45,t+.15);kg.gain.setValueAtTime(.5,t);kg.gain.exponentialRampToValueAtTime(.001,t+.3);k.connect(kg).connect(sfxBus);k.start(t);k.stop(t+.32);
+    nz(a,t+.12,.08,'highpass',8000,1,.12);tone(a,mtof(ch[3]+12),mtof(ch[3]+12),t+.05,.3,'triangle',.04)},
+  boing(){const a=fxA();if(a)tone(a,300,900,a.currentTime,.25,'sine',.12)},
+  whomp(){const a=fxA();if(!a)return;const t=a.currentTime;tone(a,320,140,t,.35,'triangle',.12)},
   knock(){const a=fxA();if(!a)return;const t=a.currentTime;tone(a,150,80,t,.16,'sine',.35);nz(a,t,.06,'bandpass',700,2,.4)},
   beep(){const a=fxA();if(!a)return;const t=a.currentTime;tone(a,1760,1760,t,.1,'square',.03);tone(a,2350,2350,t+.13,.16,'square',.03)},
   click(){const a=fxA();if(!a)return;const t=a.currentTime;nz(a,t,.05,'highpass',2500,1,.25);tone(a,900,500,t,.06,'triangle',.08)},
@@ -891,8 +926,8 @@ const hash=n=>{const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)
 function setMood(m){nextMood=m}
 function startMusic(){const a=ac();if(!a||schedId)return;nextT=a.currentTime+.15;step=0;bar=0;mood=nextMood;
   schedId=setInterval(schedule,40);startAmbience();applyMusic()}
-function applyMusic(){if(!AC||!musicBus)return;const t=AC.currentTime;
-  musicBus.gain.setTargetAtTime(musicOn?MUSIC_VOL:0,t,.7);ambBus.gain.setTargetAtTime(musicOn?.55:0,t,.9)}
+function applyMusic(){if(!AC||!musicBus)return;const t=AC.currentTime,on=musicOn&&!(typeof songOn!=='undefined'&&songOn);
+  musicBus.gain.setTargetAtTime(on?MUSIC_VOL:0,t,.7);ambBus.gain.setTargetAtTime(musicOn?.55:0,t,.9)}
 function schedule(){const a=AC;if(!a||document.hidden)return;
   while(nextT<a.currentTime+.2){
     if(step%8===0&&nextMood!==mood){mood=nextMood;bar=0}
@@ -1165,8 +1200,8 @@ const PAGES=[
     ${line('Luna',W('pasa','Pasa')+', '+W('porfavor','por favor')+'.','Pasa, por favor.')}${line(av.name,'¡Gracias!','¡Gracias!')}`,
   tip:`<b>Por favor</b> (please) and <b>gracias</b> (thank you) are the two most useful words. You will use them in every room!`},
  {k:'Repaso · Review', t:'Words you learned', sc:{av:300,cat:1,door:1,moon:80,b:[['cat','¡Muy bien!']]},
-  body:()=>`<p style="color:var(--muted);margin-bottom:8px;font-size:calc(16px * var(--u))">Click a card to hear it again. Then turn the page for a little quiz!</p>
-    <div class="recap">${['hola','mellamo','ytu','mucho','comoestas','bien','gracias','porfavor','buenasnoches','adios'].map(k=>`<button data-say="${V[k].es}"><b>${V[k].es}</b>${V[k].en}</button>`).join('')}</div>`,
+  body:()=>`<p style="color:var(--muted);margin-bottom:8px;font-size:calc(16px * var(--u))">Words you learned today. Then turn the page for a little quiz!</p>
+    ${recapGame(['hola','mellamo','ytu','mucho','comoestas','bien','gracias','porfavor','buenasnoches','adios'])}`,
   tip:''}
 ];
 const QUIZ=[
@@ -1218,8 +1253,8 @@ const PAGES2=[
     ${line('Mamá',W('quien','¿Quién es?'),'¿Quién es?')}${line(av.name,'Esta es '+W('amiga','mi amiga')+', Luna.','Esta es mi amiga, Luna.')}${line('Luna','¡Miau! ♥','¡Miau!')}`,
   tip:`Luna is a girl cat, so we say <b>esta</b> and <b>amiga</b>. For a boy: <i>Este es mi ${W('amigo','amigo')}.</i>`},
  {k:'Repaso · Review', t:'Words you learned', sc:{av:0,cast:[['mateo',95],['sofia',160],['mama',240],['papa',335],['abuela',430]],b:[['sofia','¡Muy bien!']]},
-  body:()=>`<p style="color:var(--muted);margin-bottom:8px;font-size:calc(16px * var(--u))">Click a card to hear it again. Then turn the page for a little quiz!</p>
-    <div class="recap">${['familia','este','esta','papa','mama','hermano','hermana','abuela','amiga','quien'].map(k=>`<button data-say="${V[k].es}"><b>${V[k].es}</b>${V[k].en}</button>`).join('')}</div>`,
+  body:()=>`<p style="color:var(--muted);margin-bottom:8px;font-size:calc(16px * var(--u))">Words you learned today. Then turn the page for a little quiz!</p>
+    ${recapGame(['familia','este','esta','papa','mama','hermano','hermana','abuela','amiga','quien'])}`,
   tip:''}
 ];
 const QUIZ2=[
@@ -1234,7 +1269,7 @@ const QSC2={av:0,cast:[['mateo',95],['sofia',160],['mama',240],['papa',335],['ca
 /* ================= special chapter: Noche en Kissimmee ================= */
 // a true story: a brewery night in downtown Kissimmee, Florida (Halloween week)
 Object.assign(FAM,{
-  sam:{name:'Sam',s:.72,skinC:'#efc9a0',hairC:'#16110f',style:0,shirtC:'#4f9a5f',pants:'#2c3550',glasses:1},
+  sam:{name:'Jun',s:.72,skinC:'#efc9a0',hairC:'#16110f',style:0,shirtC:'#4f9a5f',pants:'#2c3550',glasses:1},
   bar:{name:'Bartender',s:.82,skinC:'#6b4128',hairC:'#16110f',style:0,buzz:1,shirtC:'#2a2438',pants:'#1f1c28',apron:1},
   senor:{name:'Señor',s:.76,skinC:'#f3d2b8',hairC:'#e9e6ef',style:0,shirtC:'#5a7fa8',pants:'#4a4a5a',glasses:1,stache:1},
   senora:{name:'Señora',s:.72,skinC:'#efcaa4',hairC:'#d6d2de',style:0,bun:1,shirtC:'#d36a8a',pants:'#4a3a5a'},
@@ -1358,9 +1393,9 @@ function castPos(who,x,y=FLOOR){
 
 const P_KISS=[
  {k:'Noche en Kissimmee', t:'A pumpkin yard', sc:{place:'yard',av:40,walk:1,cast:[['sam',150,650]],avY:650,cam:[1.35,300,300],amb:'night',b:[['sam','¡Mira! ¡Calabazas!'],['av','¡Qué bonito!']]},
-  body:()=>`<div class="story"><p>A warm October night in downtown Kissimmee, Florida. You and your friend Sam find a little brewery in an old garage.</p>
+  body:()=>`<div class="story"><p>A warm October night in downtown Kissimmee, Florida. You and your friend Jun find a little brewery in an old garage.</p>
     <p>The yard is ready for Halloween: ${W('calabaza','calabazas')}, bats, and a funny skeleton!</p></div>
-    ${line('Sam',W('mira','¡Mira!')+' ¡Calabazas!','¡Mira! ¡Calabazas!')}${line(av.name,W('quebonito','¡Qué bonito!'),'¡Qué bonito!')}`,
+    ${line('Jun',W('mira','¡Mira!')+' ¡Calabazas!','¡Mira! ¡Calabazas!')}${line(av.name,W('quebonito','¡Qué bonito!'),'¡Qué bonito!')}`,
   tip:`<b>¡Mira!</b> = Look! &nbsp;<b>¡Qué bonito!</b> = How pretty! You can say it about almost anything.`},
  {k:'Saludos · Hello', t:'Welcome in!', sc:{place:'bar',av:30,walk:1,from:'-200px',cast:[['sam',130],['bar',380]],cam:[1.4,430,420],amb:'pub',mood:'pub',b:[['bar','¡Hola! ¡Bienvenidos!'],['av','¡Hola! Buenas noches.']]},
   body:()=>`<div class="story"><p>Inside it is warm and loud. A tall bartender smiles at you.</p></div>
@@ -1375,8 +1410,8 @@ const P_KISS=[
   body:()=>`${line('Bartender',W('abre','Abre')+', '+W('sirve','sirve')+' y '+W('cierra','cierra')+'. '+W('facil','¡Fácil!'),'Abre, sirve y cierra. ¡Fácil!')}`,
   tip:''},
  {k:'¡Salud! · Cheers!', t:'So good!', act:'cheers', sc:{place:'bar',av:120,cast:[['sam',300]],table:[60,600,480],mugs:1,cam:[1.45,280,480],amb:'pub',mood:'pub',b:[['sam','¡Salud!'],['av','¡Qué rica!']]},
-  body:()=>`<div class="story"><p>You sit down with Sam. Time to cheer!</p></div>
-    ${line('Sam',W('salud','¡Salud!'),'¡Salud!')}${line(av.name,'¡Mmm! '+W('rica','¡Qué rica!'),'¡Mmm! ¡Qué rica!')}${line('Sam','¡Sí, muy rica!','¡Sí, muy rica!')}`,
+  body:()=>`<div class="story"><p>You sit down with Jun. Time to cheer!</p></div>
+    ${line('Jun',W('salud','¡Salud!'),'¡Salud!')}${line(av.name,'¡Mmm! '+W('rica','¡Qué rica!'),'¡Mmm! ¡Qué rica!')}${line('Jun','¡Sí, muy rica!','¡Sí, muy rica!')}`,
   tip:`<b>¡Salud!</b> = Cheers! (it means “health”). <b>¡Qué rica!</b> = So good! (for food and drinks)`},
  {k:'Nuevos amigos · New friends', t:'The kind couple', sc:{place:'bar',av:20,cast:[['sam',120],['senora',330],['senor',440]],table:[300,600,300],cam:[1.4,420,440],amb:'pub',mood:'pub',b:[['senora','¡Hola! ¿De dónde son?'],['av','Somos de Corea.']]},
   body:()=>`<div class="story"><p>An older couple sits at the next table. They are very friendly.</p></div>
@@ -1388,11 +1423,12 @@ const P_KISS=[
   tip:''},
  {k:'Karaoke', t:'A song next door', sc:{place:'karaoke',av:-30,avY:690,avS:.86,noWave:1,cast:[['sam',60,690],['g0',180,500],['g1',255,500],['g2',330,500],['g3',405,500],['g4',215,560],['g5',290,560],['g6',365,560],['g7',440,560],['cowboy',515,650]],table:[-20,662,230],mugs:1,cam:[1.3,330,360],amb:'pub',mood:'karaoke',b:[['g2','♪ We are family! ♪'],['cowboy','¡Hip!']]},
   body:()=>`<div class="story"><p>Music in the next room! Eight young friends sing <i>“We Are Family”</i>. They stand in two rows, like a wedding photo.</p>
-    <p>A cowboy stands alone at the side. He is a little bit drunk. You and Sam sit and watch.</p></div>
-    ${line('Sam',W('escucha','¡Escucha!')+' ¡Karaoke!','¡Escucha! ¡Karaoke!')}${line(av.name,W('divertido','¡Qué divertido!'),'¡Qué divertido!')}`,
+    <p>A cowboy stands alone at the side. He is a little bit drunk. You and Jun sit and watch.</p></div>
+    <div class="songBox"><button class="realSong" onclick="playRealSong(this)"><span>♪</span> Listen to the real song <i>진짜 노래 듣기</i></button></div>
+    ${line('Jun',W('escucha','¡Escucha!')+' ¡Karaoke!','¡Escucha! ¡Karaoke!')}${line(av.name,W('divertido','¡Qué divertido!'),'¡Qué divertido!')}`,
   tip:`<b>¡Escucha!</b> = Listen! &nbsp;<b>¡Qué divertido!</b> = How fun!`},
  {k:'Karaoke', t:'We are family!', act:'clap', sc:{place:'karaoke',av:-30,avY:690,avS:.86,noWave:1,cast:[['sam',60,690],['g0',180,500],['g1',255,500],['g2',330,500],['g3',405,500],['g4',215,560],['g5',290,560],['g6',365,560],['g7',440,560],['cowboy',515,650]],table:[-20,662,230],mugs:1,cam:[1.5,520,520],amb:'pub',mood:'karaoke',b:[['g5','¡Somos familia!'],['cowboy','¡Yiii-ja!']]},
-  body:()=>`${line('Sam','“We are family” es… '+W('somosfamilia','¡Somos familia!'),'Somos familia')}${line('Cowboy','¡Yiii-ja!','¡Yiii-ja!')}`,
+  body:()=>`${line('Jun','“We are family” es… '+W('somosfamilia','¡Somos familia!'),'Somos familia')}${line('Cowboy','¡Yiii-ja!','¡Yiii-ja!')}`,
   tip:''},
  {k:'¡Adiós! · Goodbye!', t:'A happy surprise', sc:{place:'bar',av:20,cast:[['sam',120],['senora',300],['senor',410]],cam:[1.4,420,430],amb:'pub',mood:'pub',b:[['senor','¡Es nuestro bar!'],['senora','¡Vuelvan pronto!']]},
   body:()=>`<div class="story"><p>At the door, the kind couple waves goodbye. Surprise: they are the owners!</p></div>
@@ -1404,13 +1440,13 @@ const P_KISS=[
     ${line(av.name,'¡Qué luna! Un Uber, '+W('porfavor','por favor')+'.','¡Qué luna! Un Uber, por favor.')}`,
   tip:''},
  {k:'¡Buenas noches!', t:'Good night, Kissimmee', sc:{place:'street',cast:[['car',200,610]],cam:[1.25,300,500],amb:'night',mood:'intro',b:[['car','A Simpson, por favor.']]},
-  body:()=>`<div class="story"><p>The car comes. You and Sam get in.</p></div>
+  body:()=>`<div class="story"><p>The car comes. You and Jun get in.</p></div>
     ${line('Driver',W('adonde','¿A dónde vamos?'),'¿A dónde vamos?')}${line(av.name,'A Simpson, por favor.','A Simpson, por favor.')}
-    ${line('Sam','¡Buenas noches, Kissimmee! '+W('hastaluego','¡Hasta luego!'),'¡Buenas noches, Kissimmee! ¡Hasta luego!')}`,
+    ${line('Jun','¡Buenas noches, Kissimmee! '+W('hastaluego','¡Hasta luego!'),'¡Buenas noches, Kissimmee! ¡Hasta luego!')}`,
   tip:`<b>¿A dónde?</b> = Where to? &nbsp;Answer with <b>a</b> + the place: <i>A Simpson, por favor.</i>`},
  {k:'Repaso · Review', t:'Words you learned', sc:{place:'street',av:150,avY:560,cast:[['sam',260,560]],amb:'night',b:[['sam','¡Muy bien!']]},
-  body:()=>`<p style="color:var(--muted);margin-bottom:8px;font-size:calc(16px * var(--u))">Click a card to hear it again. Then turn the page for a little quiz!</p>
-    <div class="recap">${['bienvenidos','tarjeta','abre','sirve','cierra','salud','rica','dedonde','toma','vuelvan'].map(k=>`<button data-say="${V[k].es}"><b>${V[k].es}</b>${V[k].en}</button>`).join('')}</div>`,
+  body:()=>`<p style="color:var(--muted);margin-bottom:8px;font-size:calc(16px * var(--u))">Words you learned today. Then turn the page for a little quiz!</p>
+    ${recapGame(['bienvenidos','tarjeta','abre','sirve','cierra','salud','rica','dedonde','toma','vuelvan'])}`,
   tip:''}
 ];
 const QUIZ_KISS=[
@@ -1429,7 +1465,7 @@ const glassSVG=id=>`<svg class="glassSvg" viewBox="0 0 80 120"><defs><clipPath i
   <g class="bubbles" fill="#fff6" ><circle cx="30" cy="100" r="2"/><circle cx="48" cy="90" r="1.6"/><circle cx="40" cy="105" r="1.3"/></g></g>
   <path d="M8 6 L72 6 L64 112 L16 112Z" fill="#ffffff22" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M18 14 L22 100" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/></svg>`;
 const ACTS={
-  card:{prompt:'Drag the card to the sensor (or tap it)',ko:'카드를 센서로 끌어다 놓거나 눌러 보세요',
+  card:{prompt:'Tap the card!',ko:'카드를 톡 눌러 보세요',
     html:()=>`<div class="aRow"><button class="rfid" data-act="card" data-drag=".sensor"><b>BREWERY</b><small>$ 20.00</small><i></i></button>
       <div class="sensor"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="30" cy="30" r="9" fill="currentColor"/></svg><span>TAP</span></div></div>`,
     run(b,el,e){sfx.beep();el.classList.add('go');setTimeout(()=>actComplete(el,e,'¡Listo!','= Ready! The tap is on.'),700)}},
@@ -1440,19 +1476,19 @@ const ACTS={
       if(i===1){sfx.pour()}
       const nx=el.querySelector(`[data-i="${i+1}"]`);if(nx)setTimeout(()=>nx.disabled=false,i===1?2000:300);
       if(i===2){sfx.clack();setTimeout(()=>actComplete(el,e,'¡Perfecto!','= Perfect! A full glass.'),400)}}},
-  cheers:{prompt:'Drag your glass to Sam’s glass (or tap ¡Salud!)',ko:'내 잔을 Sam의 잔으로 끌어 부딪쳐 보세요',
+  cheers:{prompt:'Tap ¡Salud!',ko:'¡Salud!를 눌러 건배해요',
     html:()=>`<div class="aRow cheersRow"><div class="gL" data-act="cheers" data-drag=".gR">${glassSVG('gc2')}</div><button class="bigBtn small" data-act="cheers">¡Salud!</button><div class="gR">${glassSVG('gc3')}</div></div>`,
     run(b,el,e){el.classList.add('go');speak('¡Salud!');setTimeout(()=>{sfx.clink();const r=el.querySelector('.cheersRow').getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height*.3,26)},420);
       setTimeout(()=>actComplete(el,e,'¡Salud!','= Cheers!'),1000)}},
-  gift:{prompt:'Drag the card to you (or tap it)',ko:'카드를 나에게 끌어오거나 눌러 보세요',
+  gift:{prompt:'Tap the card to take it',ko:'카드를 눌러 받아요',
     html:()=>`<div class="aRow"><button class="rfid gift" data-act="gift" data-drag=".giftTo"><b>BREWERY</b><small>$ 2.00</small><i></i></button><div class="giftTo">→ ${esc(av.name)}</div></div>`,
     run(b,el,e){el.classList.add('go');sfx.coin();speak('¡Muchas gracias!');setTimeout(()=>actComplete(el,e,'+ $2','= Two dollars for you!'),800)}},
-  clap:{prompt:'Clap along 4 times!',ko:'박수를 4번 쳐 보세요',
+  clap:{prompt:'Clap 4 times and make the music!',ko:'박수 4번으로 음악을 만들어요',
     html:()=>`<div class="aRow"><button class="clapBtn" data-act="clap"><svg viewBox="0 0 64 64"><path d="M20 50 Q8 40 14 26 L22 12 Q25 8 28 12 L30 22 L38 8 Q41 4 44 8 L40 24 L48 14 Q51 11 53 15 L44 34 Q50 30 52 34 L42 50 Q32 60 20 50Z" fill="#ffd9a8" stroke="#3a2310" stroke-width="2.5" stroke-linejoin="round"/></svg>¡Aplaude!</button>
       <div class="claps"><i></i><i></i><i></i><i></i></div></div>`,
-    run(b,el,e){const n=(+el.dataset.n||0)+1;el.dataset.n=n;sfx.clap();b.classList.remove('hit');void b.offsetWidth;b.classList.add('hit');
-      el.querySelectorAll('.claps i').forEach((d,i)=>d.classList.toggle('on',i<n));burst(e.clientX,e.clientY,8);
-      if(n>=4){sfx.cheer();setTimeout(()=>actComplete(el,e,'¡Bravo!','= Great! Everybody cheers.'),500)}}},
+    run(b,el,e){const n=(+el.dataset.n||0)+1;if(n>4)return;el.dataset.n=n;sfx.clap();sfx.stab(n-1);b.classList.remove('hit');void b.offsetWidth;b.classList.add('hit');
+      el.querySelectorAll('.claps i').forEach((d,i)=>d.classList.toggle('on',i<n));burst(e.clientX,e.clientY,10+n*4);sceneReact('party',n);
+      if(n>=4){setTimeout(()=>{sfx.cheer();sfx.fanfare();confetti()},250);setTimeout(()=>actComplete(el,e,'¡Bravo!','= Great! Everybody cheers.'),700)}}},
   phone:{prompt:'Call a ride on your phone',ko:'휴대폰으로 차를 불러 보세요',
     html:()=>`<div class="aRow"><div class="phone"><div class="scrA"><b>Uber</b><span>¿A dónde?</span><button data-act="phone">Pedir viaje · Request</button></div>
       <div class="scrB"><svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#e9eef2"/><path d="M0 40 H120 M0 84 H120 M36 0 V120 M82 0 V120" stroke="#fff" stroke-width="9"/><circle cx="60" cy="62" r="6" fill="#2f5bd3"/><rect class="carDot" x="0" y="34" width="14" height="10" rx="3" fill="#111"/></svg><span>Llega en 3 min</span></div></div></div>`,
@@ -1656,7 +1692,7 @@ function clampBubbles(){const st=$('stage');if(!st)return;const bx=parseFloat(st
 addEventListener('resize',()=>{if(cur==='story')fitShots();if(cur==='map')paintMap()});
 function cutFor(prev,next,dir){if(!prev)return 'fade';if(dir<0)return 'panB';if(placeOf(prev)===placeOf(next))return 'push';return ['pan','iris','wipe'][idx%3]}
 function goPage(i,dir){
-  if(i<0||i>lastIdx()||i===idx||turning)return;stopLines();if('speechSynthesis' in window)speechSynthesis.cancel();
+  if(i<0||i>lastIdx()||i===idx||turning)return;stopLines();stopSong();if('speechSynthesis' in window)speechSynthesis.cancel();
   if(dir>0&&i>blockAt()){nudgeAct();return}
   const sc=scAt(i),st=$('stage'),cut=cutFor(shotSc,sc,dir),old=[...st.querySelectorAll('.shot')];
   idx=i;
@@ -1679,7 +1715,7 @@ function paintTitle(){const t=ch.es;$('titleCard').innerHTML=`<div class="tcIn">
 function turnLeaf(dir){const lf=$('leafIn'),pp=$('leaf'),first=!lf.innerHTML;turning=true;
   if(!first){pp.classList.remove('turnF','turnB');void pp.offsetWidth;pp.classList.add(dir<0?'turnB':'turnF');if(idx>0)sfx.flip()}
   setTimeout(()=>{lf.innerHTML=leafHTML(idx);initDrags(lf);if(idx===lastIdx())renderQuiz();
-    pp.scrollTop=0;fitShots();if(idx>0&&idx<lastIdx())playLines(1500+(ch.pages[idx-1].sc.walk?600:0)).then(showAct)},first?0:300);setTimeout(()=>turning=false,first?0:520)}
+    pp.scrollTop=0;fitShots();if(idx>0&&idx<lastIdx())playLines(1500+(ch.pages[idx-1].sc.walk?600:0)).then(showAct)},first?0:440);setTimeout(()=>turning=false,first?0:700)}
 // on phones and tablets the activity sits below the story: bring it into view once the dialogue is done
 function showAct(){const a=$('leafIn').querySelector('.act');if(!a||innerWidth>=900||actDone.has(a.dataset.type))return;
   const r=a.getBoundingClientRect();if(r.top>innerHeight*.55)a.scrollIntoView({behavior:'smooth',block:'center'})}
@@ -1736,11 +1772,30 @@ function renderQuiz(){const pg=$('quizPg'),QUIZ=ch.quiz;if(!pg)return;
   pg.querySelectorAll('.opt').forEach(b=>b.onclick=e=>{
     const fb=$('fb');if(pg.dataset.lock)return;
     if(b.dataset.ok==='1'){b.classList.add('ok');fb.className='fb ok';fb.innerHTML='¡Muy bien! <span style="font-weight:600;color:var(--muted)">= Very good!</span>';
-      speak('¡Muy bien!');sfx.chime();burst(e.clientX,e.clientY,22);catSays('¡Muy bien!');pg.dataset.lock=1;
+      speak('¡Muy bien!');sfx.chime();sfx.boing();burst(e.clientX,e.clientY,30);catSays(['¡Muy bien!','¡Excelente!','¡Genial!','¡Perfecto!','¡Bravo!'][qi%5]);sceneReact('yay');pg.dataset.lock=1;
+      pg.querySelector('.qBar i.on')?.classList.add('pop');
       setTimeout(()=>{delete pg.dataset.lock;qi++;renderQuiz()},1300)}
-    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx.wrong();fb.className='fb no';fb.innerHTML='¡Casi! <span style="font-weight:600;color:var(--muted)">= Almost! Try again.</span>';catSays('¡Casi!')}});
+    else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx.wrong();fb.className='fb no';fb.innerHTML='¡Casi! <span style="font-weight:600;color:var(--muted)">= Almost! Try again.</span>';catSays('¡Casi!');sfx.whomp();sceneReact('no')}});
 }
+let songOn=false;
+function playRealSong(b){const box=b.parentNode;stopLines();if('speechSynthesis' in window)speechSynthesis.cancel();songOn=true;applyMusic();
+  box.innerHTML=`<div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/uyGY2NfYpeE?autoplay=1&start=46&playsinline=1&rel=0" title="Sister Sledge – We Are Family" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+    <a class="ytLink" href="https://www.youtube.com/results?search_query=Sister+Sledge+We+Are+Family" target="_blank" rel="noopener">Video not playing? Open YouTube ↗ <i>안 나오면 유튜브에서 열기</i></a>`;sceneReact('party',3)}
+function stopSong(){if(!songOn)return;songOn=false;applyMusic()}
+function sceneReact(kind,n){const s=curShot();if(!s)return;const who=[...s.querySelectorAll('[data-who]')];
+  // jump on an inner group so the character's own SVG position stays put
+  who.map(g=>{const c=g.firstElementChild;return c&&c.tagName==='g'&&!c.hasAttribute('transform')?c:(!g.hasAttribute('transform')?g:null)}).filter(Boolean).forEach((g,i)=>{g.classList.remove('yay','nope');void g.getBoundingClientRect();g.style.setProperty('--rd',(i*.07)+'s');g.classList.add(kind==='no'?'nope':'yay')});
+  const p=s.querySelector('.scenePg');p.classList.remove('flash','flashNo');void p.offsetWidth;p.classList.add(kind==='no'?'flashNo':'flash');
+  if(kind!=='no'){const r=s.getBoundingClientRect();for(let k=0;k<(kind==='party'?2+n:3);k++)setTimeout(()=>burst(r.left+r.width*(.2+Math.random()*.6),r.top+r.height*(.3+Math.random()*.4),18),k*90)}}
 // the helper in the quiz picture answers you
+function recapGame(keys){return `<p class="rgHint">Tap every card to flip it! <i>카드를 모두 뒤집어 보세요</i> <b class="rgCount">0 / ${keys.length}</b></p>
+  <div class="rg">${keys.map((k,i)=>`<button class="fc" data-k="${k}" style="--i:${i}"><span class="fcIn"><span class="fcF"><b>${V[k].es}</b><small>?</small></span><span class="fcB"><b>${V[k].en}</b><small>${V[k].ko}</small></span></span></button>`).join('')}</div>`}
+document.addEventListener('click',e=>{const c=e.target.closest('.fc');if(!c)return;const g=c.closest('.rg');speak(V[c.dataset.k].es);
+  if(c.classList.contains('on')){c.classList.remove('on');sfx.flip();return}
+  c.classList.add('on');const n=g.querySelectorAll('.fc.on').length,all=g.querySelectorAll('.fc').length;
+  const a=fxA();if(a){const f=mtof(72+[0,2,4,5,7,9,11,12,14,16][Math.min(n-1,9)]);tone(a,f,f,a.currentTime,.5,'triangle',.07)}
+  burst(e.clientX,e.clientY,14);const cnt=g.parentNode.querySelector('.rgCount');cnt.textContent=`${n} / ${all}`;cnt.classList.remove('bump');void cnt.offsetWidth;cnt.classList.add('bump');
+  if(n===all&&!g.dataset.won){g.dataset.won=1;setTimeout(()=>{sfx.fanfare();confetti();sceneReact('yay');catSays('¡Perfecto!');cnt.textContent='¡Perfecto! ★'},400)}});
 function catSays(t){const s=curShot()?.querySelector('.scenePg');if(!s)return;const b=s.querySelector('.bubble');if(!b)return;
   b.textContent=t;b.style.setProperty('--dl','0s');b.classList.remove('re');void b.offsetWidth;b.classList.add('re');sfx.bop();talk(b.dataset.b,900)}
 function finishChapter(e){
