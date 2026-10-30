@@ -18,7 +18,8 @@
 html,body{height:100%}
 body{background:radial-gradient(ellipse at 50% 120%,#2a2f6b 0%,var(--night) 60%) fixed,var(--night);
   color:#f5efe2;font-family:Nunito,system-ui,sans-serif;overflow-x:hidden}
-button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:active{filter:brightness(.92)}
 h1,h2,h3,.fred{font-family:Fraunces,Georgia,serif;font-weight:700;letter-spacing:-.2px}
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
 #fx{position:fixed;inset:0;z-index:95;pointer-events:none}
@@ -207,6 +208,7 @@ button *{pointer-events:none}
 .slot.new{animation:slotPop 1s var(--spring) .6s both}
 @keyframes slotPop{from{transform:scale(0) rotate(-180deg)}}
 .slot svg{width:46px;height:46px}
+.ver{color:#6f6a99;font-size:12px;letter-spacing:1px}
 
 /* ---------- storybook: picture stage + paper page ---------- */
 #story{flex-direction:column;gap:12px;padding-bottom:20px}
@@ -215,7 +217,21 @@ button *{pointer-events:none}
 .theater::after{content:"";position:absolute;left:52.8%;top:0;bottom:0;width:40px;margin-left:-20px;background:linear-gradient(90deg,transparent,#0000002e 45%,#00000040 50%,#0000002e 55%,transparent);pointer-events:none;z-index:4}
 .pic{container-type:size;position:relative;overflow:hidden;border-radius:20px 0 0 20px;background:#0b1030;--px:0;--py:0;touch-action:pan-y}
 .shot{position:absolute;inset:0;overflow:hidden}
-.scnBox{position:absolute;left:var(--bx);top:var(--by);width:var(--bw);height:var(--bh);transform:translate(calc(var(--px) * -14px),calc(var(--py) * -10px)) scale(1.03);transition:transform .8s cubic-bezier(.2,.7,.3,1)}
+.scnBox{position:absolute;left:var(--bx);top:var(--by);width:var(--bw);height:var(--bh);transform:perspective(1400px) rotateY(calc(var(--px) * 5deg)) rotateX(calc(var(--py) * -3.5deg)) scale(1.045);transition:transform .9s cubic-bezier(.2,.7,.3,1)}
+/* depth: every layer of the picture slides by its own amount (--d), so near things move more than far things */
+.z{transform:translate(calc(var(--px,0) * var(--d) * -30px),calc(var(--py,0) * var(--d) * -18px));transition:transform .9s cubic-bezier(.2,.7,.3,1)}
+.bubs{position:absolute;inset:0;transform:translate(calc(var(--px,0) * -22px),calc(var(--py,0) * -13px));transition:transform .9s cubic-bezier(.2,.7,.3,1);z-index:3}
+/* light: warm pools from lamps, fire, moon and neon, breathing slowly */
+.lights{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;z-index:2}
+.lights i{position:absolute;inset:0;background:radial-gradient(circle at var(--x) var(--y),var(--c) 0,transparent var(--r));animation:lamp var(--t,5s) ease-in-out infinite alternate}
+.lights i.fire{animation:fireL .35s steps(2) infinite alternate}
+@keyframes lamp{from{opacity:.75}to{opacity:1}}
+@keyframes fireL{from{opacity:.7;transform:scale(1)}to{opacity:1;transform:scale(1.03)}}
+.shade{position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(180deg,#0000 72%,#0b061855),radial-gradient(ellipse at 50% 42%,#0000 58%,#0007 100%)}
+/* dust and pollen drifting through the light */
+.motes{position:absolute;inset:0;pointer-events:none;z-index:3;overflow:hidden}
+.motes b{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:#fff6d8;box-shadow:0 0 6px #ffe3a0;opacity:0;animation:mote var(--t) linear var(--dl) infinite}
+@keyframes mote{0%{opacity:0;transform:translate(0,0)}15%{opacity:var(--o)}85%{opacity:var(--o)}100%{opacity:0;transform:translate(var(--mx),-120px)}}
 .kb{position:absolute;inset:0;animation:kb 14s ease-in-out infinite alternate}
 @keyframes kb{from{transform:scale(1)}to{transform:scale(1.045) translateY(-6px)}}
 .scenePg{position:absolute;inset:0}
@@ -523,6 +539,7 @@ button *{pointer-events:none}
   .paper{border-radius:0 0 16px 16px;overflow:visible}
   .paper .pgIn{padding:24px 20px 34px}
   .coverCard{min-height:260px}
+  .navBtn{width:58px;height:58px}
   .nav{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(#0b103000,#0b1030f0 35%)}
   .dots{flex-wrap:wrap;justify-content:center;max-width:62vw;gap:6px}
   .dot{width:8px;height:8px}.dot.on{width:20px}
@@ -629,6 +646,7 @@ button *{pointer-events:none}
   <p class="lead">Every room is a chapter. Click the glowing room to start.</p>
   <svg id="houseSvg" viewBox="0 0 1000 560"></svg>
   <div class="shelf"><span>Stickers</span><div id="slots" style="display:flex;gap:10px"></div></div>
+  <p class="ver">v9 · 2.5D</p>
 </section>
 
 <!-- STORY -->
@@ -770,7 +788,8 @@ function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext
     sfxBus=AC.createGain();sfxBus.gain.value=1;sfxBus.connect(master);
     const sSend=AC.createGain();sSend.gain.value=.2;sfxBus.connect(sSend);sSend.connect(revIn)}
   if(AC.state==='suspended')AC.resume();return AC}
-function unlockAudio(){if('speechSynthesis' in window){try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}if(!ac())return;startMusic()}
+function unlockAudio(){try{if(window.DeviceOrientationEvent&&DeviceOrientationEvent.requestPermission)DeviceOrientationEvent.requestPermission().catch(()=>{})}catch(e){}
+if('speechSynthesis' in window){try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}}if(!ac())return;startMusic()}
 addEventListener('pointerdown',unlockAudio,{once:true});
 addEventListener('keydown',unlockAudio,{once:true});
 document.addEventListener('visibilitychange',()=>{if(!AC)return;document.hidden?AC.suspend():AC.resume()});
@@ -918,7 +937,7 @@ const SKINS=['#f8d9bd','#eab78f','#c98a5c','#8a573a'], HAIRS=['#2b1d16','#6b3e1f
       STYLES=['short','long','curly'], SHIRTS=['#ff7a6b','#4fc3b0','#7d8cff','#ffc845','#b77dd8'];
 let av=store.get('avatar',{name:'',skin:1,hair:0,style:0,shirt:0});
 function avatarMarkup(a,wave){
-  const s=a.skinC||SKINS[a.skin],h=a.hairC||HAIRS[a.hair],sh=a.shirtC||SHIRTS[a.shirt],st=STYLES[a.style];let o='<g class="breathe">';
+  const s=a.skinC||SKINS[a.skin],h=a.hairC||HAIRS[a.hair],sh=a.shirtC||SHIRTS[a.shirt],st=STYLES[a.style];let o='<ellipse cx="60" cy="193" rx="36" ry="7" fill="#000" opacity=".32"/><g class="breathe">';
   if(a.bun)o+=`<circle cx="60" cy="24" r="14" fill="${h}"/>`;
   if(st==='long')o+=`<path d="M28 58 Q24 118 38 132 L82 132 Q96 118 92 58 Z" fill="${h}"/>`;
   if(st==='curly')for(let i=0;i<7;i++){const a2=Math.PI*(.95+i*.18);o+=`<circle cx="${60+34*Math.cos(a2)}" cy="${66+34*Math.sin(a2)*.95}" r="12" fill="${h}"/>`}
@@ -945,7 +964,7 @@ function avatarMarkup(a,wave){
   if(a.stache)o+=`<path d="M47 74 Q54 68 60 72 Q66 68 73 74 Q66 76 60 74 Q54 76 47 74Z" fill="${h}"/>`;
   if(a.glasses)o+=`<g fill="#fff3" stroke="#5a3b2a" stroke-width="2.2"><circle cx="49" cy="65" r="8"/><circle cx="71" cy="65" r="8"/><path d="M57 64 H63" fill="none"/></g>`;
   return o+'</g>'}
-function catMarkup(){return `<g class="breathe"><path d="M78 80 Q100 70 94 46" fill="none" stroke="#e8954a" stroke-width="8" stroke-linecap="round" class="tail"/>
+function catMarkup(){return `<ellipse cx="52" cy="99" rx="30" ry="5" fill="#000" opacity=".32"/><g class="breathe"><path d="M78 80 Q100 70 94 46" fill="none" stroke="#e8954a" stroke-width="8" stroke-linecap="round" class="tail"/>
   <ellipse cx="52" cy="76" rx="27" ry="21" fill="#f2a65a"/><ellipse cx="52" cy="82" rx="15" ry="12" fill="#fde3c4"/>
   <path d="M30 30 L34 8 L48 22 Z M74 30 L70 8 L56 22 Z" fill="#f2a65a"/><path d="M34 26 L36 14 L44 22Z M70 26 L68 14 L60 22Z" fill="#ffb4a8"/>
   <circle cx="52" cy="38" r="23" fill="#f2a65a"/>
@@ -1220,7 +1239,7 @@ function kissSVG(sc,n){
     <radialGradient id="kVig${n}" cx="50%" cy="45%" r="75%"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
     <filter id="kBlur${n}" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
     <filter id="kNeon${n}" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-    <g>${bg}${people}${me}${table}</g>
+    <g class="z" style="--d:.3">${bg}</g><g class="z" style="--d:.75">${people}${me}</g><g class="z" style="--d:1.1">${table}</g>${fgDeco(['yard','street'].includes(sc.place)?'out':sc.place==='karaoke'?'crowd':'in',n)}
     <rect width="600" height="680" fill="url(#kVig${n})"/></svg>`}
 function mugsOn([x,y,w]){return `<g transform="translate(${x+w*.3} ${y-34})">${mug()}</g><g transform="translate(${x+w*.62} ${y-34})">${mug()}</g>`}
 function mug(){return `<rect x="0" y="0" width="26" height="36" rx="4" fill="#f0a83a" opacity=".92"/><rect x="0" y="-6" width="26" height="9" rx="4" fill="#fff6e0"/><path d="M26 8 q10 0 10 10 q0 10 -10 10" fill="none" stroke="#e6d9c0" stroke-width="4"/><rect x="0" y="0" width="26" height="36" rx="4" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>`}
@@ -1477,13 +1496,13 @@ function houseSVG(sc,n){
     <radialGradient id="moonG${n}"><stop offset="0" stop-color="#fff3c4" stop-opacity=".5"/><stop offset="1" stop-color="#fff3c4" stop-opacity="0"/></radialGradient>
     <radialGradient id="vig${n}" cx="50%" cy="45%" r="75%"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
     <filter id="ffG${n}" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.4"/></filter></defs>
-    <rect width="600" height="680" fill="url(#sky${n})"/>${st}
-    <g><circle cx="490" cy="${60+sc.moon}" r="90" fill="url(#moonG${n})"/><circle cx="490" cy="${60+sc.moon}" r="32" fill="#fff3c4"/><circle cx="480" cy="${52+sc.moon}" r="6" fill="#f0e2a8"/><circle cx="500" cy="${72+sc.moon}" r="4" fill="#f0e2a8"/></g>
-    <g transform="translate(0 210)">
-    <path d="M0 300 Q90 240 190 270 T400 250 T600 262 L600 480 L0 480Z" fill="#141b48"/>
+    <g class="z" style="--d:.12"><rect x="-60" y="-60" width="720" height="800" fill="url(#sky${n})"/>${st}</g>
+    <g class="z" style="--d:.22"><circle cx="490" cy="${60+sc.moon}" r="90" fill="url(#moonG${n})"/><circle cx="490" cy="${60+sc.moon}" r="32" fill="#fff3c4"/><circle cx="480" cy="${52+sc.moon}" r="6" fill="#f0e2a8"/><circle cx="500" cy="${72+sc.moon}" r="4" fill="#f0e2a8"/></g>
+    <g class="z" style="--d:.5"><g transform="translate(0 210)">
+    <g class="z" style="--d:-.22"><path d="M-60 300 Q90 240 190 270 T400 250 T660 262 L660 480 L-60 480Z" fill="#141b48"/>
     <g fill="#10173c"><path d="M30 300 L52 200 L74 300Z"/><path d="M62 304 L90 180 L118 304Z"/><path d="M500 296 L526 190 L552 296Z"/><path d="M540 300 L562 220 L584 300Z"/></g>
-    <path d="M0 330 Q120 290 260 316 T600 300 L600 480 L0 480Z" fill="#17204d"/>
-    <rect y="350" width="600" height="130" fill="#1f3b44"/><rect y="350" width="600" height="6" fill="#28505a"/>
+    <path d="M-60 330 Q120 290 260 316 T660 300 L660 480 L-60 480Z" fill="#17204d"/></g>
+    <rect x="-60" y="350" width="720" height="140" fill="#1f3b44"/><rect x="-60" y="350" width="720" height="6" fill="#28505a"/>
     <path d="M150 178 L300 82 L450 178 Z" fill="#7a3b4a"/><path d="M150 178 L300 82 L450 178" fill="none" stroke="#4d2030" stroke-width="8" stroke-linejoin="round"/>
     <rect x="386" y="100" width="24" height="44" fill="#5e2a3a"/><g class="smoke" fill="#c9c3e6"><circle cx="398" cy="96" r="9"/><circle cx="398" cy="96" r="9"/><circle cx="398" cy="96" r="9"/></g>
     <rect x="172" y="172" width="256" height="180" fill="#c99e72"/><rect x="172" y="172" width="256" height="10" fill="#a87d55"/>
@@ -1497,10 +1516,17 @@ function houseSVG(sc,n){
     <circle cx="246" cy="262" r="28" fill="url(#glow${n})"><animate attributeName="r" values="26;31;26" dur="3s" repeatCount="indefinite"/></circle><rect x="240" y="254" width="12" height="16" rx="3" fill="#ffe7a8" stroke="#4a2a2e" stroke-width="2"/>
     <ellipse cx="300" cy="362" rx="44" ry="7" fill="#3a5560"/><ellipse cx="290" cy="382" rx="36" ry="6" fill="#3a5560"/><ellipse cx="308" cy="402" rx="32" ry="6" fill="#3a5560"/><ellipse cx="296" cy="424" rx="28" ry="5" fill="#3a5560"/>
     <circle cx="160" cy="344" r="22" fill="#25523f"/><circle cx="180" cy="350" r="16" fill="#2c6249"/><circle cx="440" cy="346" r="20" fill="#25523f"/><circle cx="458" cy="352" r="13" fill="#2c6249"/>
-    ${sc.owl?`<g data-who="owl" transform="translate(196 54) scale(.72)"><g class="${sc.owlIn?'flyIn':''}">${owlMarkup()}</g></g>`:''}
+    <g class="z" style="--d:.3">${sc.owl?`<g data-who="owl" transform="translate(196 54) scale(.72)"><g class="${sc.owlIn?'flyIn':''}">${owlMarkup()}</g></g>`:''}
     ${sc.cat?`<g data-who="cat" transform="translate(344 282) scale(.74)"><g class="${sc.catIn?'popIn':''}" style="transform-origin:50px 100px">${catMarkup()}</g></g>`:''}
-    <g data-who="av" class="${sc.walk?'avWalk':''}" style="--from:${sc.from||'-260px'}"><g class="bob"><g transform="translate(${sc.av} 205) scale(.72)">${avatarMarkup(av,true)}</g></g></g>
-    </g>${ff}<rect width="600" height="680" fill="url(#vig${n})"/></svg>`}
+    <g data-who="av" class="${sc.walk?'avWalk':''}" style="--from:${sc.from||'-260px'}"><g class="bob"><g transform="translate(${sc.av} 205) scale(.72)">${avatarMarkup(av,true)}</g></g></g></g>
+    </g></g><g class="z" style="--d:1.4">${ff}</g>${fgDeco('out',n)}<rect width="600" height="680" fill="url(#vig${n})"/></svg>`}
+function fgDeco(kind,n){const f=`<filter id="dof${n}" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5"/></filter>`;
+  if(kind==='out')return `${f}<g class="z" style="--d:1.7" filter="url(#dof${n})" fill="#04061a" opacity=".92">
+    <path d="M-40 700 Q-10 600 40 610 Q30 560 80 570 Q90 530 120 560 Q150 600 130 700Z"/><path d="M640 -20 Q600 40 560 30 Q570 70 530 70 Q540 100 500 96 Q520 140 640 120Z"/>
+    <ellipse cx="560" cy="690" rx="90" ry="40"/></g>`;
+  if(kind==='crowd')return `${f}<g class="z" style="--d:1.6" filter="url(#dof${n})" fill="#07040f" opacity=".85">${[[330,712,40],[410,704,44],[490,716,42]].map(([x,y,r])=>`<circle cx="${x}" cy="${y-r}" r="${r*.55}"/><ellipse cx="${x}" cy="${y+10}" rx="${r}" ry="${r*.7}"/>`).join('')}</g>`;
+  return `${f}<g class="z" style="--d:1.6" filter="url(#dof${n})" opacity=".9"><g fill="#0d1a12"><path d="M600 700 Q560 600 600 520 Q620 600 640 700Z"/><path d="M640 700 Q560 640 520 560 Q600 600 650 650Z"/><path d="M620 700 Q600 610 560 600 Q610 630 640 690Z"/></g>
+    <rect x="-30" y="610" width="90" height="100" rx="20" fill="#1a0e0c"/></g>`}
 // inside: everyone stands on the rug with their feet at y=FLOOR
 const FLOOR=642;
 function salaSVG(sc,n){
@@ -1516,7 +1542,7 @@ function salaSVG(sc,n){
     <radialGradient id="lampG${n}"><stop offset="0" stop-color="#ffd889" stop-opacity=".55"/><stop offset="1" stop-color="#ffd889" stop-opacity="0"/></radialGradient>
     <radialGradient id="fireG${n}"><stop offset="0" stop-color="#ffb347" stop-opacity=".7"/><stop offset="1" stop-color="#ff7a3a" stop-opacity="0"/></radialGradient>
     <radialGradient id="vig${n}" cx="50%" cy="45%" r="75%"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient></defs>
-    <rect width="600" height="680" fill="url(#wall${n})"/>${strp}
+    <g class="z" style="--d:.22"><rect x="-60" y="-40" width="720" height="760" fill="url(#wall${n})"/>${strp}
     <rect x="0" y="470" width="600" height="96" fill="#3e2230"/><rect x="0" y="466" width="600" height="8" fill="#6b3e48"/>
     <path d="M0 520 H600" stroke="#2e1824" stroke-width="2" opacity=".6"/>
     <g><rect x="50" y="88" width="160" height="200" rx="6" fill="#6b3e2a"/><rect x="60" y="98" width="140" height="180" fill="url(#win${n})"/>${st}
@@ -1530,7 +1556,7 @@ function salaSVG(sc,n){
       <path d="M278 198 Q288 172 298 198Z M296 198 Q306 168 316 198Z M318 198 Q326 176 334 198Z"/></g>
       <rect x="372" y="150" width="46" height="56" rx="4" fill="#b88d62"/><rect x="378" y="156" width="34" height="44" fill="#2c3278"/><circle cx="395" cy="176" r="10" fill="#f2a65a"/>
       <path d="M387 170 L389 160 L394 167Z M403 170 L401 160 L396 167Z" fill="#f2a65a"/></g>
-    <circle cx="250" cy="300" r="120" fill="url(#lampG${n})"/>
+    </g><g class="z" style="--d:.42"><circle cx="250" cy="300" r="120" fill="url(#lampG${n})"/>
     <g><rect x="246" y="300" width="6" height="190" fill="#3a2a2a"/><ellipse cx="249" cy="492" rx="22" ry="6" fill="#3a2a2a"/>
       <path d="M222 304 L234 262 L264 262 L276 304Z" fill="#ffe2a6"/><path d="M222 304 L276 304" stroke="#e6a35d" stroke-width="4"/></g>
     <g><rect x="420" y="318" width="172" height="16" rx="4" fill="#5a3428"/>
@@ -1548,11 +1574,11 @@ function salaSVG(sc,n){
       <rect x="110" y="420" width="300" height="90" rx="26" fill="#3f6f8a"/><rect x="118" y="496" width="284" height="50" rx="14" fill="#356180"/>
       <rect x="130" y="440" width="70" height="54" rx="14" fill="#ffc845" transform="rotate(-6 165 467)"/><rect x="320" y="440" width="70" height="54" rx="14" fill="#ff7a6b" transform="rotate(6 355 467)"/>
       <rect x="120" y="546" width="10" height="18" fill="#2a1d1a"/><rect x="390" y="546" width="10" height="18" fill="#2a1d1a"/></g>
-    <rect y="566" width="600" height="114" fill="url(#floor${n})"/><path d="M0 590 H600 M0 618 H600 M0 650 H600" stroke="#26150f" stroke-width="2" opacity=".6"/>
+    <rect x="-60" y="566" width="720" height="130" fill="url(#floor${n})"/><path d="M0 590 H600 M0 618 H600 M0 650 H600" stroke="#26150f" stroke-width="2" opacity=".6"/>
     <ellipse cx="300" cy="632" rx="270" ry="38" fill="#8a3a4a"/><ellipse cx="300" cy="632" rx="250" ry="30" fill="none" stroke="#ffcf7a" stroke-width="3" stroke-dasharray="10 8" opacity=".6"/>
-    ${people}
-    <g data-who="av" class="${sc.walk?'avWalk':''}" style="--from:${sc.from||'-260px'}"><g class="bob"><g transform="translate(${sc.av} ${FLOOR-194*.72}) scale(.72)">${avatarMarkup(av,true)}</g></g></g>
-    <rect width="600" height="680" fill="url(#vig${n})"/></svg>`}
+    </g><g class="z" style="--d:.75">${people}
+    <g data-who="av" class="${sc.walk?'avWalk':''}" style="--from:${sc.from||'-260px'}"><g class="bob"><g transform="translate(${sc.av} ${FLOOR-194*.72}) scale(.72)">${avatarMarkup(av,true)}</g></g></g></g>
+    ${fgDeco('in',n)}<rect width="600" height="680" fill="url(#vig${n})"/></svg>`}
 const bubbleAt=sc=>sc.walk?1.6:1.25;
 function bubblePos(sc){
   const pos={cat:[63.5,28.8],owl:[38.7,62],av:[((sc.av||0)+43)/6,39.9]};
@@ -1571,11 +1597,24 @@ function startChapter(id){ch=CHAPTERS[id]||CHAPTERS.entrada;qi=0;quizDone=false;
   $('stage').querySelectorAll('.shot').forEach(s=>s.remove());goPage(0,1)}
 // where the camera starts: on whoever speaks first
 function camOrigin(sc){const b=(sc.b||[])[0],p=b&&bubblePos(sc)[b[0]];return p?[p[0]*6,680-p[1]*6.8+70]:[300,380]}
+const LIGHTS={
+  entrada:sc=>[[490,60+(sc.moon||100),'#fff3c455','34%',6],[383,442,'#ffc87866','22%',3]],
+  sala:()=>[[250,290,'#ffd68c66','32%',4],[506,520,'#ff8a3c77','30%','fire']],
+  yard:()=>[[480,90,'#fff3c450','30%',6],[300,440,'#ffbf6a66','38%',3]],
+  bar:()=>[[230,110,'#ffcf8a55','46%',4],[480,120,'#ffcf8a44','30%',3]],
+  taps:()=>[[300,280,'#c77dff4d','48%',3],[505,465,'#5ad1b04d','16%',2]],
+  karaoke:()=>[[90,40,'#ff7aa855','42%',2],[510,40,'#7d8cff55','42%',2.6],[330,520,'#ffd36a44','36%',1.6]],
+  street:()=>[[300,140,'#fff3c466','40%',7],[162,372,'#ffe2a066','18%',3]]};
+function lightsHTML(sc){const L=(LIGHTS[placeOf(sc)]||LIGHTS.entrada)(sc);
+  return `<div class="lights">${L.map(([x,y,c,r,t])=>`<i class="${t==='fire'?'fire':''}" style="--x:${(x/6).toFixed(1)}%;--y:${(y/6.8).toFixed(1)}%;--c:${c};--r:${r};--t:${t}s"></i>`).join('')}</div>`}
+function motesHTML(sc){let m='';const L=(LIGHTS[placeOf(sc)]||LIGHTS.entrada)(sc);
+  for(let i=0;i<18;i++){const [x,y]=L[i%L.length];m+=`<b style="left:${(x/6+(Math.random()*44-22)).toFixed(1)}%;top:${(y/6.8+Math.random()*40).toFixed(1)}%;--s:${(1.5+Math.random()*2.5).toFixed(1)}px;--t:${(6+Math.random()*7).toFixed(1)}s;--dl:-${(Math.random()*10).toFixed(1)}s;--o:${(.3+Math.random()*.5).toFixed(2)};--mx:${(Math.random()*60-30).toFixed(0)}px"></b>`}
+  return `<div class="motes">${m}</div>`}
 function shotHTML(sc,n){const [ox,oy]=sc.cam?[sc.cam[1],sc.cam[2]]:camOrigin(sc),cs=sc.cam?sc.cam[0]:1.28;
-  return `<div class="scnBox"><div class="kb"><div class="scenePg ${sc.door==='anim'?'doorAnim':''}" style="--cs:${cs};--ox:${ox}px;--oy:${oy}px">${sceneSVG(sc,n)}${bubblesHTML(sc)}</div></div></div>`}
+  return `<div class="scnBox"><div class="kb"><div class="scenePg ${sc.door==='anim'?'doorAnim':''}" style="--cs:${cs};--ox:${ox}px;--oy:${oy}px">${sceneSVG(sc,n)}${lightsHTML(sc)}<div class="shade"></div>${motesHTML(sc)}<div class="bubs">${bubblesHTML(sc)}</div></div></div></div>`}
 function fitShots(){const st=$('stage');if(!st)return;const w=st.clientWidth,h=st.clientHeight;let bw,bh;
   if(w/h>600/680){bw=w;bh=w*680/600}else{bh=h;bw=h*600/680}
-  st.style.setProperty('--bw',bw+'px');st.style.setProperty('--bh',bh+'px');st.style.setProperty('--bx',(w-bw)/2+'px');st.style.setProperty('--by',(h-bh)*.8+'px');
+  st.style.setProperty('--bw',bw+'px');st.style.setProperty('--bh',bh+'px');st.style.setProperty('--bx',(w-bw)/2+'px');st.style.setProperty('--by',(h-bh)*.6+'px');
   const lf=$('leaf'),narrow=innerWidth<900;
   const u=narrow?Math.min(1,Math.max(.82,innerWidth/470)):Math.min(1.08,Math.max(.76,Math.min(lf.clientHeight/700,lf.clientWidth/560)));
   $('story').style.setProperty('--u',u.toFixed(3));clampBubbles()}
@@ -1625,9 +1664,12 @@ function nudgeAct(){const a=$('leafIn').querySelector('.act');if(a){a.classList.
 (()=>{const st=$('stage');let x0=null,y0=0;
   st.addEventListener('pointermove',e=>{const r=st.getBoundingClientRect();st.style.setProperty('--px',((e.clientX-r.left)/r.width-.5).toFixed(3));st.style.setProperty('--py',((e.clientY-r.top)/r.height-.5).toFixed(3))});
   st.addEventListener('pointerleave',()=>{st.style.setProperty('--px',0);st.style.setProperty('--py',0)});
+  st.addEventListener('click',e=>{if(e.target.closest('button'))return;const r=st.getBoundingClientRect(),f=(e.clientX-r.left)/r.width;if(f>.7)nextPage();else if(f<.3)prevPage()});
+  addEventListener('deviceorientation',e=>{if(e.gamma==null||cur!=='story')return;const c=v=>Math.max(-.5,Math.min(.5,v));
+    st.style.setProperty('--px',c(e.gamma/40).toFixed(3));st.style.setProperty('--py',c((e.beta-45)/40).toFixed(3))});
   st.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
   st.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;
-    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.3)dx<0?nextPage():prevPage()})})();
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.3){e.preventDefault();dx<0?nextPage():prevPage()}})})();
 let sceneTimers=[];
 function sceneSounds(sc){sceneTimers.forEach(clearTimeout);sceneTimers=[];const at=(ms,fn)=>sceneTimers.push(setTimeout(fn,ms));
   if(sc.walk)sfx.steps(7,1.7);
