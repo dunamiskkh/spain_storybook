@@ -646,7 +646,7 @@ button *{pointer-events:none}
   <p class="lead">Every room is a chapter. Click the glowing room to start.</p>
   <svg id="houseSvg" viewBox="0 0 1000 560"></svg>
   <div class="shelf"><span>Stickers</span><div id="slots" style="display:flex;gap:10px"></div></div>
-  <p class="ver">v9.1 · 2.5D</p>
+  <p class="ver">v9.2 · 2.5D</p>
 </section>
 
 <!-- STORY -->
@@ -1353,11 +1353,11 @@ const P_KISS=[
     ${line('Bartender','¡Hola! '+W('bienvenidos','¡Bienvenidos!'),'¡Hola! ¡Bienvenidos!')}${line(av.name,'¡Hola! '+W('buenasnoches','Buenas noches.'),'¡Hola! Buenas noches.')}
     ${line('Bartender',W('primeravez','¿Primera vez?'),'¿Primera vez?')}${line(av.name,'Sí, primera vez.','Sí, primera vez.')}`,
   tip:`<b>Bienvenidos</b> = Welcome (to more than one person). <b>¿Primera vez?</b> = (Is it your) first time?`},
- {k:'La tarjeta · The card', t:'Pour it yourself!', act:'card', sc:{place:'taps',av:40,cast:[['bar',330]],cam:[1.5,500,470],amb:'pub',mood:'pub',b:[['bar','Esta es tu tarjeta. ¡Toca aquí!']]},
+ {k:'La tarjeta · The card', t:'Pour it yourself!', act:'card', sc:{place:'taps',av:30,cast:[['bar',200]],cam:[1.5,500,470],amb:'pub',mood:'pub',b:[['bar','Esta es tu tarjeta. ¡Toca aquí!']]},
   body:()=>`<div class="story"><p>Here you pour your own beer! First you put money on a card. Then you touch the card to the sensor and pour. You pay only for what you pour.</p></div>
     ${line('Bartender','Esta es tu '+W('tarjeta','tarjeta')+'. '+W('toca','¡Toca aquí!'),'Esta es tu tarjeta. ¡Toca aquí!')}`,
   tip:''},
- {k:'Tú sirves · You pour', t:'Open, pour, close', act:'pour', sc:{place:'taps',av:150,cast:[['bar',380]],cam:[1.6,300,300],amb:'pub',mood:'pub',b:[['bar','Abre, sirve y cierra. ¡Fácil!']]},
+ {k:'Tú sirves · You pour', t:'Open, pour, close', act:'pour', sc:{place:'taps',av:40,cast:[['bar',230]],cam:[1.6,300,300],amb:'pub',mood:'pub',b:[['bar','Abre, sirve y cierra. ¡Fácil!']]},
   body:()=>`${line('Bartender',W('abre','Abre')+', '+W('sirve','sirve')+' y '+W('cierra','cierra')+'. '+W('facil','¡Fácil!'),'Abre, sirve y cierra. ¡Fácil!')}`,
   tip:''},
  {k:'¡Salud! · Cheers!', t:'So good!', act:'cheers', sc:{place:'bar',av:120,cast:[['sam',300]],table:[60,600,480],mugs:1,cam:[1.45,280,480],amb:'pub',mood:'pub',b:[['sam','¡Salud!'],['av','¡Qué rica!']]},
