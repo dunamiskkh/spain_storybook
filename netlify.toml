@@ -1,0 +1,4 @@
+# GitHub 연결 배포용: index.html만 공개한다 (작업노트, reference 폴더는 올리지 않음)
+[build]
+  command = "mkdir -p dist && cp index.html dist/"
+  publish = "dist"
