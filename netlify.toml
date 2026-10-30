@@ -2,3 +2,9 @@
 [build]
   command = "mkdir -p dist && cp index.html dist/"
   publish = "dist"
+
+# always check for a new version (phones and iPads were showing an old copy)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "no-cache"

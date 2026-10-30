@@ -278,12 +278,17 @@ button *{pointer-events:none}
 /* the paper page */
 .paper{position:relative;background:var(--paper);color:var(--ink);border-radius:0 20px 20px 0;overflow-y:auto;overflow-x:hidden;perspective:1600px;
   background-image:radial-gradient(ellipse at 0% 50%,#00000014,transparent 40%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .25 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E")}
-.leafIn{min-height:100%;display:flex;flex-direction:column;transform-origin:0 50%;backface-visibility:hidden}
+.leafIn{min-height:100%;display:flex;flex-direction:column}
 .leafIn>*{flex:1}
-.leafIn.tOut{animation:leafOut .28s ease-in forwards}@keyframes leafOut{to{transform:rotateY(-80deg);opacity:0}}
-.leafIn.tOutB{animation:leafOutB .28s ease-in forwards}@keyframes leafOutB{to{transform:translateX(40px);opacity:0}}
-.leafIn.tIn{animation:leafIn .55s cubic-bezier(.2,.8,.3,1)}@keyframes leafIn{from{transform:rotateY(70deg);opacity:0}}
-.leafIn.tInB{animation:leafInB .45s ease-out}@keyframes leafInB{from{transform:translateX(-40px);opacity:0}}
+
+
+
+.turnSheet{position:absolute;inset:0;z-index:6;pointer-events:none;transform:translateX(110%);
+  background:linear-gradient(90deg,#00000038,#0000 26px),linear-gradient(270deg,#0000002a,#0000 60px),var(--paper);box-shadow:-24px 0 40px #0000003a,24px 0 40px #0000002a}
+.paper.turnF .turnSheet{animation:sheetF .66s cubic-bezier(.55,0,.35,1) forwards}
+.paper.turnB .turnSheet{animation:sheetB .66s cubic-bezier(.55,0,.35,1) forwards}
+@keyframes sheetF{0%{transform:translateX(110%) skewX(-8deg)}46%{transform:translateX(0) skewX(0)}100%{transform:translateX(-110%) skewX(8deg)}}
+@keyframes sheetB{0%{transform:translateX(-110%) skewX(8deg)}46%{transform:translateX(0) skewX(0)}100%{transform:translateX(110%) skewX(-8deg)}}
 .paper .pgIn{display:flex;flex-direction:column;min-height:100%;padding:calc(46px * var(--u)) calc(48px * var(--u)) calc(40px * var(--u));position:relative}
 .paper .pgIn::after{content:attr(data-n);position:absolute;bottom:calc(14px * var(--u));right:calc(24px * var(--u));font-family:Fraunces,serif;font-style:italic;color:#b9a988;font-size:calc(15px * var(--u))}
 .paper .tip{margin-top:auto}
@@ -463,8 +468,10 @@ button *{pointer-events:none}
 .aRow{display:flex;align-items:center;justify-content:center;gap:calc(18px * var(--u));margin:calc(10px * var(--u)) 0 calc(4px * var(--u));min-height:calc(130px * var(--u))}
 .actOk{font-weight:800;font-size:calc(18px * var(--u));color:var(--ok);text-align:center;min-height:calc(24px * var(--u))}
 .actOk span{color:var(--muted);font-weight:600;font-size:.85em}
-.rfid{width:calc(150px * var(--u));height:calc(94px * var(--u));border-radius:12px;background:linear-gradient(135deg,#7a3ad8,#c77dff);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:10px 12px;text-align:left;
-  box-shadow:0 8px 18px #7a3ad855;transition:transform .7s var(--ease);position:relative;animation:float 2.4s ease-in-out infinite}
+.rfid{width:calc(170px * var(--u));height:calc(106px * var(--u));border-radius:12px;background:linear-gradient(135deg,#7a3ad8,#c77dff);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:10px 12px;text-align:left;
+  box-shadow:0 8px 18px #7a3ad855;transition:transform .7s var(--ease);position:relative;animation:dragHint 2.4s ease-in-out infinite}
+@keyframes dragHint{0%,55%,100%{transform:none}25%{transform:translateX(22px) rotate(3deg)}}
+.act:not(.done) .aRow{cursor:pointer}
 .rfid b{font-family:Fredoka;letter-spacing:2px;font-size:calc(14px * var(--u))}.rfid small{font-weight:800;font-size:calc(15px * var(--u))}
 .rfid i{position:absolute;right:12px;top:12px;width:22px;height:16px;border-radius:3px;background:#ffd36a}
 .rfid,.gL,[data-drag]{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
@@ -541,11 +548,13 @@ button *{pointer-events:none}
   .pic{aspect-ratio:600/680;height:auto;max-height:64vh;border-radius:16px 16px 0 0}
   .theater.at0 .paper{display:none}
   .theater.at0 .pic{border-radius:16px;max-height:76vh}
-  .paper{border-radius:0 0 16px 16px;overflow:visible}
+  .paper{border-radius:0 0 16px 16px;overflow:hidden}
   .paper .pgIn{padding:24px 20px 34px}
   .coverCard{min-height:260px}
   .navBtn{width:58px;height:58px}
-  .nav{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(#0b103000,#0b1030f0 35%)}
+  .nav{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:none;pointer-events:none}
+  .nav .navBtn{pointer-events:auto;background:#0b1030d9;box-shadow:0 6px 18px #0008}
+  .nav .dots{background:#0b1030c0;padding:8px 10px;border-radius:999px}
   .dots{flex-wrap:wrap;justify-content:center;max-width:62vw;gap:6px}
   .dot{width:8px;height:8px}.dot.on{width:20px}
   .line{gap:8px;flex-wrap:wrap}
@@ -651,14 +660,14 @@ button *{pointer-events:none}
   <p class="lead">Every room is a chapter. Click the glowing room to start.</p>
   <svg id="houseSvg" viewBox="0 0 1000 560"></svg>
   <div class="shelf"><span>Stickers</span><div id="slots" style="display:flex;gap:10px"></div></div>
-  <p class="ver">v9.3 · 2.5D</p>
+  <p class="ver">v9.4 · 2.5D</p>
 </section>
 
 <!-- STORY -->
 <section class="screen" id="story">
   <div class="theater">
     <div class="pic" id="stage"><div class="grain"></div><div class="titleCard" id="titleCard"></div></div>
-    <article class="paper" id="leaf"><div class="leafIn" id="leafIn"></div></article>
+    <article class="paper" id="leaf"><div class="leafIn" id="leafIn"></div><div class="turnSheet"></div></article>
   </div>
   <div class="nav">
     <button class="navBtn" id="prevBtn" onclick="prevPage()" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
@@ -777,7 +786,7 @@ function sayP(t,who,run){return new Promise(res=>{if(run!==lineRun)return res();
   const done=()=>{clearTimeout(tm);duck(false);stopTalk();res()},tm=setTimeout(done,1600+t.length*110);
   if(!soundOn||!('speechSynthesis' in window)){talk(who,0);return}
   const u=utter(t,who);u.onstart=()=>{duck(true);if(who)talk(who,0)};u.onend=u.onerror=done;speechSynthesis.speak(u)})}
-async function playLines(delay){stopLines();const run=lineRun;if(!soundOn)return;await wait(delay||0);
+async function playLines(delay){stopLines();const run=lineRun;if(!soundOn){await wait(1400);return}await wait(delay||0);
   for(const l of document.querySelectorAll('#leafIn .line')){if(run!==lineRun)return;const b=l.querySelector('[data-say]');if(!b)continue;
     l.classList.add('now');await sayP(b.dataset.say,b.dataset.whoSay,run);l.classList.remove('now');await wait(350)}}
 function impulse(a,dur){const len=a.sampleRate*dur,b=a.createBuffer(2,len,a.sampleRate);
@@ -1487,7 +1496,9 @@ function initDrags(root){root.querySelectorAll('[data-drag]').forEach(d=>{const 
 function actHTML(type){const A=ACTS[type];return `<div class="act" data-type="${type}"><div class="actQ"><span class="star">★</span> Your turn: ${A.prompt} <i>${A.ko}</i></div>${A.html()}<div class="actOk"></div></div>`}
 function actComplete(el,e,es,en){if(actDone.has(el.dataset.type))return;actDone.add(el.dataset.type);el.classList.add('done');
   el.querySelector('.actOk').innerHTML=`<b>${es}</b> <span>${en}</span>`;sfx.chime();burst(e.clientX||innerWidth/2,e.clientY||innerHeight/2,24);updateNav()}
-document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled||b._noClick)return;const el=b.closest('.act');
+document.addEventListener('click',e=>{let b=e.target.closest('[data-act]');
+  if(!b){const row=e.target.closest('.act .aRow');if(row&&['card','gift','cheers'].includes(row.closest('.act').dataset.type))b=row.querySelector('[data-drag]')}
+  if(!b||b.disabled||b._noClick)return;const el=b.closest('.act');
   if(!el||actDone.has(el.dataset.type))return;ACTS[b.dataset.act].run(b,el,e)});
 
 /* ================= chapters ================= */
@@ -1665,9 +1676,13 @@ function paintTitle(){const t=ch.es;$('titleCard').innerHTML=`<div class="tcIn">
   <h2>${(()=>{let k=0;return t.split(' ').map(w=>`<span class="wd">${[...w].map(c=>`<span style="--i:${k++}">${esc(c)}</span>`).join('')}</span>`).join(' ')})()}</h2><p>${ch.en}</p>
   <p class="tcFor">A story for <b>${esc(av.name)}</b></p><button class="bigBtn" onclick="nextPage()">Empezar · Start ▸</button></div>`}
 // the paper page on the right turns like a real page
-function turnLeaf(dir){const lf=$('leafIn');turning=true;lf.classList.remove('tIn','tInB');lf.classList.add(dir<0?'tOutB':'tOut');if(idx>0)sfx.flip();
-  setTimeout(()=>{lf.innerHTML=leafHTML(idx);initDrags(lf);if(idx===lastIdx())renderQuiz();lf.classList.remove('tOut','tOutB');void lf.offsetWidth;lf.classList.add(dir<0?'tInB':'tIn');
-    $('leaf').scrollTop=0;turning=false;fitShots();if(idx>0&&idx<lastIdx())playLines(1500+(ch.pages[idx-1].sc.walk?600:0))},idx===0&&!lf.innerHTML?0:280)}
+function turnLeaf(dir){const lf=$('leafIn'),pp=$('leaf'),first=!lf.innerHTML;turning=true;
+  if(!first){pp.classList.remove('turnF','turnB');void pp.offsetWidth;pp.classList.add(dir<0?'turnB':'turnF');if(idx>0)sfx.flip()}
+  setTimeout(()=>{lf.innerHTML=leafHTML(idx);initDrags(lf);if(idx===lastIdx())renderQuiz();
+    pp.scrollTop=0;fitShots();if(idx>0&&idx<lastIdx())playLines(1500+(ch.pages[idx-1].sc.walk?600:0)).then(showAct)},first?0:300);setTimeout(()=>turning=false,first?0:520)}
+// on phones and tablets the activity sits below the story: bring it into view once the dialogue is done
+function showAct(){const a=$('leafIn').querySelector('.act');if(!a||innerWidth>=900||actDone.has(a.dataset.type))return;
+  const r=a.getBoundingClientRect();if(r.top>innerHeight*.55)a.scrollIntoView({behavior:'smooth',block:'center'})}
 function leafHTML(i){
   if(i===0)return `<div class="coverCard"><div class="ch">${ch.label||'Capítulo '+ch.n}</div><svg viewBox="0 0 120 110">${ch.icon()}</svg><h2>${ch.es}</h2><p>${ch.en}</p>
     <p class="cHint">Press <b>Empezar</b> or → to begin</p></div>`;
